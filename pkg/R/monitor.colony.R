@@ -18,7 +18,7 @@ monitor.colony<-function(datadir,interv.t=3,last.few=10){
   if(fileok==TRUE){
   
   paste(datadir,list.files(pattern=".MidResult")[1],sep="")
-  MidResult<-read.table(paste(datadir,list.files(pattern=".MidResult")[1],sep=""),header=FALSE,col.names=col.names,skip=1)
+  MidResult<-read.table(paste(datadir,list.files(datadir,pattern=".MidResult")[1],sep=""),header=FALSE,col.names=col.names,skip=1)
   
   if(length(MidResult$NumIterate)<1){MidResult<-as.data.frame(matrix(rep(0,length(col.names)),ncol=length(col.names)))}
   
