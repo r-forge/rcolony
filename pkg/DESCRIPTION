@@ -6,6 +6,5 @@ Date: 2009-04-16
 Author: Owen R. Jones
 Maintainer: Owen R. Jones <owen.jones@ioz.ac.uk>
 Description: The RColony package provides tools for the implementation of the Colony pedigree analysis software. In addition it provides tools for visualising, and summarising the results of the Colony analyses.
-
 License: GNU General Public License (GPL)
 LazyLoad: yes
