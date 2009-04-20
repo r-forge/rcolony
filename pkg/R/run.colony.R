@@ -25,7 +25,10 @@ function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",
 	 
 	system(paste("cp",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))
 	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
-	system("./Colony2.exe",wait=wait)
+
+system("./Colony2.exe",wait=wait)
+#capture.output(system("./Colony2.exe",wait=wait,intern=TRUE),file="Test.txt")
+
 	system(paste("mv",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))
 	system("rm Colony2.exe")
 
