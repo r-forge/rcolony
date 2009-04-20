@@ -1,13 +1,10 @@
 `run.colony` <-
-function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",datadir="/Users/ZSL/Desktop/Test/",filename="Test1.DAT",wait=TRUE){
+function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",datadir="/Users/ZSL/Desktop/Test/",filename="Test1.DAT",wait=TRUE,monitor=TRUE){
 	 #don't forget the trailing slash!
 	 
-	 cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.")
-	 
+	 cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.\n")
 	 
 	 current.wd<-getwd()
-	 
-	 #change this so that it copies the colony program to the directory, not the other way round.
 	 
 	 #Extract the output file name defined in the colony file.
 	 readLines(paste(datadir,filename,sep=""),n=2)->x
@@ -26,14 +23,14 @@ function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",
 	system(paste("cp",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))
 	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
 
-system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)
+if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
 
 	system(paste("mv",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))
 	system("rm Colony2.exe")
 
-
-
-	 }else{if(platform$OS.type=="windows"){
+#Check whether Colony has finished, if it has delete this "temp.txt" file.
+#system("rm temp.txt",ignore.stderr=TRUE)
+}else{if(platform$OS.type=="windows"){
 	#Windows commands
 	shell(paste("copy",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))#Copy the colony exe file to the project directory	
 	shell(paste("rename",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))#Rename the colony dat file as Colony2.DAT	 
