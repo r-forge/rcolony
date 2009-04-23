@@ -3,25 +3,26 @@
 \alias{rcolony}
 \docType{package}
 \title{
-Tools for implementation and visualisation of Colony and its outputs.}
+What the package does (short line)
+~~ package title ~~
+}
 \description{
-The RColony package provides tools for the implementation of the Colony pedigree analysis software. In addition it provides tools for visualising, and summarising the results of the Colony analyses.}
+More about what it does (maybe more than one line)
+~~ A concise (1-5 lines) description of the package ~~
+}
 \details{
 \tabular{ll}{
 Package: \tab rcolony\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
+Version: \tab 1.0\cr
 Date: \tab 2009-04-16\cr
-License: \tab GNU General Public License (GPL)\cr
+License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr
 }
 ~~ An overview of how to use the package, including the most important functions ~~
 }
 \author{
-Who wrote it
-
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Owen R. Jones <owen.jones@ioz.ac.uk>
 }
 \references{
 ~~ Literature or other references for background information ~~
