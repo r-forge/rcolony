@@ -1,12 +1,11 @@
-\name{plotsibs}
-\alias{plotsibs}
+\name{get.interm.data}
+\alias{get.interm.data}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\title{ A funciton to collect intermediate data produced by Colony2 while it is running. }
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+While it is running, Colony2 produces output to indicate it's progress. }
 \usage{
-plotsibs(colony.object, maintitle = "sibships", prob = 0.8, pairwise = FALSE)
+get.interm.data(v1="CrLogL",datadir=getwd())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,55 +37,35 @@ plotsibs(colony.object, maintitle = "sibships", prob = 0.8, pairwise = FALSE)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function(colony.object,maintitle="sibships",prob=0.8,pairwise=FALSE){
-	 
-	 #Get full and half sibship data.
-if(pairwise==FALSE){	
-sibs<-colony.object$sibs}else{
-sibs<-colony.object$pairwise.sibs
-sibs$Probability<-rep(1,dim(sibs)[1])}
 
-	
-alloffspring<-colony.object$offspring	
-alloffspring$offspring.numID<-as.numeric(alloffspring$offspring.numID)
+get.interm.data<-function(v1="CrLogL",datadir=getwd()){
 
-	 #Apply the numeric ID to the sibship data.
-	 sibs<-merge(sibs,alloffspring,by.x="OffspringID1",by.y="offspringID",sort=FALSE)
-	 names(sibs)[names(sibs)=="offspring.numID"]<-"OffspringID1.num"
-	 
-	 sibs<-merge(sibs,alloffspring,by.x="OffspringID2",by.y="offspringID",sort=FALSE)
-	 names(sibs)[names(sibs)=="offspring.numID"]<-"OffspringID2.num"
-	 sibs$OffspringID1.num<-as.numeric(sibs$OffspringID1.num)
-	 sibs$OffspringID2.num<-as.numeric(sibs$OffspringID2.num)
-	 
-	 
-	 #Set up the plot area.
-	 plot(sibs$OffspringID1.num,sibs$OffspringID2.num,type="n",axes=FALSE,xlab="Offspring X",ylab="Offspring Y")
-	 axis(1,at=alloffspring$offspring.numID,labels=alloffspring$offspringID,las=2)
-	 axis(2,at=alloffspring$offspring.numID,labels=alloffspring$offspringID,las=2)
-	 
-	 polygon(c(0,1.05*max(alloffspring$offspring.numID),1.05*max(alloffspring$offspring.numID)),c(0,0,1.05*max(alloffspring$offspring.numID)),col="#FF669930",border=NA)
-	 polygon(c(0,0,1.05*max(alloffspring$offspring.numID)),c(0,1.05*max(alloffspring$offspring.numID),1.05*max(alloffspring$offspring.numID)),col="#33CCFF30",border=NA)
-	 
-	 legend("topleft","Full Sib",bty="n")
-	 legend("bottomright","Half Sib",bty="n")
-	 
-	 title(main=maintitle)
-	 
-	 #Plot the data.
-	 hs<-subset(sibs,type=="Half"&Probability>prob)
-	 for (i in 1:dim(hs)[1]){
-		 #If Halfsib, then put the greater number first
-		 if(hs[i,5]>hs[i,6]){points(hs[i,5],hs[i,6],pch=16,col="#33CCFF98")}else{points(hs[i,6],hs[i,5],pch=16,col="#33CCFF98")}
-		 }
-	 
-	 fs<-subset(sibs,type=="Full"&Probability>prob)
-	 for (i in 1:dim(fs)[1]){
-		 #If Halfsib, then put the greater number first
-		 if(fs[i,5]<fs[i,6]){points(fs[i,5],fs[i,6],pch=16,col="#FF669998")}else{points(fs[i,6],fs[i,5],pch=16,col="#FF669998")}
-		 }
-	 
-	 }
+getval<-function(v1,xx){
+
+ind<-grep(paste(v1,"=",sep=""),xx)
+s1<-"[A-Za-z =0-9,]*"
+s2<-"[ ]*([-.+E0-9]+),[A-Z#a-z =0-9,]*"
+s3<-paste(s1,paste(v1,"=",sep=""),s2,sep="")
+x.out<-NULL
+
+for (i in 1:length(ind)){
+	x.out[i]<-as.numeric(sub(s3,"\\1",xx[ind][i]))
+	}
+
+return(x.out)}
+
+outfile<-readLines(paste(datadir,"temp.txt",sep=""))
+
+Itr<-getval("Itr",outfile)
+CrLogL<-getval(v1,outfile)
+chk<-c(length(Itr),length(CrLogL))
+
+df1<-data.frame(Itr=Itr[1:min(chk)],CrLogL=CrLogL[1:min(chk)])
+return(df1)
+}
+
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
