@@ -1,7 +1,6 @@
-`run.colony` <-
-function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",datadir="/Users/ZSL/Desktop/Test/",filename="Test1.DAT",wait=TRUE,monitor=TRUE){
+run.colony<-function(colonyexec="Colony2.exe",colonypath,datadir,filename,wait=TRUE,monitor=TRUE){
 	 #don't forget the trailing slash!
-	 
+
 	 cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.\n")
 	 
 	 current.wd<-getwd()
@@ -13,23 +12,40 @@ function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",
 	 outputfilename <- sub("[\t\n\f\r ]*$", "", outputfilename); #remove trailing whitespace
 	 outputfilename
 	 
+	 	 if(file.exists(paste(datadir,outputfilename,".MidResult",sep=""))){stop("\nThere are output files already in the directory. \nColony has already run. \nTry deleting (or moving) these files and starting again.\n")}
+
+	 
 	 setwd(datadir)
 	 
 	 platform<-.Platform
+if(monitor==TRUE&wait==TRUE){stop("If you want to monitor the output, you must set wait as FALSE. Otherwise you cannot run other functions in the same R console.")}
 	 
 	 if(platform$OS.type=="unix"){
-	 #Unix/MacOSX commands
-	 
-	system(paste("cp",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))
-	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
 
+#Unix/MacOSX commands
+	
+#Copy Colony2 program to the working directory
+	system(paste("cp",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))
+	
+#Rename the DAT file as Colony2.DAT
+	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
+	
+#Make a copy of the DAT file in it's original name
+	system(paste("cp",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))
+	
+#Run Colony
+#If monitor = TRUE, then a temp.txt file is produced (temp.txt). This can be monitored using monitor.colony.R so progress can be observed.
+#wait should be set to FALSE if monitor =TRUE
+#It is recommended that monitor = TRUE only be used if you will periodically monitor the system, otherwise the text file will grow very large and may burden the system.
+#There is currently no way of monitoring the Windows system.
 if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
 
-	system(paste("mv",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))
-	system("rm Colony2.exe")
+#Remove the Colony2.exe and 
+	system(paste("rm",colonyexec))
+	system("rm Colony2.DAT")
 
-#Check whether Colony has finished, if it has delete this "temp.txt" file.
-#system("rm temp.txt",ignore.stderr=TRUE)
+
+
 }else{if(platform$OS.type=="windows"){
 	#Windows commands
 	shell(paste("copy",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))#Copy the colony exe file to the project directory	
