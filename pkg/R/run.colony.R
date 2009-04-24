@@ -13,6 +13,8 @@ datfilepath<-file.choose()}
 
 datadir<-sub("([A-Z a-z0-9:/\\]+[/\\]+)([A-Z.a-z0-9]+)","\\1",datfilepath)
 filename<-sub("([A-Z a-z0-9:/\\]+[/\\]+)([A-Z.a-z0-9]+)","\\2",datfilepath)
+colonyexec<-sub("([A-Z a-z0-9:/\\]+[/\\]+)([A-Z.a-z0-9]+)","\\2",colonyexecpath)
+
 
 current.wd<-getwd()
 	 
@@ -51,7 +53,6 @@ if(platform$OS.type=="unix"){
 #There is currently no way of monitoring the Windows system.
 if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
 
-foo<-system("./Colony2.exe",intern=TRUE)
 
 #Remove the Colony2.exe and 
 	system(paste("rm",colonyexec))
@@ -60,6 +61,9 @@ foo<-system("./Colony2.exe",intern=TRUE)
 
 
 }else{if(platform$OS.type=="windows"){
+
+#THIS NEEDS TESTING
+
 	#Windows commands
 	shell(paste("copy",colonyexecpath,datadir,sep=" "))#Copy the colony exe file to the project directory	
 	shell(paste("rename",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))#Rename the colony dat file as Colony2.DAT	 

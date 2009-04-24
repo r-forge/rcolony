@@ -18,8 +18,9 @@ MidResult<-NULL
   if(elapsed.t>interv.t){
   
   fileok<-file.exists(paste(datadir,"temp.txt",sep=""))
-  
-if(fileok==TRUE&!is.na(get.interm.data(datadir=datadir,variable=variable,n=n)[1,1])){
+
+if(fileok==TRUE){ 
+if(!is.na(get.interm.data(datadir=datadir,variable=variable,n=n)[1,1])){
 	MidResult2<-get.interm.data(datadir=datadir,variable=variable,n=n)
 	MidResult<-rbind(MidResult,MidResult2)
 	MidResult<-unique(MidResult)
@@ -27,7 +28,11 @@ if(fileok==TRUE&!is.na(get.interm.data(datadir=datadir,variable=variable,n=n)[1,
 x<-MidResult[,1]
 y<-MidResult[,2]
   
-plot(x,y,type="b",xlab="",ylab="")
+plot(x,y,xlab="",ylab="",type="n")
+points(x,y,type="b")
+
+#add points to show max and min reached till that point
+
 title(xlab="NumIterate",ylab=variable)
 
 #add routine to delete contents if file is too big.
@@ -44,7 +49,7 @@ if(showres==TRUE){print(MidResult)}
 
 cat("Plotting. Hit Esc to stop\n")
 
-	}else{cat("Waiting...\n")}
+	}}else{cat("Waiting...\n")}
   
   
  
