@@ -6,87 +6,33 @@
   ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-run.colony(colonyexec = "Colony2.exe", colonypath = "/Users/ZSL/Documents/IoZ/Colony/", datadir = "/Users/ZSL/Desktop/Test/", filename = "Test1.DAT", wait = TRUE)
+function(colonyexecpath="prompt",datfilepath="prompt",wait=TRUE,monitor=TRUE)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{colonyexec}{ ~~Describe \code{colonyexec} here~~ }
-  \item{colonypath}{ ~~Describe \code{colonypath} here~~ }
-  \item{datadir}{ ~~Describe \code{datadir} here~~ }
-  \item{filename}{ ~~Describe \code{filename} here~~ }
-  \item{wait}{ ~~Describe \code{wait} here~~ }
+  \item{colonyexecpath}{The path to the Colony2 executable. If none is given, and the function defaults to \"prompt\", then you will be prompted to click on the file.}
+  \item{datfilepath}{ he path to the DAT file that you wish to run. If none is given, and the function defaults to \"prompt\", then you will be prompted to click on the file. }
+  \item{wait}{Should R wait for Colony2 to be run by the system or not? TRUE/FALSE}
+  \item{monitor}{Do you wish to monitor the output of Colony2 while it is running? }
+
 }
 \details{
-  ~~ If necessary, more details than the description above ~~
+
+If you wish to monitor the progress of the Colony2 analysis you must set monitor=TRUE, and wait=FALSE. The system will then redirect output from the Colony2 program to a temporary file (temp.txt).
+You can then use \code{\link{monitor.colony}} to examine this file, and plot the outputs as Colony2 runs. There is a danger that, with very long runtimes, that the temporary file (temp.txt) will grow very large.
+\code{\link{monitor.colony}} fixes this by periodically deleting all but the last few lines of the file. Therefore, if you intend to monitor a long running process it is recommended that you periodically, or continuously run \code{\link{monitor.colony}}.
+
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+  
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ 
-
- ~Make other sections like Warning with \section{Warning }{....} ~
-}
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
+\references{ Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979. }
+\author{ Owen R. Jones }
+\note{}
+\seealso{\code{\link{monitor.colony}}}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function(colonyexec="Colony2.exe",colonypath="/Users/ZSL/Documents/IoZ/Colony/",datadir="/Users/ZSL/Desktop/Test/",filename="Test1.DAT",wait=TRUE){
-	 #don't forget the trailing slash!
-	 
-	 cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.")
-	 
-	 
-	 current.wd<-getwd()
-	 
-	 #change this so that it copies the colony program to the directory, not the other way round.
-	 
-	 #Extract the output file name defined in the colony file.
-	 readLines(paste(datadir,filename,sep=""),n=2)->x
-	 outputfilename<-substring (x[2], 1, 20)
-	 outputfilename <- sub("^[\t\n\f\r ]*", "",outputfilename) #remove leading whitespace
-	 outputfilename <- sub("[\t\n\f\r ]*$", "", outputfilename); #remove trailing whitespace
-	 outputfilename
-	 
-	 setwd(datadir)
-	 
-	 platform<-.Platform
-	 
-	 if(platform$OS.type=="unix"){
-	 #Unix/MacOSX commands
-	 
-	system(paste("cp",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))
-	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
-	system("./Colony2.exe",wait=wait)
-	system(paste("mv",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))
-	system("rm Colony2.exe")
-
-
-
-
-	 }else{if(platform$OS.type=="windows"){
-	#Windows commands
-	shell(paste("copy",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))#Copy the colony exe file to the project directory	
-	shell(paste("rename",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))#Rename the colony dat file as Colony2.DAT	 
-	shell.exec("Colony2.exe") #run colony2
-	shell(paste("rename",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))#Rename the colony dat file to original file name.	 
-	shell("del Colony2.exe") #tidy up, remove colony2.exe	  
-	
-	}else{stop(paste("This function is not correctly configured to run on",platform$OS.type,"systems."))
-	}}	 
-	
-	#reset wd
- setwd(current.wd)
-
-	}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
