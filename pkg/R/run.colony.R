@@ -1,9 +1,20 @@
-run.colony<-function(colonyexec="Colony2.exe",colonypath,datadir,filename,wait=TRUE,monitor=TRUE){
+run.colony<-function(colonyexecpath="prompt",datfilepath="prompt",wait=TRUE,monitor=TRUE){
 	 #don't forget the trailing slash!
 
-	 cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.\n")
-	 
-	 current.wd<-getwd()
+if(colonyexecpath=="prompt"){
+cat("Please click to select your Colony2 executable (probably called Colony2.exe or Colony2.app).\n\n")
+flush.console()
+colonyexecpath<-file.choose()}
+
+if(datfilepath=="prompt"){
+cat("Please click to select your DAT file.\n\n")
+flush.console()
+datfilepath<-file.choose()}
+
+datadir<-sub("([A-Z a-z0-9:/\\]+[/\\]+)([A-Z.a-z0-9]+)","\\1",datfilepath)
+filename<-sub("([A-Z a-z0-9:/\\]+[/\\]+)([A-Z.a-z0-9]+)","\\2",datfilepath)
+
+current.wd<-getwd()
 	 
 	 #Extract the output file name defined in the colony file.
 	 readLines(paste(datadir,filename,sep=""),n=2)->x
@@ -12,20 +23,20 @@ run.colony<-function(colonyexec="Colony2.exe",colonypath,datadir,filename,wait=T
 	 outputfilename <- sub("[\t\n\f\r ]*$", "", outputfilename); #remove trailing whitespace
 	 outputfilename
 	 
-	 	 if(file.exists(paste(datadir,outputfilename,".MidResult",sep=""))){stop("\nThere are output files already in the directory. \nColony has already run. \nTry deleting (or moving) these files and starting again.\n")}
+if(file.exists(paste(datadir,outputfilename,".MidResult",sep=""))){stop("\nThere are output files already in the directory. \nColony has already run. \nTry deleting (or moving) these files and starting again.\n")}
+setwd(datadir)
 
-	 
-	 setwd(datadir)
-	 
-	 platform<-.Platform
 if(monitor==TRUE&wait==TRUE){stop("If you want to monitor the output, you must set wait as FALSE. Otherwise you cannot run other functions in the same R console.")}
+
+cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.\n")
 	 
-	 if(platform$OS.type=="unix"){
+platform<-.Platform
+if(platform$OS.type=="unix"){
 
 #Unix/MacOSX commands
 	
 #Copy Colony2 program to the working directory
-	system(paste("cp",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))
+	system(paste("cp",colonyexecpath,datadir,sep=" "))
 	
 #Rename the DAT file as Colony2.DAT
 	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
@@ -40,6 +51,8 @@ if(monitor==TRUE&wait==TRUE){stop("If you want to monitor the output, you must s
 #There is currently no way of monitoring the Windows system.
 if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
 
+foo<-system("./Colony2.exe",intern=TRUE)
+
 #Remove the Colony2.exe and 
 	system(paste("rm",colonyexec))
 	system("rm Colony2.DAT")
@@ -48,7 +61,7 @@ if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{sys
 
 }else{if(platform$OS.type=="windows"){
 	#Windows commands
-	shell(paste("copy",paste(colonypath,colonyexec,sep=""),datadir,sep=" "))#Copy the colony exe file to the project directory	
+	shell(paste("copy",colonyexecpath,datadir,sep=" "))#Copy the colony exe file to the project directory	
 	shell(paste("rename",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))#Rename the colony dat file as Colony2.DAT	 
 	shell.exec("Colony2.exe") #run colony2
 	shell(paste("rename",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))#Rename the colony dat file to original file name.	 
