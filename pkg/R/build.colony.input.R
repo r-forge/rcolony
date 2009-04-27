@@ -136,29 +136,32 @@ write("",name,append=TRUE)
 #There should be 4 rows, 1) marker ID, 2) marker type, 3) marker specific allelic dropout rate, 4) marker specific other typing error rate.
 
 while(length(colonyfile$MarkerPATH)==0){
-cat("Provide the path to the Marker Types and Error Rate file.\n\n\n");Sys.sleep(1)
+cat("Provide the path to the Marker Types and Error Rate file.\n\n\n");Sys.sleep(.5)
 flush.console()
-colonyfile$MarkerPATH<-file.choose()}
+colonyfile$MarkerPATH<-file.choose()
 
 cat("What is the delimiter for this file?\n\n\n")
 flush.console()
 switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$MarkerPATHdelim<-"", colonyfile$MarkerPATHdelim<-"\t", colonyfile$MarkerPATHdelim<-",",MarkerPATHdelim<-"Other")
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.markers<-"", colonyfile$delim.for.markers<-"\t", colonyfile$delim.for.markers<-",",delim.for.markers<-"Other")
 
-while(length(colonyfile$MarkerPATHdelim)=="Other"){
-if(colonyfile$MarkerPATHdelim=="Other"){
+while(length(colonyfile$delim.for.markers)=="Other"){
+if(colonyfile$delim.for.markers=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$MarkerPATHdelim<-scan(n=1,what="character")}}
+colonyfile$delim.for.markers<-scan(n=1,what="character")}}
 
-colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=TRUE,colClasses=c("character"),sep=colonyfile$MarkerPATHdelim) 
-if(colonyfile$n.loci!=dim(colonyfile$Markers)[2]){warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not equal the number of markers provided in the file selected (", dim(colonyfile$Markers)[2],").\n\n",sep=""),immediate.=TRUE)}
+colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=TRUE,colClasses=c("character"),sep=colonyfile$delim.for.markers) 
+
+if(colonyfile$n.loci!=dim(colonyfile$Markers)[2]){colonyfile<-colonyfile[which(names(colonyfile)!="MarkerPATH")]
+;warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not equal the number of markers provided in the file selected (", dim(colonyfile$Markers)[2],").\n\n",sep=""),immediate.=TRUE)}
+}
 
 colonyfile$Markers[,1+dim(colonyfile$Markers)[2]]<-c("!Marker IDs","!Marker types","!Marker specific allelic dropout rate","!Marker specific other typing-error rate")
 write.table(colonyfile$Markers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 cat("\n")
-print(head(colonyfile$Markers))
+#print(head(colonyfile$Markers))
 
 #Give the path to the offpring ID and genotype file
 #This should have a first column giving the ID, then 2 columns for each locus (1 for each allele at that locus).
@@ -167,24 +170,28 @@ print(head(colonyfile$Markers))
 cat("\nProvide the path to the offspringID and genotype file.\n\n\n")
 flush.console()
 while(length(colonyfile$OSGenotypePATH)==0){
-colonyfile$OSGenotypePATH<-file.choose()}
+colonyfile$OSGenotypePATH<-file.choose()
 
 
 cat("What is the delimiter for this file?\n\n\n")
 flush.console()
 switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$OSGenotypePATHdelim<-"", colonyfile$OSGenotypePATHdelim<-"\t", colonyfile$OSGenotypePATHdelim<-",",OSGenotypePATHdelim<-"Other")
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.OSGenotype<-"", colonyfile$delim.for.OSGenotype<-"\t", colonyfile$delim.for.OSGenotype<-",",delim.for.OSGenotype<-"Other")
 
-while(length(colonyfile$OSGenotypePATHdelim)=="Other"){
-if(colonyfile$OSGenotypePATHdelim=="Other"){
+while(length(colonyfile$delim.for.OSGenotype)=="Other"){
+if(colonyfile$delim.for.OSGenotype=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$OSGenotypePATHdelim<-scan(n=1,what="character")}}
+colonyfile$delim.for.OSGenotype<-scan(n=1,what="character")}}
 
-colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=TRUE,colClasses=c("character"),sep=colonyfile$OSGenotypePATHdelim) 
-if(colonyfile$n.offspring!=dim(colonyfile$Offspring)[1]){warning(paste("The number of defined offspring ","(", colonyfile$n.offspring,") does not equal the number of offspring provided in the file selected (", dim(colonyfile$Offspring)[1],").\n\n",sep=""),immediate.=TRUE)}
+colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=TRUE,colClasses=c("character"),sep=colonyfile$delim.for.OSGenotype) 
+if(colonyfile$n.offspring!=dim(colonyfile$Offspring)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];warning(paste("The number of defined offspring ","(", colonyfile$n.offspring,") does not equal the number of offspring provided in the file selected (", dim(colonyfile$Offspring)[1],").\n\n",sep=""),immediate.=TRUE)}
 
 fileloci<-(dim(colonyfile$Offspring)[2]-1)/2
-if(colonyfile$speciestype==0){if((colonyfile$n.loci)!=fileloci){warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not appear to equal the number of loci provided in the file selected (", fileloci,").\n\n",sep=""),immediate.=TRUE)}}
+if(colonyfile$speciestype==0){if((colonyfile$n.loci)!=fileloci){colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];
+warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not appear to equal the number of loci provided in the file selected (", fileloci,").\n\n",sep=""),immediate.=TRUE)}}
+}
+
+
 
 colonyfile$Offspring[,1+dim(colonyfile$Offspring)[2]]<-c("!Offspring ID and genotypes",rep("",dim(colonyfile$Offspring)[1]-1))
 write.table(colonyfile$Offspring,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -228,21 +235,24 @@ write("",name,append=TRUE)
 cat("Provide the path to the candidate FATHERS file.\n\n\n")
 flush.console()
 while(length(colonyfile$dadsPATH)==0){
-colonyfile$dadsPATH<-file.choose()}
+colonyfile$dadsPATH<-file.choose()
 
 cat("What is the delimiter for this file?\n\n\n")
 flush.console()
 switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$dadsPATHdelim<-"", colonyfile$dadsPATHdelim<-"\t", colonyfile$dadsPATHdelim<-",",dadsPATHdelim<-"Other")
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.dads<-"", colonyfile$delim.for.dads<-"\t", colonyfile$delim.for.dads<-",",delim.for.dads<-"Other")
 
-while(length(colonyfile$dadsPATHdelim)=="Other"){
-if(colonyfile$dadsPATHdelim=="Other"){
+while(length(colonyfile$delim.for.dads)=="Other"){
+if(colonyfile$delim.for.dads=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$dadsPATHdelim<-scan(n=1,what="character")}}
+colonyfile$delim.for.dads<-scan(n=1,what="character")}}
 
 
-colonyfile$dads<-read.table(colonyfile$dadsPATH,header=TRUE,sep=colonyfile$dadsPATHdelim,colClasses=c("character"))
-if(colonyfile$n.dad!=dim(colonyfile$dads)[1]){warning(paste("The number of defined DADS ","(", colonyfile$n.dad,") does not equal the number of DADS provided in the file selected (", dim(colonyfile$dads)[1],").\n\n",sep=""),immediate.=TRUE)}
+colonyfile$dads<-read.table(colonyfile$dadsPATH,header=TRUE,sep=colonyfile$delim.for.dads,colClasses=c("character"))
+if(colonyfile$n.dad!=dim(colonyfile$dads)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="dadsPATH")];
+warning(paste("The number of defined DADS ","(", colonyfile$n.dad,") does not equal the number of DADS provided in the file selected (", dim(colonyfile$dads)[1],").\n\n",sep=""),immediate.=TRUE)}
+}
+
 colonyfile$dads[,1+dim(colonyfile$dads)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
 write.table(colonyfile$dads,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
@@ -252,19 +262,22 @@ write("",name,append=TRUE)
 cat("Provide the path to the candidate MOTHERS file.\n\n\n")
 flush.console()
 while(length(colonyfile$mumsPATH)==0){
-colonyfile$mumsPATH<-file.choose()}
+colonyfile$mumsPATH<-file.choose()
 
 flush.console()
 switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$mumsPATHdelim<-"", colonyfile$mumsPATHdelim<-"\t", colonyfile$mumsPATHdelim<-",",mumsPATHdelim<-"Other")
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.mums<-"", colonyfile$delim.for.mums<-"\t", colonyfile$delim.for.mums<-",",delim.for.mums<-"Other")
 
-while(length(colonyfile$mumsPATHdelim)=="Other"){
-if(colonyfile$mumsPATHdelim=="Other"){
+while(length(colonyfile$delim.for.mums)=="Other"){
+if(colonyfile$delim.for.mums=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$mumsPATHdelim<-scan(n=1,what="character")}}
+colonyfile$delim.for.mums<-scan(n=1,what="character")}}
 
-colonyfile$mums<-read.table(colonyfile$mumsPATH,header=TRUE,sep=colonyfile$mumsPATHdelim,colClasses=c("character")) 
-if(colonyfile$n.mum!=dim(colonyfile$mums)[1]){warning(paste("The number of defined MUMS ","(", colonyfile$n.mum,") does not equal the number of MUMS provided in the file selected (", dim(colonyfile$mums)[1],").\n\n",sep=""),immediate.=TRUE)}
+colonyfile$mums<-read.table(colonyfile$mumsPATH,header=TRUE,sep=colonyfile$delim.for.mums,colClasses=c("character")) 
+if(colonyfile$n.mum!=dim(colonyfile$mums)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mumsPATH")];
+warning(paste("The number of defined MUMS ","(", colonyfile$n.mum,") does not equal the number of MUMS provided in the file selected (", dim(colonyfile$mums)[1],").\n\n",sep=""),immediate.=TRUE)}
+}
+
 colonyfile$mums[,1+dim(colonyfile$mums)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$mums)[1]-1))
 write.table(colonyfile$mums,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
