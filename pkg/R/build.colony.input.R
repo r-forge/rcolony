@@ -332,15 +332,15 @@ warning(paste("The number of defined paternal diads ","(", colonyfile$n.paternal
 }}
 
 
-write.table(paste(colonyfile$n.known.paternal.diads," !Number of known offspring-father dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-colonyfile$known.paternal.diads[,1+dim(colonyfile$known.paternal.diads)[2]]<-c("!IDs of known offspring-father dyad",rep("",dim(colonyfile$dads)[1]-1))
+write.table(paste(colonyfile$n.known.paternal.diads,"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.paternal.diads[,1+dim(colonyfile$known.paternal.diads)[2]]<-c("!IDs of known offspring-father dyad",rep("",dim(colonyfile$known.paternal.diads)[1]-1))
 
 write.table(colonyfile$known.paternal.diads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
 #If there are no known paternal diads
-write.table(paste(colonyfile$n.known.paternal.diads," !Number of known offspring-father dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.known.paternal.diads,"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 }
 
@@ -387,15 +387,15 @@ warning(paste("The number of defined maternal diads ","(", colonyfile$n.known.ma
 }}
 
 
-write.table(paste(colonyfile$n.known.maternal.diads," !Number of known offspring-mother dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-colonyfile$known.maternal.diads[,1+dim(colonyfile$known.maternal.diads)[2]]<-c("!IDs of known offspring-mother dyad",rep("",dim(colonyfile$dads)[1]-1))
+write.table(paste(colonyfile$n.known.maternal.diads," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.maternal.diads[,1+dim(colonyfile$known.maternal.diads)[2]]<-c("!IDs of known offspring-mother dyad",rep("",dim(colonyfile$known.maternal.diads)[1]-1))
 
 write.table(colonyfile$known.maternal.diads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
 #If there are no known maternal diads
-write.table(paste(colonyfile$n.known.maternal.diads," !Number of known offspring-father dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.known.maternal.diads," !Number of known offspring-mother dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 }
 
@@ -437,12 +437,12 @@ colonyfile$known.paternities<-read.table(colonyfile$paternal.sibs.PATH,header=FA
 if(colonyfile$n.paternal.sibs.or.paternities!=dim(colonyfile$known.paternities)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="paternal.sibs.PATH")];
 flush.console();
-warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternities provided in the file selected (", dim(colonyfile$known paternities)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternities provided in the file selected (", dim(colonyfile$known.paternities)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
 
 
-write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-colonyfile$known.paternities[,1+dim(colonyfile$known.paternities)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
+write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.paternities[,1+dim(colonyfile$known.paternities)[2]]<-c("!Size of known paternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$known.paternities)[1]-1))
 csum<-NULL
 for (i in 1:dim(colonyfile$known.paternities)[1]){
 csum[i]<-length(colonyfile$known.paternities[i,][!is.na(colonyfile$known.paternities[i,])])}
@@ -453,7 +453,7 @@ write("",name,append=TRUE)
 
 }else{
 #If there are no known sibships
-write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 }
 
@@ -493,12 +493,13 @@ colonyfile$known.maternities<-read.table(colonyfile$maternal.sibs.PATH,header=FA
 if(colonyfile$n.maternal.sibs.or.maternities!=dim(colonyfile$known.maternities)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
 flush.console();
-warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile$n.maternal.sibs.or.maternities,") does not equal the number of maternities provided in the file selected (", dim(colonyfile$known maternities)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile$n.maternal.sibs.or.maternities,") does not equal the number of maternities provided in the file selected (", dim(colonyfile$known.maternities)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
 
 
-write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-colonyfile$known.maternities[,1+dim(colonyfile$known.maternities)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
+write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+colonyfile$known.maternities[,1+dim(colonyfile$known.maternities)[2]]<-c("!Size of known maternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$known.maternities)[1]-1))
 csum<-NULL
 for (i in 1:dim(colonyfile$known.maternities)[1]){
 csum[i]<-length(colonyfile$known.maternities[i,][!is.na(colonyfile$known.maternities[i,])])}
@@ -509,7 +510,7 @@ write("",name,append=TRUE)
 
 }else{
 #If there are no known sibships
-write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 }
 
@@ -518,40 +519,125 @@ write("",name,append=TRUE)
 #Define excluded fathers
 #######################################################
  
-#     0                       !Number of offspring with known excluded candidates as father
-#Do you want to exclude certain candidates as fathers of certain offspring?
-cat("Do you want to exclude certain candidates as fathers of certain offspring?\n\n\n")
-switch(menu(c("Yes", "No")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$exclude.dads<-TRUE, colonyfile$exclude.dads<-FALSE)
+cat("Enter the number of offspring with known excluded paternity.\n\n\n")
+colonyfile$n.excluded.paternity<-scan(n=1,what="integer")
 
-if(colonyfile$exclude.dads==TRUE){
-cat("\n\nSorry - this is not yet implemented.\n\n\n")
-write.table("0                       !Number of offspring with known excluded candidates as father",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+if(colonyfile$n.excluded.paternity>0){
 
+
+#Get the path, and delimiter, to the file...
+while(length(colonyfile$excluded.paternity.PATH)==0){
+	cat("Provide the path to the excluded PATERNITY file.\n\n\n")
+	flush.console()
+	colonyfile$excluded.paternity.PATH<-file.choose()
+
+	cat("What is the delimiter for this file?\n\n\n")
+	flush.console()
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternity.PATH<-"", colonyfile$delim.for.excluded.paternity.PATH<-"\t", colonyfile$delim.for.excluded.paternity.PATH<-",",delim.for.excluded.paternity.PATH<-"Other")
+
+		#Caveat for if the delimiter is OTHER
+		while(length(colonyfile$delim.for.excluded.paternity.PATH)=="Other"){
+		if(colonyfile$delim.for.excluded.paternity.PATH=="Other"){
+		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+		colonyfile$delim.for.excluded.paternity.PATH<-scan(n=1,what="character")}}
+
+#Read in the data...
+colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternity.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternity.PATH,colClasses=c("character"))
+
+#Check the data
+if(colonyfile$n.excluded.paternity!=dim(colonyfile$excluded.paternities)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternity.PATH")];
+flush.console();
+warning(paste("The number of defined excluded paternities ","(", colonyfile$n.excluded.paternity,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.paternities)[1],").\n\n",sep=""),immediate.=TRUE)
+}}
+
+
+#Make rownames, the offspring name. Then replace col 1 (Offspring ID
+rownames(colonyfile$excluded.paternities)<-colonyfile$excluded.paternities[,1]
+
+csum<-NULL
+for (i in 1:dim(colonyfile$excluded.paternities)[1]){
+csum[i]<-length(colonyfile$excluded.paternities[i,][!is.na(colonyfile$excluded.paternities[i,])])}
+colonyfile$excluded.paternities[,1]<-csum
+
+write.table(paste(colonyfile$n.excluded.paternities,"!Number of offspring with known excluded paternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+colonyfile$excluded.paternities[,1+dim(colonyfile$excluded.paternities)[2]]<-c("!Offspring ID, number of excluded males, the IDs of excluded males",rep("",dim(colonyfile$excluded.paternities)[1]-1))
+
+write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+write("",name,append=TRUE)
 
 }else{
-write.table("0                       !Number of offspring with known excluded candidates as father",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+#If there are no excluded paternities
+write.table(paste(colonyfile$n.excluded.paternities," !Number of offspring with known excluded paternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
+}
 
+#######################################################
+#Define excluded MOTHERS
+#######################################################
+ 
+cat("Enter the number of offspring with known excluded MATERNITY.\n\n\n")
+colonyfile$n.excluded.maternity<-scan(n=1,what="integer")
+
+if(colonyfile$n.excluded.maternity>0){
+
+
+#Get the path, and delimiter, to the file...
+while(length(colonyfile$excluded.maternity.PATH)==0){
+	cat("Provide the path to the excluded MATERNITY file.\n\n\n")
+	flush.console()
+	colonyfile$excluded.maternity.PATH<-file.choose()
+
+	cat("What is the delimiter for this file?\n\n\n")
+	flush.console()
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternity.PATH<-"", colonyfile$delim.for.excluded.maternity.PATH<-"\t", colonyfile$delim.for.excluded.maternity.PATH<-",",delim.for.excluded.maternity.PATH<-"Other")
+
+		#Caveat for if the delimiter is OTHER
+		while(length(colonyfile$delim.for.excluded.maternity.PATH)=="Other"){
+		if(colonyfile$delim.for.excluded.maternity.PATH=="Other"){
+		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+		colonyfile$delim.for.excluded.maternity.PATH<-scan(n=1,what="character")}}
+
+#Read in the data...
+colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternity.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternity.PATH,colClasses=c("character"))
+
+#Check the data
+if(colonyfile$n.excluded.maternity!=dim(colonyfile$excluded.maternities)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternity.PATH")];
+flush.console();
+warning(paste("The number of defined excluded maternities ","(", colonyfile$n.excluded.maternity,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.maternities)[1],").\n\n",sep=""),immediate.=TRUE)
+}}
+
+
+#Make rownames, the offspring name. Then replace col 1 (Offspring ID
+rownames(colonyfile$excluded.maternities)<-colonyfile$excluded.maternities[,1]
+
+csum<-NULL
+for (i in 1:dim(colonyfile$excluded.maternities)[1]){
+csum[i]<-length(colonyfile$excluded.maternities[i,][!is.na(colonyfile$excluded.maternities[i,])])}
+colonyfile$excluded.maternities[,1]<-csum
+
+write.table(paste(colonyfile$n.excluded.maternities,"!Number of offspring with known excluded maternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+colonyfile$excluded.maternities[,1+dim(colonyfile$excluded.maternities)[2]]<-c("!Offspring ID, number of excluded females, the IDs of excluded females",rep("",dim(colonyfile$excluded.maternities)[1]-1))
+
+write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+write("",name,append=TRUE)
+
+}else{
+#If there are no excluded maternities
+write.table(paste(colonyfile$n.excluded.maternities," !Number of offspring with known excluded maternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 }
 
 
+#######################################################
+#Define excluded MOTHERS
+#######################################################
 
 
-#     0                       !Number of offspring with known excluded candidates as mother
-#Do you want to exclude certain candidates as mothers of certain offspring?
-cat("Do you want to exclude certain candidates as mothers of certain offspring?\n\n\n")
-switch(menu(c("Yes", "No")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$exclude.mums<-TRUE, colonyfile$exclude.mums<-FALSE)
 
-if(colonyfile$exclude.mums==TRUE){
-cat("\n\nSorry - this is not yet implemented.\n\n\n")
-write.table("0                       !Number of offspring with known excluded candidates as mother",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
-
-}else{
-write.table("0                       !Number of offspring with known excluded candidates as mother",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
-}
 
 
 
