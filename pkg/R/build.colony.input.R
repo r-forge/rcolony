@@ -24,8 +24,6 @@ cat("Enter number of offspring in the sample.\n\n\n")
 colonyfile$n.offspring<-scan(n=1,what="integer")
 write(paste(colonyfile$n.offspring,"! I, Number of offspring in the sample"),name,append=TRUE)}
 
-
-
 #  ! I, Number of loci
 while(length(colonyfile$n.loci)==0){
 cat("Enter number of loci.\n\n\n")
@@ -100,7 +98,6 @@ switch(menu(c("Short", "Medium","Long")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$runlength<-1, colonyfile$runlength<-2, colonyfile$runlength<-3)
 write(paste(colonyfile$runlength,"! I, Length of Run (1, 2, 3) = (Short, Medium, Long)"),name,append=TRUE)}
 
-
 #  ! B, 0/1=Monitor method by Iterate#/Time in second
 cat("Monitor method by Iterate/Time in second?\n\n\n")
 switch(menu(c("Monitor by iterate", "Monitor by time in seconds")) + 1,
@@ -122,7 +119,7 @@ write(paste(colonyfile$sys,"! B, 0/1=Other platform/Windows execution"),name,app
 #  ! 1/0=Full-likelihood/pair-likelihood score method
 cat("Which likelihood method should be used?\n\n\n")
 switch(menu(c("Full likelihood", "Pairwise likelihood")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$likelihood.method<-0, colonyfile$likelihood.method<-1)
+       cat("Nothing done\n\n\n"), colonyfile$likelihood.method<-1, colonyfile$likelihood.method<-0)
 write(paste(colonyfile$likelihood.method,"! 1/0=Full-likelihood/pair-likelihood score method"),name,append=TRUE)
 
 #  ! 1/2/3=low/medium/high precision
@@ -130,7 +127,8 @@ cat("What level of precision should be used?\n\n\n")
 switch(menu(c("Low", "Medium","High")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$precision<-1, colonyfile$precision<-2, colonyfile$precision<-3)
 write(paste(colonyfile$precision,"! 1/2/3=low/medium/high precision"),name,append=TRUE)
-write("",name,append=TRUE)
+
+write("\n\n",name,append=TRUE)
 
 #Give the path to the marker types and error rate file. This should be a file with a number of columns equal to the number of markers used.
 #There should be 4 rows, 1) marker ID, 2) marker type, 3) marker specific allelic dropout rate, 4) marker specific other typing error rate.
@@ -150,18 +148,16 @@ if(colonyfile$delim.for.markers=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
 colonyfile$delim.for.markers<-scan(n=1,what="character")}}
 
-colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=TRUE,colClasses=c("character"),sep=colonyfile$delim.for.markers) 
+colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.markers) 
+
+flush.console()
 
 if(colonyfile$n.loci!=dim(colonyfile$Markers)[2]){colonyfile<-colonyfile[which(names(colonyfile)!="MarkerPATH")]
 ;warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not equal the number of markers provided in the file selected (", dim(colonyfile$Markers)[2],").\n\n",sep=""),immediate.=TRUE)}
 }
 
-colonyfile$Markers[,1+dim(colonyfile$Markers)[2]]<-c("!Marker IDs","!Marker types","!Marker specific allelic dropout rate","!Marker specific other typing-error rate")
+colonyfile$Markers[,1+dim(colonyfile$Markers)[2]]<-c("!Marker IDs","!Marker types, 0/1=Codominant/Dominant","!Marker-specific allelic dropout rate","!Other marker-specific typing-error rate")
 write.table(colonyfile$Markers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-
-cat("\n")
-#print(head(colonyfile$Markers))
 
 #Give the path to the offpring ID and genotype file
 #This should have a first column giving the ID, then 2 columns for each locus (1 for each allele at that locus).
@@ -183,11 +179,16 @@ if(colonyfile$delim.for.OSGenotype=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
 colonyfile$delim.for.OSGenotype<-scan(n=1,what="character")}}
 
-colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=TRUE,colClasses=c("character"),sep=colonyfile$delim.for.OSGenotype) 
-if(colonyfile$n.offspring!=dim(colonyfile$Offspring)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];warning(paste("The number of defined offspring ","(", colonyfile$n.offspring,") does not equal the number of offspring provided in the file selected (", dim(colonyfile$Offspring)[1],").\n\n",sep=""),immediate.=TRUE)}
+colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.OSGenotype) 
+if(colonyfile$n.offspring!=dim(colonyfile$Offspring)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];
+flush.console();
+warning(paste("The number of defined offspring ","(", colonyfile$n.offspring,") does not equal the number of offspring provided in the file selected (", dim(colonyfile$Offspring)[1],").\n\n",sep=""),immediate.=TRUE)}
 
 fileloci<-(dim(colonyfile$Offspring)[2]-1)/2
-if(colonyfile$speciestype==0){if((colonyfile$n.loci)!=fileloci){colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];
+if(colonyfile$speciestype==0){if((colonyfile$n.loci)!=fileloci){
+colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];
+flush.console();
 warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not appear to equal the number of loci provided in the file selected (", fileloci,").\n\n",sep=""),immediate.=TRUE)}}
 }
 
@@ -197,7 +198,8 @@ colonyfile$Offspring[,1+dim(colonyfile$Offspring)[2]]<-c("!Offspring ID and geno
 write.table(colonyfile$Offspring,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
-#Sampling
+#Sampling of candidate parents
+
 while(length(colonyfile$dadprob)==0){
 cat("What is the probability that the FATHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
 colonyfile$dadprob<-scan(n=1,what="integer")
@@ -206,35 +208,16 @@ flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
 colonyfile<-colonyfile[which(names(colonyfile)!="dadprob")]}
 }
-
-while(length(colonyfile$mumprob)==0){
-cat("What is the probability that the MOTHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
-colonyfile$mumprob<-scan(n=1,what="integer")
-if(colonyfile$mumprob>1){
-flush.console()
-cat("Probabilities must be less than or equal to 1.\n")
-colonyfile<-colonyfile[which(names(colonyfile)!="mumprob")]}
-}
-
-write(paste(colonyfile$dadprob,colonyfile$mumprob,"!Prob that the dad and mum of an offspring included in candidates"),name,append=TRUE)
-write("",name,append=TRUE)
-
-#Number of candidate mothers and fathers
+#Number of candidate dads
 while(length(colonyfile$n.dad)==0){
 cat("How many candidate FATHERS are there?\n\n\n")
 colonyfile$n.dad<-scan(n=1,what="integer")}
 
-while(length(colonyfile$n.mum)==0){
-cat("How many candidate MOTHERS are there?\n\n\n")
-colonyfile$n.mum<-scan(n=1,what="integer")}
-
-write(paste(colonyfile$n.dad,colonyfile$n.mum,"!Numbers of candidate males and females"),name,append=TRUE)
-write("",name,append=TRUE)
-
 #Candidate FATHERS
+
+while(length(colonyfile$dadsPATH)==0){
 cat("Provide the path to the candidate FATHERS file.\n\n\n")
 flush.console()
-while(length(colonyfile$dadsPATH)==0){
 colonyfile$dadsPATH<-file.choose()
 
 cat("What is the delimiter for this file?\n\n\n")
@@ -248,20 +231,41 @@ cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
 colonyfile$delim.for.dads<-scan(n=1,what="character")}}
 
 
-colonyfile$dads<-read.table(colonyfile$dadsPATH,header=TRUE,sep=colonyfile$delim.for.dads,colClasses=c("character"))
-if(colonyfile$n.dad!=dim(colonyfile$dads)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="dadsPATH")];
+colonyfile$dads<-read.table(colonyfile$dadsPATH,header=FALSE,sep=colonyfile$delim.for.dads,colClasses=c("character"))
+if(colonyfile$n.dad!=dim(colonyfile$dads)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="dadsPATH")];
+flush.console();
 warning(paste("The number of defined DADS ","(", colonyfile$n.dad,") does not equal the number of DADS provided in the file selected (", dim(colonyfile$dads)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
 
-colonyfile$dads[,1+dim(colonyfile$dads)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
-write.table(colonyfile$dads,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+###
+
+
+
+while(length(colonyfile$mumprob)==0){
+cat("What is the probability that the MOTHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
+colonyfile$mumprob<-scan(n=1,what="integer")
+if(colonyfile$mumprob>1){
+flush.console()
+cat("Probabilities must be less than or equal to 1.\n")
+colonyfile<-colonyfile[which(names(colonyfile)!="mumprob")]}
+}
+
+write(paste(colonyfile$dadprob,colonyfile$mumprob,"!Prob that the dad and mum of an offspring included in candidates"),name,append=TRUE)
 write("",name,append=TRUE)
 
+#Number of candidate mothers
+while(length(colonyfile$n.mum)==0){
+cat("How many candidate MOTHERS are there?\n\n\n")
+colonyfile$n.mum<-scan(n=1,what="integer")}
 
 #Candidate MOTHERS
+
+while(length(colonyfile$mumsPATH)==0){
+
 cat("Provide the path to the candidate MOTHERS file.\n\n\n")
 flush.console()
-while(length(colonyfile$mumsPATH)==0){
+
 colonyfile$mumsPATH<-file.choose()
 
 flush.console()
@@ -273,18 +277,24 @@ if(colonyfile$delim.for.mums=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
 colonyfile$delim.for.mums<-scan(n=1,what="character")}}
 
-colonyfile$mums<-read.table(colonyfile$mumsPATH,header=TRUE,sep=colonyfile$delim.for.mums,colClasses=c("character")) 
+colonyfile$mums<-read.table(colonyfile$mumsPATH,header=FALSE,sep=colonyfile$delim.for.mums,colClasses=c("character")) 
 if(colonyfile$n.mum!=dim(colonyfile$mums)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mumsPATH")];
+flush.console();
 warning(paste("The number of defined MUMS ","(", colonyfile$n.mum,") does not equal the number of MUMS provided in the file selected (", dim(colonyfile$mums)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
+
+
+write(paste(colonyfile$n.dad,colonyfile$n.mum,"!Numbers of candidate males and females"),name,append=TRUE)
+write("",name,append=TRUE)
+
+colonyfile$dads[,1+dim(colonyfile$dads)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
+write.table(colonyfile$dads,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 
 colonyfile$mums[,1+dim(colonyfile$mums)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$mums)[1]-1))
 write.table(colonyfile$mums,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
-
-##This part needs more work
-#     0                       !Number of offspring with known father
 #Do you want to define known PATERNAL relationships?
 cat("Do you want to define known PATERNAL relationships?\n\n\n")
 switch(menu(c("Yes", "No")) + 1,

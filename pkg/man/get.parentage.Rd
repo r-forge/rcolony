@@ -1,22 +1,15 @@
 \name{get.parentage}
 \alias{get.parentage}
 
-\title{ A function to extract the paternity and maternity information from the colony object created with \code{\link{get.colony.data}}. }
-\description{
-
-This function extracts the paternity and maternity information from a colony object that was created using \code{\link{get.colony.data}}.
+\title{A function to extract the paternity and maternity information from the colony object created with get.colony.data. }
+\description{This function extracts the paternity and maternity information from a colony object that was created using \code{\link{get.colony.data}}.
 The output is a dataframe with 3 columns. (1) mums, (2) dads, (3) frequency.
-The output can either be derived from pairwise-likelihood or the full-likelihood method (if available).
+The output can either be derived from pairwise-likelihood or the full-likelihood method (if available).}
+\usage{get.parentage(colony.object, pairwise = FALSE)}
 
-}
-\usage{
-get.parentage(colony.object, pairwise = FALSE)
-}
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{colony.object}{A list created by \code{\link{get.colony.data}}}.}
   \item{pairwise}{TRUE/FALSE: should the parentage information be derived from the pairwise likelihood estimates (TRUE), of from the full likelihood methods (FALSE). See Wang et al. for details.}
-}
 \details{}
 \value{
   A data frame with 3 columns. (1) mums, (2) dads, (3) frequency. 

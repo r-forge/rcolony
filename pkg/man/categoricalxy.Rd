@@ -7,7 +7,6 @@
 This function produces a plot for two-dimensional categorical data (e.g. individual's ID) to show presence/absence or frequency for each category.
 The resulting plot is a chequer-board with each square representing a pairwise observation. 
 The square can provide further information on (for example) frequency by colouring and/or by the inclusion of text.
-
 }
 
 \usage{
@@ -22,20 +21,15 @@ categoricalxy(my.data, freqlabs = FALSE, colscheme = "heat", poly.border = FALSE
   \item{axes.cex}{Controls the size of the axis labels.}
 }
 
-\details{
-  
-}
+\details{}
 
-\value{
-  A categorical x-y plot.
-}
+\value{A categorical x-y plot.}
 
 \references{}
 \author{Owen R. Jones}
 \note{}
 \seealso{\code{\link{get.colony.data}},\code{\link{get.parentage}}}
 \examples{
-
 
 foo<-expand.grid(ID1=c("A","B","C","D"),ID2=c("W","X","Y","Z"))
 foo$freq<-ceiling(runif(dim(foo)[1],0,10))
@@ -45,11 +39,7 @@ categoricalxy(foo,freqlabs=TRUE)
 data(testdata)
 x<-get.parentage(testdata)
 categoricalxy(x,colscheme="heat",axes.cex=0.5)
-
-
-
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 \keyword{ aplot }
