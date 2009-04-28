@@ -192,14 +192,15 @@ flush.console();
 warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not appear to equal the number of loci provided in the file selected (", fileloci,").\n\n",sep=""),immediate.=TRUE)}}
 }
 
-
-
 colonyfile$Offspring[,1+dim(colonyfile$Offspring)[2]]<-c("!Offspring ID and genotypes",rep("",dim(colonyfile$Offspring)[1]-1))
 write.table(colonyfile$Offspring,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
+######################################################
 #Sampling of candidate parents
+######################################################
 
+#FATHERS - probability of inclusion in candidate set
 while(length(colonyfile$dadprob)==0){
 cat("What is the probability that the FATHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
 colonyfile$dadprob<-scan(n=1,what="integer")
@@ -208,12 +209,13 @@ flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
 colonyfile<-colonyfile[which(names(colonyfile)!="dadprob")]}
 }
+
 #Number of candidate dads
 while(length(colonyfile$n.dad)==0){
 cat("How many candidate FATHERS are there?\n\n\n")
 colonyfile$n.dad<-scan(n=1,what="integer")}
 
-#Candidate FATHERS
+#Candidate FATHERS file
 
 while(length(colonyfile$dadsPATH)==0){
 cat("Provide the path to the candidate FATHERS file.\n\n\n")
@@ -238,10 +240,7 @@ flush.console();
 warning(paste("The number of defined DADS ","(", colonyfile$n.dad,") does not equal the number of DADS provided in the file selected (", dim(colonyfile$dads)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
 
-###
-
-
-
+#MOTHERS - probability of inclusion in candidate set
 while(length(colonyfile$mumprob)==0){
 cat("What is the probability that the MOTHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
 colonyfile$mumprob<-scan(n=1,what="integer")
@@ -250,9 +249,6 @@ flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
 colonyfile<-colonyfile[which(names(colonyfile)!="mumprob")]}
 }
-
-write(paste(colonyfile$dadprob,colonyfile$mumprob,"!Prob that the dad and mum of an offspring included in candidates"),name,append=TRUE)
-write("",name,append=TRUE)
 
 #Number of candidate mothers
 while(length(colonyfile$n.mum)==0){
@@ -283,7 +279,7 @@ flush.console();
 warning(paste("The number of defined MUMS ","(", colonyfile$n.mum,") does not equal the number of MUMS provided in the file selected (", dim(colonyfile$mums)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
 
-
+write(paste(colonyfile$dadprob,colonyfile$mumprob,"!Probabilities that the dad and mum of an offspring included in candidates"),name,append=TRUE)
 write(paste(colonyfile$n.dad,colonyfile$n.mum,"!Numbers of candidate males and females"),name,append=TRUE)
 write("",name,append=TRUE)
 
@@ -295,68 +291,232 @@ colonyfile$mums[,1+dim(colonyfile$mums)[2]]<-c("!Candidate F ID and genotypes",r
 write.table(colonyfile$mums,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
-#Do you want to define known PATERNAL relationships?
-cat("Do you want to define known PATERNAL relationships?\n\n\n")
-switch(menu(c("Yes", "No")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$known.dads<-TRUE, colonyfile$known.dads<-FALSE)
 
-if(colonyfile$known.dads==TRUE){
-cat("\n\nSorry - this is not yet implemented.\n\n\n")
-write.table("0                       !Number of offspring with known father",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-}else{write.table("0                       !Number of offspring with known father",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)}
 
-#     0                       !Number of offspring with known mother
-#Do you want to define known MATERNAL relationships?
-cat("Do you want to define known Paternal relationships?\n\n\n")
-switch(menu(c("Yes", "No")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$known.mums<-TRUE, colonyfile$known.mums<-FALSE)
 
-if(colonyfile$known.mums==TRUE){
-cat("\n\nSorry - this is not yet implemented.\n\n\n")
-write.table("0                       !Number of offspring with known mother",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 
+#######################################################
+#Define known PATERNAL diads
+#######################################################
+cat("Enter the number of known PATERNAL-OFFSPRING diads.\n\n\n")
+colonyfile$n.known.paternal.diads<-scan(n=1,what="integer")
+
+if(colonyfile$n.known.paternal.diads>0){
+
+#If there are some known paternal diads...
+
+#Get the path, and delimiter, to the file...
+while(length(colonyfile$paternal.diads.PATH)==0){
+	cat("Provide the path to the PATERNAL diads file.\n\n\n")
+	flush.console()
+	colonyfile$paternal.diads.PATH<-file.choose()
+
+	cat("What is the delimiter for this file?\n\n\n")
+	flush.console()
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
+
+		#Caveat for if the delimiter is OTHER
+		while(length(colonyfile$delim.for.paternal.diads.PATH)=="Other"){
+		if(colonyfile$delim.for.paternal.diads.PATH=="Other"){
+		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+		colonyfile$delim.for.paternal.diads.PATH<-scan(n=1,what="character")}}
+
+#Read in the data...
+colonyfile$known.paternal.diads<-read.table(colonyfile$paternal.diads.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.diads.PATH,colClasses=c("character"))
+
+#Check the data
+if(colonyfile$n.known.paternal.diads!=dim(colonyfile$known.paternal.diads)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+flush.console();
+warning(paste("The number of defined paternal diads ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternal diads provided in the file selected (", dim(colonyfile$known.paternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
+}}
+
+
+write.table(paste(colonyfile$n.known.paternal.diads," !Number of known offspring-father dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.paternal.diads[,1+dim(colonyfile$known.paternal.diads)[2]]<-c("!IDs of known offspring-father dyad",rep("",dim(colonyfile$dads)[1]-1))
+
+write.table(colonyfile$known.paternal.diads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 
 }else{
-write.table("0                       !Number of offspring with known mother",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
+#If there are no known paternal diads
+write.table(paste(colonyfile$n.known.paternal.diads," !Number of known offspring-father dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 }
+
+
+
  
-#     0                       !Number of known paternal sibships
-#Do you want to define known PATERNAL SIBSHIPS?
-cat("Do you want to define known PATERNAL SIBSHIPS?\n\n\n")
-switch(menu(c("Yes", "No")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$known.paternal.sibships<-TRUE, colonyfile$known.paternal.sibships<-FALSE)
+ 
 
-if(colonyfile$known.paternal.sibships==TRUE){
-cat("\n\nSorry - this is not yet implemented.\n\n\n")
-write.table("0                       !Number of known paternal sibships",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+#######################################################
+#Define MATERNAL diads
+#######################################################
 
+cat("Enter the number of known MATERNAL-OFFSPRING diads.\n\n\n")
+colonyfile$n.known.maternal.diads<-scan(n=1,what="integer")
+
+if(colonyfile$n.known.maternal.diads>0){
+
+#If there are some known maternal diads...
+
+#Get the path, and delimiter, to the file...
+while(length(colonyfile$maternal.diads.PATH)==0){
+	cat("Provide the path to the MATERNAL diads file.\n\n\n")
+	flush.console()
+	colonyfile$maternal.diads.PATH<-file.choose()
+
+	cat("What is the delimiter for this file?\n\n\n")
+	flush.console()
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
+
+		#Caveat for if the delimiter is OTHER
+		while(length(colonyfile$delim.for.maternal.diads.PATH)=="Other"){
+		if(colonyfile$delim.for.maternal.diads.PATH=="Other"){
+		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+		colonyfile$delim.for.maternal.diads.PATH<-scan(n=1,what="character")}}
+
+#Read in the data...
+colonyfile$known.maternal.diads<-read.table(colonyfile$maternal.diads.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.diads.PATH,colClasses=c("character"))
+
+#Check the data
+if(colonyfile$n.known.maternal.diads!=dim(colonyfile$known.maternal.diads)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
+flush.console();
+warning(paste("The number of defined maternal diads ","(", colonyfile$n.known.maternal.diads,") does not equal the number of maternal diads provided in the file selected (", dim(colonyfile$known.maternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
+}}
+
+
+write.table(paste(colonyfile$n.known.maternal.diads," !Number of known offspring-mother dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.maternal.diads[,1+dim(colonyfile$known.maternal.diads)[2]]<-c("!IDs of known offspring-mother dyad",rep("",dim(colonyfile$dads)[1]-1))
+
+write.table(colonyfile$known.maternal.diads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 
 }else{
-write.table("0                       !Number of known paternal sibships",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
+#If there are no known maternal diads
+write.table(paste(colonyfile$n.known.maternal.diads," !Number of known offspring-father dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 }
 
 
-#     0                       !Number of known maternal sibships
-#Do you want to define known MATERNAL SIBSHIPS?
-cat("Do you want to define known MATERNAL SIBSHIPS?\n\n\n")
-switch(menu(c("Yes", "No")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$known.maternal.sibships<-TRUE, colonyfile$known.maternal.sibships<-FALSE)
 
-if(colonyfile$known.maternal.sibships==TRUE){
-cat("\n\nSorry - this is not yet implemented.\n\n\n")
-write.table("0                       !Number of known maternal sibships",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+ 
+  
+ 
+#######################################################
+#Define PATERNAL sibships
+#######################################################
+cat("Enter the number of known PATERNAL sibship/paternity.\n\n\n")
+colonyfile$n.paternal.sibs.or.paternities<-scan(n=1,what="integer")
 
+if(colonyfile$n.paternal.sibs.or.paternities>0){
+
+#If there are some known sibships...
+
+#Get the path, and delimiter, to the file...
+while(length(colonyfile$paternal.sibs.PATH)==0){
+	cat("Provide the path to the candidate FATHERS file.\n\n\n")
+	flush.console()
+	colonyfile$paternal.sibs.PATH<-file.choose()
+
+	cat("What is the delimiter for this file?\n\n\n")
+	flush.console()
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
+
+		#Caveat for if the delimiter is OTHER
+		while(length(colonyfile$delim.for.paternal.sibs.PATH)=="Other"){
+		if(colonyfile$delim.for.paternal.sibs.PATH=="Other"){
+		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+		colonyfile$delim.for.paternal.sibs.PATH<-scan(n=1,what="character")}}
+
+#Read in the data...
+colonyfile$known.paternities<-read.table(colonyfile$paternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.sibs.PATH,colClasses=c("character"))
+
+#Check the data
+if(colonyfile$n.paternal.sibs.or.paternities!=dim(colonyfile$known.paternities)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="paternal.sibs.PATH")];
+flush.console();
+warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternities provided in the file selected (", dim(colonyfile$known paternities)[1],").\n\n",sep=""),immediate.=TRUE)
+}}
+
+
+write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.paternities[,1+dim(colonyfile$known.paternities)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
+csum<-NULL
+for (i in 1:dim(colonyfile$known.paternities)[1]){
+csum[i]<-length(colonyfile$known.paternities[i,][!is.na(colonyfile$known.paternities[i,])])}
+rownames(colonyfile$known.paternities)<-csum
+
+write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+write("",name,append=TRUE)
 
 }else{
-write.table("0                       !Number of known maternal sibships",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
+#If there are no known sibships
+write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
 }
 
 
 
 
+#######################################################
+#Define MATERNAL sibships
+#######################################################
+cat("Enter the number of known MATERNAL sibship/maternity.\n\n\n")
+colonyfile$n.maternal.sibs.or.maternities<-scan(n=1,what="integer")
+
+if(colonyfile$n.maternal.sibs.or.maternities>0){
+
+#If there are some known sibships...
+
+#Get the path, and delimiter, to the file...
+while(length(colonyfile$maternal.sibs.PATH)==0){
+	cat("Provide the path to the candidate MOTHERS file.\n\n\n")
+	flush.console()
+	colonyfile$maternal.sibs.PATH<-file.choose()
+
+	cat("What is the delimiter for this file?\n\n\n")
+	flush.console()
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
+
+		#Caveat for if the delimiter is OTHER
+		while(length(colonyfile$delim.for.maternal.sibs.PATH)=="Other"){
+		if(colonyfile$delim.for.maternal.sibs.PATH=="Other"){
+		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+		colonyfile$delim.for.maternal.sibs.PATH<-scan(n=1,what="character")}}
+
+#Read in the data...
+colonyfile$known.maternities<-read.table(colonyfile$maternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.sibs.PATH,colClasses=c("character"))
+
+#Check the data
+if(colonyfile$n.maternal.sibs.or.maternities!=dim(colonyfile$known.maternities)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
+flush.console();
+warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile$n.maternal.sibs.or.maternities,") does not equal the number of maternities provided in the file selected (", dim(colonyfile$known maternities)[1],").\n\n",sep=""),immediate.=TRUE)
+}}
+
+
+write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$known.maternities[,1+dim(colonyfile$known.maternities)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
+csum<-NULL
+for (i in 1:dim(colonyfile$known.maternities)[1]){
+csum[i]<-length(colonyfile$known.maternities[i,][!is.na(colonyfile$known.maternities[i,])])}
+rownames(colonyfile$known.maternities)<-csum
+
+write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+write("",name,append=TRUE)
+
+}else{
+#If there are no known sibships
+write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)
+}
+
+
+#######################################################
+#Define excluded fathers
+#######################################################
  
 #     0                       !Number of offspring with known excluded candidates as father
 #Do you want to exclude certain candidates as fathers of certain offspring?
