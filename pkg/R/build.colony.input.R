@@ -5,6 +5,10 @@ colonyfile<-NULL
 cat("This function will construct a Colony input file.\nPLEASE REFER TO THE HELP FILE ?build.colony.input.\n\n")
 cat(paste("It will be called",name,"and be placed in",wd,"...\n\n\n"))
 
+#Functions used here
+is.whole <- function(a) { floor(a)==a }
+
+
 #######################################################
 #  ! C, Dataset name, Length<51
 #######################################################
@@ -36,7 +40,17 @@ colonyfile$note<-scan(n=1,what="character")}
 while(length(colonyfile$n.offspring)==0){
 cat("Enter number of offspring in the sample.\n\n\n")
 colonyfile$n.offspring<-as.numeric(scan(n=1,what="integer"))
-write(paste(colonyfile$n.offspring,"! I, Number of offspring in the sample"),name,append=TRUE)}
+write(paste(colonyfile$n.offspring,"! I, Number of offspring in the sample"),name,append=TRUE)
+
+if(length(colonyfile$n.offspring)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.offspring)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.offspring")]
+;warning("The number of offspring must be a whole number!\n",immediate.=TRUE)}}
+
+}
+
 
 #######################################################
 #  ! I, Number of loci
@@ -44,7 +58,17 @@ write(paste(colonyfile$n.offspring,"! I, Number of offspring in the sample"),nam
 while(length(colonyfile$n.loci)==0){
 cat("Enter number of loci.\n\n\n")
 colonyfile$n.loci<-as.numeric(scan(n=1,what="integer"))
-write(paste(colonyfile$n.loci,"! I, Number of loci"),name,append=TRUE)}
+write(paste(colonyfile$n.loci,"! I, Number of loci"),name,append=TRUE)
+
+if(length(colonyfile$n.loci)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.loci)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.loci")]
+;warning("The number of loci must be a whole number!\n",immediate.=TRUE)}}
+
+
+}
 
 #######################################################
 #  ! I, Seed for random number generator
@@ -151,7 +175,16 @@ write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=F
 while(length(colonyfile$n.runs)==0){
 cat("Number of runs.\n\n\n")
 colonyfile$n.runs<-as.numeric(scan(n=1,what="integer"))
-write(paste(colonyfile$n.runs,"! I, Number of runs"),name,append=TRUE)}
+write(paste(colonyfile$n.runs,"! I, Number of runs"),name,append=TRUE)
+
+if(length(colonyfile$n.runs)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.runs)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.runs")]
+;warning("The number of runs must be a whole number!\n",immediate.=TRUE)}}
+
+}
 
 #######################################################
 #  ! I, Length of Run (1, 2, 3) = (Short, Medium, Long)
@@ -202,7 +235,7 @@ switch(menu(c("Low", "Medium","High")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$precision<-1, colonyfile$precision<-2, colonyfile$precision<-3)
 write(paste(colonyfile$precision,"! 1/2/3=low/medium/high precision"),name,append=TRUE)
 
-write("\n\n",name,append=TRUE)
+write("\n",name,append=TRUE)
 
 #######################################################
 #Marker file import
@@ -301,7 +334,15 @@ colonyfile<-colonyfile[which(names(colonyfile)!="fatherprob")]}
 #######################################################
 while(length(colonyfile$n.father)==0){
 cat("How many candidate FATHERS are there?\n\n\n")
-colonyfile$n.father<-as.numeric(scan(n=1,what="integer"))}
+colonyfile$n.father<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.father)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.father)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.fathers")]
+;warning("The number of fathers must be a whole number!\n",immediate.=TRUE)}}
+}
 
 #######################################################
 #Import candidate FATHERS file
@@ -346,7 +387,16 @@ colonyfile<-colonyfile[which(names(colonyfile)!="motherprob")]}
 #######################################################
 while(length(colonyfile$n.mother)==0){
 cat("How many candidate MOTHERS are there?\n\n\n")
-colonyfile$n.mother<-as.numeric(scan(n=1,what="integer"))}
+colonyfile$n.mother<-as.numeric(scan(n=1,what="integer"))
+
+
+if(length(colonyfile$n.mother)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.mother)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.mothers")]
+;warning("The number of mothers must be a whole number!\n",immediate.=TRUE)}}
+}
 
 #######################################################
 #Import candidate MOTHERS
@@ -387,8 +437,18 @@ write("",name,append=TRUE)
 #######################################################
 #Define known PATERNAL diads
 #######################################################
+
+while(length(colonyfile$n.known.paternal.diads)==0){
 cat("Enter the number of known offspring-PATERNAL diads.\n\n\n")
 colonyfile$n.known.paternal.diads<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.known.paternal.diads)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.known.paternal.diads)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.known.paternal.diads")]
+;warning("The number of known paternal diads must be a whole number!\n",immediate.=TRUE)}}
+}
 
 if(colonyfile$n.known.paternal.diads>0){
 
@@ -437,8 +497,17 @@ write("",name,append=TRUE)
 #Define MATERNAL diads
 #######################################################
 
+while(length(colonyfile$n.known.maternal.diads)==0){
 cat("Enter the number of known offspring-MATERNAL diads.\n\n\n")
 colonyfile$n.known.maternal.diads<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.known.maternal.diads)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.known.maternal.diads)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.known.maternal.diads")]
+;warning("The number of known maternal diads must be a whole number!\n",immediate.=TRUE)}}
+}
 
 if(colonyfile$n.known.maternal.diads>0){
 
@@ -486,10 +555,20 @@ write("",name,append=TRUE)
 #######################################################
 #Define PATERNAL sibships
 #######################################################
-colonyfile<-NULL
 
+
+while(length(colonyfile$n.paternal.sibs.or.paternities)==0){
 cat("Enter the number of known PATERNAL sibship/paternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the father is known or not (unknown fathers are coded with 0).\n\n")
 colonyfile$n.paternal.sibs.or.paternities<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.paternal.sibs.or.paternities)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.paternal.sibs.or.paternities)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.paternal.sibs.or.paternities")];
+warning("The number of known paternal sibships must be a whole number!\n",immediate.=TRUE)}}
+}
+
 
 if(colonyfile$n.paternal.sibs.or.paternities>0){
 
@@ -545,8 +624,19 @@ write("",name,append=TRUE)
 #######################################################
 #Define MATERNAL sibships
 #######################################################
-cat("Enter the number of known MATERNAL sibship/maternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same mother no matter whether the mother is known or not (unknown mothers are coded as 0).\n\n")
-colonyfile$n.maternal.sibs.or.maternities<-as.numeric(scan(n=1,what="integer"))
+
+while(length(colonyfile$n.maternal.sibs.or.paternities)==0){
+cat("Enter the number of known MATERNAL sibship/paternity.\nA known maternal sibship contains all of the offspring in the offspring sample who are known to share the same mother no matter whether the mother is known or not (unknown mothers are coded with 0).\n\n")
+colonyfile$n.maternal.sibs.or.paternities<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.maternal.sibs.or.paternities)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.maternal.sibs.or.paternities)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.maternal.sibs.or.paternities")];
+warning("The number of known maternal sibships must be a whole number!\n",immediate.=TRUE)}}
+}
+
 
 if(colonyfile$n.maternal.sibs.or.maternities>0){
 
@@ -602,8 +692,17 @@ write("",name,append=TRUE)
 #Define excluded PATERNITIES
 #######################################################
  
+while(length(colonyfile$n.excluded.paternities)==0){
 cat("Enter the number of offspring with known excluded PATERNITY.\n\n\n")
 colonyfile$n.excluded.paternities<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.excluded.paternities)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.excluded.paternities)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.excluded.paternities")];
+warning("The number of excluded paternities must be a whole number!\n",immediate.=TRUE)}}
+}
 
 if(colonyfile$n.excluded.paternities>0){
 
@@ -660,8 +759,17 @@ write("",name,append=TRUE)
 #Define excluded MOTHERS
 #######################################################
  
+while(length(colonyfile$n.excluded.maternities)==0){
 cat("Enter the number of offspring with known excluded MATERNITY.\n\n\n")
 colonyfile$n.excluded.maternities<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.excluded.maternities)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.excluded.maternities)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.excluded.maternities")];
+warning("The number of excluded maternities must be a whole number!\n",immediate.=TRUE)}}
+}
 
 if(colonyfile$n.excluded.maternities>0){
 
@@ -717,11 +825,19 @@ write("",name,append=TRUE)
 #######################################################
 #Define EXCLUDED PATERNAL sibships
 #######################################################
+while(length(colonyfile$n.excluded.paternal.sibships)==0){
 cat("Enter the number of offspring with known excluded PATERNAL sibships.\n\n\n")
 colonyfile$n.excluded.paternal.sibships<-as.numeric(scan(n=1,what="integer"))
 
-if(colonyfile$n.excluded.paternal.sibships>0){
+if(length(colonyfile$n.excluded.paternal.sibships)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.excluded.paternal.sibships)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.excluded.paternal.sibships")];
+warning("The number of excluded paternal sibships must be a whole number!\n",immediate.=TRUE)}}
+}
 
+if(colonyfile$n.excluded.paternal.sibships>0){
 
 #Get the path, and delimiter, to the file...
 while(length(colonyfile$excluded.paternal.sibships.PATH)==0){
@@ -773,14 +889,21 @@ write("",name,append=TRUE)
 }
 
 
-
-
 #######################################################
 #Define EXCLUDED MATERNAL sibships
 #######################################################
 
+while(length(colonyfile$n.excluded.maternal.sibships)==0){
 cat("Enter the number of offspring with known excluded MATERNAL sibships.\n\n\n")
 colonyfile$n.excluded.maternal.sibships<-as.numeric(scan(n=1,what="integer"))
+
+if(length(colonyfile$n.excluded.maternal.sibships)!=0){
+#Whole number warning 
+if(is.whole(colonyfile$n.excluded.maternal.sibships)==FALSE){
+flush.console()
+colonyfile<-colonyfile[which(names(colonyfile)!="n.excluded.maternal.sibships")];
+warning("The number of excluded maternal sibships must be a whole number!\n",immediate.=TRUE)}}
+}
 
 if(colonyfile$n.excluded.maternal.sibships>0){
 
