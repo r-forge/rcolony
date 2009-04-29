@@ -2,7 +2,7 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
 
 colonyfile<-NULL
 
-cat("This function will construct a Colony input file.\n\n\n")
+cat("This function will construct a Colony input file.\nPLEASE REFER TO THE HELP FILE ?build.colony.input.\n\n")
 cat(paste("It will be called",name,"and be placed in",wd,"...\n\n\n"))
 
 #######################################################
@@ -57,7 +57,7 @@ write(paste(colonyfile$updateallelefreq,"! B, 0/1=Not updating/updating allele f
 #######################################################
 #  ! B, 0/1=Diploid species/HaploDiploid species
 #######################################################
-cat("What kind of species is it?\n\n\n")
+cat("What kind of species is it?\nSee help for definitions.\n\n")
 switch(menu(c("Diploid species", "HaploDiploid species")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$ploidy<-0, colonyfile$ploidy<-1)
 write(paste(colonyfile$ploidy,"! B, 0/1=Diploid species/HaploDiploid species"),name,append=TRUE)
@@ -65,11 +65,11 @@ write(paste(colonyfile$ploidy,"! B, 0/1=Diploid species/HaploDiploid species"),n
 #######################################################
 #  ! B, 0/1=Polygamy/Monogamy for males & females
 #######################################################
-cat("Are males monogamous or polygamous?\n\n\n")
+cat("Are males monogamous or polygamous?\nSee help for definitions.\n\n")
 switch(menu(c("Males monogamous", "Males polygamous")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$malepolygamy<-0, colonyfile$malepolygamy<-1)
 
-cat("Are females monogamous or polygamous?\n\n\n")
+cat("Are females monogamous or polygamous?\nSee help for definitions.\n\n")
 switch(menu(c("Females monogamous", "Females polygamous")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$femalepolygamy<-0, colonyfile$femalepolygamy<-1)
 write(paste(colonyfile$malepolygamy,colonyfile$femalepolygamy,"! B, 0/1=Polygamy/Monogamy for males & females"),name,append=TRUE)
@@ -78,7 +78,7 @@ write(paste(colonyfile$malepolygamy,colonyfile$femalepolygamy,"! B, 0/1=Polygamy
 #  ! B,R,R : Use sibship prior, Y/N=1/0. If Yes, give mean paternal, maternal sibship size
 #######################################################
 cat("Use sibship prior?\n\n\n")
-switch(menu(c("YES", "NO")) + 1,
+switch(menu(c("Yes", "No")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$sibship.prior<-1, colonyfile$sibship.prior<-0)
 
 if(colonyfile$sibship.prior==0){
@@ -88,11 +88,11 @@ write(paste(colonyfile$sibship.prior,colonyfile$sibship.prior.paternal,colonyfil
 	}else{
 
 while(length(colonyfile$sibship.prior.paternal)==0){
-cat("Enter the paternal sibship size.\n\n\n")
+cat("Enter the paternal sibship size (number of sibships).\n\n\n")
 colonyfile$sibship.prior.paternal<-scan(n=1,what="integer")}
 
 while(length(colonyfile$sibship.prior.maternal)==0){
-cat("Enter the maternal sibship size.\n\n\n")
+cat("Enter the maternal sibship size (number of sibships).\n\n\n")
 colonyfile$sibship.prior.maternal<-scan(n=1,what="integer")}
 write(paste(colonyfile$sibship.prior,colonyfile$sibship.prior.paternal,colonyfile$sibship.prior.maternal,"! B,R,R : Use sibship prior, Y/N=1/0. If Yes, give mean paternal, maternal sibship size"),name,append=TRUE)
 }
@@ -103,7 +103,37 @@ write(paste(colonyfile$sibship.prior,colonyfile$sibship.prior.paternal,colonyfil
 cat("Unknown/Known population allele frequency?\n\n\n")
 switch(menu(c("Unknown", "Known")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$knownAFreq<-0, colonyfile$knownAFreq<-1)
+
 write(paste(colonyfile$knownAFreq,"! B, 0/1=Unknown/Known population allele frequency"),name,append=TRUE)
+
+if(colonyfile$knownAFreq==1){
+while(length(colonyfile$AlleleFreqPATH)==0){
+cat("Provide select the ALLELE FREQUENCY file.\n\n\n");Sys.sleep(.2)
+flush.console()
+colonyfile$AlleleFreqPATH<-file.choose()
+
+cat("What is the delimiter for this file?\n\n\n")
+flush.console()
+switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.allele.freq<-"", colonyfile$delim.for.allele.freq<-"\t", colonyfile$delim.for.allele.freq<-",",delim.for.allele.freq<-"Other")
+
+while(length(colonyfile$delim.for.allele.freq)=="Other"){
+if(colonyfile$delim.for.allele.freq=="Other"){
+cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+colonyfile$delim.for.allele.freq<-scan(n=1,what="character")}}
+
+colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="") 
+
+flush.console()
+
+if(colonyfile$n.loci!=dim(colonyfile$allele.frequency)[1]/2){colonyfile<-colonyfile[which(names(colonyfile)!="AlleleFreqPATH")]
+;warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not equal the number of markers provided in the file selected (", dim(colonyfile$allele.frequency)[1]/2,").\n\n",sep=""),immediate.=TRUE)}
+}
+
+colonyfile$allele.frequency[,1+dim(colonyfile$allele.frequency)[2]]<-c("!Allele frequency",rep("",dim(colonyfile$allele.frequency)[1]-1))
+write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
+
+
 
 #######################################################
 #  ! I, Number of runs
@@ -446,7 +476,9 @@ write("",name,append=TRUE)
 #######################################################
 #Define PATERNAL sibships
 #######################################################
-cat("Enter the number of known PATERNAL sibship/paternity.\n\n\n")
+colonyfile<-NULL
+
+cat("Enter the number of known PATERNAL sibship/paternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the father is known or not (unknown fathers are coded with 0).\n\n")
 colonyfile$n.paternal.sibs.or.paternities<-scan(n=1,what="integer")
 
 if(colonyfile$n.paternal.sibs.or.paternities>0){
@@ -455,7 +487,7 @@ if(colonyfile$n.paternal.sibs.or.paternities>0){
 
 #Get the path, and delimiter, to the file...
 while(length(colonyfile$paternal.sibs.PATH)==0){
-	cat("Provide the path to the candidate FATHERS file.\n\n\n")
+	cat("Provide the path to the candidate PATERNAL SIBSHIPS file.\n\n\n")
 	flush.console()
 	colonyfile$paternal.sibs.PATH<-file.choose()
 
@@ -470,7 +502,7 @@ while(length(colonyfile$paternal.sibs.PATH)==0){
 		colonyfile$delim.for.paternal.sibs.PATH<-scan(n=1,what="character")}}
 
 #Read in the data...
-colonyfile$known.paternities<-read.table(colonyfile$paternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.sibs.PATH,colClasses=c("character"))
+colonyfile$known.paternities<-read.table(colonyfile$paternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
 if(colonyfile$n.paternal.sibs.or.paternities!=dim(colonyfile$known.paternities)[1]){
@@ -481,13 +513,17 @@ warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile
 
 
 write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+
 colonyfile$known.paternities[,1+dim(colonyfile$known.paternities)[2]]<-c("!Size of known paternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$known.paternities)[1]-1))
+
 csum<-NULL
 for (i in 1:dim(colonyfile$known.paternities)[1]){
 csum[i]<-length(colonyfile$known.paternities[i,][!is.na(colonyfile$known.paternities[i,])])}
-rownames(colonyfile$known.paternities)<-csum
+csum<-csum-1
 
-write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+colonyfile$known.paternities<-cbind(csum,colonyfile$known.paternities)
+
+write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -499,7 +535,7 @@ write("",name,append=TRUE)
 #######################################################
 #Define MATERNAL sibships
 #######################################################
-cat("Enter the number of known MATERNAL sibship/maternity.\n\n\n")
+cat("Enter the number of known MATERNAL sibship/maternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the mother is known or not (unknown mothers are coded as 0).\n\n")
 colonyfile$n.maternal.sibs.or.maternities<-scan(n=1,what="integer")
 
 if(colonyfile$n.maternal.sibs.or.maternities>0){
@@ -508,7 +544,7 @@ if(colonyfile$n.maternal.sibs.or.maternities>0){
 
 #Get the path, and delimiter, to the file...
 while(length(colonyfile$maternal.sibs.PATH)==0){
-	cat("Provide the path to the candidate MOTHERS file.\n\n\n")
+	cat("Provide the path to the MATERNAL SIBSHIPS file.\n\n\n")
 	flush.console()
 	colonyfile$maternal.sibs.PATH<-file.choose()
 
@@ -523,7 +559,7 @@ while(length(colonyfile$maternal.sibs.PATH)==0){
 		colonyfile$delim.for.maternal.sibs.PATH<-scan(n=1,what="character")}}
 
 #Read in the data...
-colonyfile$known.maternities<-read.table(colonyfile$maternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.sibs.PATH,colClasses=c("character"))
+colonyfile$known.maternities<-read.table(colonyfile$maternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
 if(colonyfile$n.maternal.sibs.or.maternities!=dim(colonyfile$known.maternities)[1]){
@@ -539,9 +575,11 @@ colonyfile$known.maternities[,1+dim(colonyfile$known.maternities)[2]]<-c("!Size 
 csum<-NULL
 for (i in 1:dim(colonyfile$known.maternities)[1]){
 csum[i]<-length(colonyfile$known.maternities[i,][!is.na(colonyfile$known.maternities[i,])])}
-rownames(colonyfile$known.maternities)<-csum
+csum<-csum-1
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+colonyfile$known.maternities<-cbind(csum,colonyfile$known.maternities)
+
+write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -550,57 +588,56 @@ write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known m
 write("",name,append=TRUE)
 }
 
-
 #######################################################
-#Define excluded fathers
+#Define excluded PATERNITIES
 #######################################################
  
-cat("Enter the number of offspring with known excluded paternity.\n\n\n")
-colonyfile$n.excluded.paternity<-scan(n=1,what="integer")
+cat("Enter the number of offspring with known excluded PATERNITY.\n\n\n")
+colonyfile$n.excluded.paternities<-scan(n=1,what="integer")
 
-if(colonyfile$n.excluded.paternity>0){
+if(colonyfile$n.excluded.paternities>0){
 
 
 #Get the path, and delimiter, to the file...
-while(length(colonyfile$excluded.paternity.PATH)==0){
+while(length(colonyfile$excluded.paterniiesy.PATH)==0){
 	cat("Provide the path to the excluded PATERNITY file.\n\n\n")
 	flush.console()
-	colonyfile$excluded.paternity.PATH<-file.choose()
+	colonyfile$excluded.paternities.PATH<-file.choose()
 
 	cat("What is the delimiter for this file?\n\n\n")
 	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternity.PATH<-"", colonyfile$delim.for.excluded.paternity.PATH<-"\t", colonyfile$delim.for.excluded.paternity.PATH<-",",delim.for.excluded.paternity.PATH<-"Other")
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternities.PATH<-"", colonyfile$delim.for.excluded.paternities.PATH<-"\t", colonyfile$delim.for.excluded.paternities.PATH<-",",delim.for.excluded.paternities.PATH<-"Other")
 
 		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.excluded.paternity.PATH)=="Other"){
-		if(colonyfile$delim.for.excluded.paternity.PATH=="Other"){
+		while(length(colonyfile$delim.for.excluded.paternities.PATH)=="Other"){
+		if(colonyfile$delim.for.excluded.paternities.PATH=="Other"){
 		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.excluded.paternity.PATH<-scan(n=1,what="character")}}
+		colonyfile$delim.for.excluded.paternities.PATH<-scan(n=1,what="character")}}
 
 #Read in the data...
-colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternity.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternity.PATH,colClasses=c("character"))
+colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
-if(colonyfile$n.excluded.paternity!=dim(colonyfile$excluded.paternities)[1]){
-colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternity.PATH")];
+if(colonyfile$n.excluded.paternities!=dim(colonyfile$excluded.paternities)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternities.PATH")];
 flush.console();
-warning(paste("The number of defined excluded paternities ","(", colonyfile$n.excluded.paternity,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.paternities)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined excluded paternities ","(", colonyfile$n.excluded.paternities,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.paternities)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
-
-
-#Make rownames, the offspring name. Then replace col 1 (Offspring ID
-rownames(colonyfile$excluded.paternities)<-colonyfile$excluded.paternities[,1]
 
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.paternities)[1]){
 csum[i]<-length(colonyfile$excluded.paternities[i,][!is.na(colonyfile$excluded.paternities[i,])])}
 colonyfile$excluded.paternities[,1]<-csum
+csum<-csum-1
 
 write.table(paste(colonyfile$n.excluded.paternities,"!Number of offspring with known excluded paternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 
+
+colonyfile$excluded.paternities<-cbind(as.character(colonyfile$excluded.paternities[,1]),csum,colonyfile$excluded.paternities[,2:dim(colonyfile$excluded.paternities)[2]])
+
 colonyfile$excluded.paternities[,1+dim(colonyfile$excluded.paternities)[2]]<-c("!Offspring ID, number of excluded males, the IDs of excluded males",rep("",dim(colonyfile$excluded.paternities)[1]-1))
 
-write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -614,51 +651,50 @@ write("",name,append=TRUE)
 #######################################################
  
 cat("Enter the number of offspring with known excluded MATERNITY.\n\n\n")
-colonyfile$n.excluded.maternity<-scan(n=1,what="integer")
+colonyfile$n.excluded.maternities<-scan(n=1,what="integer")
 
-if(colonyfile$n.excluded.maternity>0){
+if(colonyfile$n.excluded.maternities>0){
 
 
 #Get the path, and delimiter, to the file...
-while(length(colonyfile$excluded.maternity.PATH)==0){
+while(length(colonyfile$excluded.maternities.PATH)==0){
 	cat("Provide the path to the excluded MATERNITY file.\n\n\n")
 	flush.console()
-	colonyfile$excluded.maternity.PATH<-file.choose()
+	colonyfile$excluded.maternities.PATH<-file.choose()
 
 	cat("What is the delimiter for this file?\n\n\n")
 	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternity.PATH<-"", colonyfile$delim.for.excluded.maternity.PATH<-"\t", colonyfile$delim.for.excluded.maternity.PATH<-",",delim.for.excluded.maternity.PATH<-"Other")
+	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternities.PATH<-"", colonyfile$delim.for.excluded.maternities.PATH<-"\t", colonyfile$delim.for.excluded.maternities.PATH<-",",delim.for.excluded.maternities.PATH<-"Other")
 
 		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.excluded.maternity.PATH)=="Other"){
-		if(colonyfile$delim.for.excluded.maternity.PATH=="Other"){
+		while(length(colonyfile$delim.for.excluded.maternities.PATH)=="Other"){
+		if(colonyfile$delim.for.excluded.maternities.PATH=="Other"){
 		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.excluded.maternity.PATH<-scan(n=1,what="character")}}
+		colonyfile$delim.for.excluded.maternities.PATH<-scan(n=1,what="character")}}
 
 #Read in the data...
-colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternity.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternity.PATH,colClasses=c("character"))
+colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
-if(colonyfile$n.excluded.maternity!=dim(colonyfile$excluded.maternities)[1]){
-colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternity.PATH")];
+if(colonyfile$n.excluded.maternities!=dim(colonyfile$excluded.maternities)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternities.PATH")];
 flush.console();
-warning(paste("The number of defined excluded maternities ","(", colonyfile$n.excluded.maternity,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.maternities)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined excluded maternities ","(", colonyfile$n.excluded.maternities,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.maternities)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
-
-
-#Make rownames, the offspring name. Then replace col 1 (Offspring ID
-rownames(colonyfile$excluded.maternities)<-colonyfile$excluded.maternities[,1]
 
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.maternities)[1]){
 csum[i]<-length(colonyfile$excluded.maternities[i,][!is.na(colonyfile$excluded.maternities[i,])])}
 colonyfile$excluded.maternities[,1]<-csum
+csum<-csum-1
 
 write.table(paste(colonyfile$n.excluded.maternities,"!Number of offspring with known excluded maternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 
+colonyfile$excluded.maternities<-cbind(as.character(colonyfile$excluded.maternities[,1]),csum,colonyfile$excluded.maternities[,2:dim(colonyfile$excluded.maternities)[2]])
+
 colonyfile$excluded.maternities[,1+dim(colonyfile$excluded.maternities)[2]]<-c("!Offspring ID, number of excluded females, the IDs of excluded females",rep("",dim(colonyfile$excluded.maternities)[1]-1))
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -671,7 +707,7 @@ write("",name,append=TRUE)
 #######################################################
 #Define EXCLUDED PATERNAL sibships
 #######################################################
-cat("Enter the number of offspring with known excluded paternal sibships.\n\n\n")
+cat("Enter the number of offspring with known excluded PATERNAL sibships.\n\n\n")
 colonyfile$n.excluded.paternal.sibships<-scan(n=1,what="integer")
 
 if(colonyfile$n.excluded.paternal.sibships>0){
@@ -694,7 +730,7 @@ while(length(colonyfile$excluded.paternal.sibships.PATH)==0){
 		colonyfile$delim.for.excluded.paternal.sibships.PATH<-scan(n=1,what="character")}}
 
 #Read in the data...
-colonyfile$excluded.paternal.sibships<-read.table(colonyfile$excluded.paternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternal.sibships.PATH,colClasses=c("character"))
+colonyfile$excluded.paternal.sibships<-read.table(colonyfile$excluded.paternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
 if(colonyfile$n.excluded.paternal.sibships!=dim(colonyfile$excluded.paternal.sibships)[1]){
@@ -710,11 +746,14 @@ colonyfile$excluded.paternal.sibships[,1+dim(colonyfile$excluded.paternal.sibshi
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.paternal.sibships)[1]){
 csum[i]<-length(colonyfile$excluded.paternal.sibships[i,][!is.na(colonyfile$excluded.paternal.sibships[i,])])}
-rownames(colonyfile$excluded.paternal.sibships)<-csum
+csum<-csum-1
 
-write.table(paste(colonyfile$n.excluded.paternal.sibships,"!Number of offspring with known excluded paternal sibships"),name,append=TRUE,quote=FALSE,row.names=TRUE,col.names=FALSE)
+colonyfile$excluded.paternal.sibships<-cbind(csum,colonyfile$excluded.paternal.sibships)
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+
+write.table(paste(colonyfile$n.excluded.paternal.sibships,"!Number of offspring with known excluded paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -730,7 +769,7 @@ write("",name,append=TRUE)
 #Define EXCLUDED MATERNAL sibships
 #######################################################
 
-cat("Enter the number of offspring with known excluded maternal sibships.\n\n\n")
+cat("Enter the number of offspring with known excluded MATERNAL sibships.\n\n\n")
 colonyfile$n.excluded.maternal.sibships<-scan(n=1,what="integer")
 
 if(colonyfile$n.excluded.maternal.sibships>0){
@@ -753,7 +792,7 @@ while(length(colonyfile$excluded.maternal.sibships.PATH)==0){
 		colonyfile$delim.for.excluded.maternal.sibships.PATH<-scan(n=1,what="character")}}
 
 #Read in the data...
-colonyfile$excluded.maternal.sibships<-read.table(colonyfile$excluded.maternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternal.sibships.PATH,colClasses=c("character"))
+colonyfile$excluded.maternal.sibships<-read.table(colonyfile$excluded.maternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
 if(colonyfile$n.excluded.maternal.sibships!=dim(colonyfile$excluded.maternal.sibships)[1]){
@@ -769,11 +808,14 @@ colonyfile$excluded.maternal.sibships[,1+dim(colonyfile$excluded.maternal.sibshi
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.maternal.sibships)[1]){
 csum[i]<-length(colonyfile$excluded.maternal.sibships[i,][!is.na(colonyfile$excluded.maternal.sibships[i,])])}
-rownames(colonyfile$excluded.maternal.sibships)<-csum
+csum<-csum-1
 
-write.table(paste(colonyfile$n.excluded.maternal.sibships,"!Number of offspring with known excluded maternal sibships"),name,append=TRUE,quote=FALSE,row.names=TRUE,col.names=FALSE)
+colonyfile$excluded.maternal.sibships<-cbind(csum,colonyfile$excluded.maternal.sibships)
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=TRUE,col.names=FALSE)
+
+write.table(paste(colonyfile$n.excluded.maternal.sibships,"!Number of offspring with known excluded maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+
+write.table(colonyfile$excluded.maternal.sibships,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -789,6 +831,6 @@ write("",name,append=TRUE)
 cat("Finished!")
 cat(paste("Your file is called",name,"and is placed in",wd,"...\n\n\n"))
 
-return(colonyfile)
+#return(colonyfile)
 
 }    
