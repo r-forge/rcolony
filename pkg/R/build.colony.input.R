@@ -35,7 +35,7 @@ colonyfile$note<-scan(n=1,what="character")}
 #######################################################
 while(length(colonyfile$n.offspring)==0){
 cat("Enter number of offspring in the sample.\n\n\n")
-colonyfile$n.offspring<-scan(n=1,what="integer")
+colonyfile$n.offspring<-as.numeric(scan(n=1,what="integer"))
 write(paste(colonyfile$n.offspring,"! I, Number of offspring in the sample"),name,append=TRUE)}
 
 #######################################################
@@ -43,7 +43,7 @@ write(paste(colonyfile$n.offspring,"! I, Number of offspring in the sample"),nam
 #######################################################
 while(length(colonyfile$n.loci)==0){
 cat("Enter number of loci.\n\n\n")
-colonyfile$n.loci<-scan(n=1,what="integer")
+colonyfile$n.loci<-as.numeric(scan(n=1,what="integer"))
 write(paste(colonyfile$n.loci,"! I, Number of loci"),name,append=TRUE)}
 
 #######################################################
@@ -51,7 +51,7 @@ write(paste(colonyfile$n.loci,"! I, Number of loci"),name,append=TRUE)}
 #######################################################
 while(length(colonyfile$rseed)==0){
 cat("Enter seed for random number generator.\n\n\n")
-colonyfile$rseed<-scan(n=1,what="integer")
+colonyfile$rseed<-as.numeric(scan(n=1,what="integer"))
 write(paste(colonyfile$rseed,"! I, Seed for random number generator"),name,append=TRUE)}
 
 #######################################################
@@ -97,11 +97,11 @@ write(paste(colonyfile$sibship.prior,colonyfile$sibship.prior.paternal,colonyfil
 
 while(length(colonyfile$sibship.prior.paternal)==0){
 cat("Enter the paternal sibship size (number of sibships).\n\n\n")
-colonyfile$sibship.prior.paternal<-scan(n=1,what="integer")}
+colonyfile$sibship.prior.paternal<-as.numeric(scan(n=1,what="integer"))}
 
 while(length(colonyfile$sibship.prior.maternal)==0){
 cat("Enter the maternal sibship size (number of sibships).\n\n\n")
-colonyfile$sibship.prior.maternal<-scan(n=1,what="integer")}
+colonyfile$sibship.prior.maternal<-as.numeric(scan(n=1,what="integer"))}
 write(paste(colonyfile$sibship.prior,colonyfile$sibship.prior.paternal,colonyfile$sibship.prior.maternal,"! B,R,R : Use sibship prior, Y/N=1/0. If Yes, give mean paternal, maternal sibship size"),name,append=TRUE)
 }
 
@@ -150,7 +150,7 @@ write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=F
 #######################################################
 while(length(colonyfile$n.runs)==0){
 cat("Number of runs.\n\n\n")
-colonyfile$n.runs<-scan(n=1,what="integer")
+colonyfile$n.runs<-as.numeric(scan(n=1,what="integer"))
 write(paste(colonyfile$n.runs,"! I, Number of runs"),name,append=TRUE)}
 
 #######################################################
@@ -175,7 +175,7 @@ write(paste(colonyfile$monitortype,"! B, 0/1=Monitor method by Iterate#/Time in 
 #######################################################
 while(length(colonyfile$interval)==0){
 cat("Monitor interval (in iterate number or seconds) depending on how you have chosen to monitor progress.\n\n\n")
-colonyfile$interval<-scan(n=1,what="integer")
+colonyfile$interval<-as.numeric(scan(n=1,what="integer"))
 write(paste(colonyfile$interval,"! I, Monitor interval in Iterate#/Seconds"),name,append=TRUE)}
 
 #######################################################
@@ -289,7 +289,7 @@ write("",name,append=TRUE)
 #######################################################
 while(length(colonyfile$fatherprob)==0){
 cat("What is the probability that the FATHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
-colonyfile$fatherprob<-scan(n=1,what="integer")
+colonyfile$fatherprob<-as.numeric(scan(n=1,what="integer"))
 if(colonyfile$fatherprob>1){
 flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
@@ -301,7 +301,7 @@ colonyfile<-colonyfile[which(names(colonyfile)!="fatherprob")]}
 #######################################################
 while(length(colonyfile$n.father)==0){
 cat("How many candidate FATHERS are there?\n\n\n")
-colonyfile$n.father<-scan(n=1,what="integer")}
+colonyfile$n.father<-as.numeric(scan(n=1,what="integer"))}
 
 #######################################################
 #Import candidate FATHERS file
@@ -334,7 +334,7 @@ warning(paste("The number of defined FATHERS ","(", colonyfile$n.father,") does 
 #######################################################
 while(length(colonyfile$motherprob)==0){
 cat("What is the probability that the MOTHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
-colonyfile$motherprob<-scan(n=1,what="integer")
+colonyfile$motherprob<-as.numeric(scan(n=1,what="integer"))
 if(colonyfile$motherprob>1){
 flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
@@ -346,7 +346,7 @@ colonyfile<-colonyfile[which(names(colonyfile)!="motherprob")]}
 #######################################################
 while(length(colonyfile$n.mother)==0){
 cat("How many candidate MOTHERS are there?\n\n\n")
-colonyfile$n.mother<-scan(n=1,what="integer")}
+colonyfile$n.mother<-as.numeric(scan(n=1,what="integer"))}
 
 #######################################################
 #Import candidate MOTHERS
@@ -388,7 +388,7 @@ write("",name,append=TRUE)
 #Define known PATERNAL diads
 #######################################################
 cat("Enter the number of known offspring-PATERNAL diads.\n\n\n")
-colonyfile$n.known.paternal.diads<-scan(n=1,what="integer")
+colonyfile$n.known.paternal.diads<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.known.paternal.diads>0){
 
@@ -438,7 +438,7 @@ write("",name,append=TRUE)
 #######################################################
 
 cat("Enter the number of known offspring-MATERNAL diads.\n\n\n")
-colonyfile$n.known.maternal.diads<-scan(n=1,what="integer")
+colonyfile$n.known.maternal.diads<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.known.maternal.diads>0){
 
@@ -489,7 +489,7 @@ write("",name,append=TRUE)
 colonyfile<-NULL
 
 cat("Enter the number of known PATERNAL sibship/paternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the father is known or not (unknown fathers are coded with 0).\n\n")
-colonyfile$n.paternal.sibs.or.paternities<-scan(n=1,what="integer")
+colonyfile$n.paternal.sibs.or.paternities<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.paternal.sibs.or.paternities>0){
 
@@ -546,7 +546,7 @@ write("",name,append=TRUE)
 #Define MATERNAL sibships
 #######################################################
 cat("Enter the number of known MATERNAL sibship/maternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same mother no matter whether the mother is known or not (unknown mothers are coded as 0).\n\n")
-colonyfile$n.maternal.sibs.or.maternities<-scan(n=1,what="integer")
+colonyfile$n.maternal.sibs.or.maternities<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.maternal.sibs.or.maternities>0){
 
@@ -603,7 +603,7 @@ write("",name,append=TRUE)
 #######################################################
  
 cat("Enter the number of offspring with known excluded PATERNITY.\n\n\n")
-colonyfile$n.excluded.paternities<-scan(n=1,what="integer")
+colonyfile$n.excluded.paternities<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.excluded.paternities>0){
 
@@ -661,7 +661,7 @@ write("",name,append=TRUE)
 #######################################################
  
 cat("Enter the number of offspring with known excluded MATERNITY.\n\n\n")
-colonyfile$n.excluded.maternities<-scan(n=1,what="integer")
+colonyfile$n.excluded.maternities<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.excluded.maternities>0){
 
@@ -718,7 +718,7 @@ write("",name,append=TRUE)
 #Define EXCLUDED PATERNAL sibships
 #######################################################
 cat("Enter the number of offspring with known excluded PATERNAL sibships.\n\n\n")
-colonyfile$n.excluded.paternal.sibships<-scan(n=1,what="integer")
+colonyfile$n.excluded.paternal.sibships<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.excluded.paternal.sibships>0){
 
@@ -780,7 +780,7 @@ write("",name,append=TRUE)
 #######################################################
 
 cat("Enter the number of offspring with known excluded MATERNAL sibships.\n\n\n")
-colonyfile$n.excluded.maternal.sibships<-scan(n=1,what="integer")
+colonyfile$n.excluded.maternal.sibships<-as.numeric(scan(n=1,what="integer"))
 
 if(colonyfile$n.excluded.maternal.sibships>0){
 
