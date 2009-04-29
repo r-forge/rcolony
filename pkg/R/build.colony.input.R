@@ -23,6 +23,14 @@ colonyfile$outfile<-scan(n=1,what="character")
 write(paste(colonyfile$outfile,"! C, Main output file name, Length<21"),name,append=TRUE)}
 
 #######################################################
+#  ! C, Dataset name, Length<51
+#######################################################
+
+while(length(colonyfile$note)==0){
+cat("Enter one sentence to describe your dataset (no carriage returns!).\n\n\n")
+colonyfile$note<-scan(n=1,what="character")}
+
+#######################################################
 #  ! I, Number of offspring in the sample
 #######################################################
 while(length(colonyfile$n.offspring)==0){
@@ -132,6 +140,8 @@ if(colonyfile$n.loci!=dim(colonyfile$allele.frequency)[1]/2){colonyfile<-colonyf
 
 colonyfile$allele.frequency[,1+dim(colonyfile$allele.frequency)[2]]<-c("!Allele frequency",rep("",dim(colonyfile$allele.frequency)[1]-1))
 write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
+
+
 
 
 
@@ -277,107 +287,107 @@ write("",name,append=TRUE)
 #######################################################
 #FATHERS - probability of inclusion in candidate set
 #######################################################
-while(length(colonyfile$dadprob)==0){
+while(length(colonyfile$fatherprob)==0){
 cat("What is the probability that the FATHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
-colonyfile$dadprob<-scan(n=1,what="integer")
-if(colonyfile$dadprob>1){
+colonyfile$fatherprob<-scan(n=1,what="integer")
+if(colonyfile$fatherprob>1){
 flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
-colonyfile<-colonyfile[which(names(colonyfile)!="dadprob")]}
+colonyfile<-colonyfile[which(names(colonyfile)!="fatherprob")]}
 }
 
 #######################################################
-#Number of candidate dads
+#Number of candidate fathers
 #######################################################
-while(length(colonyfile$n.dad)==0){
+while(length(colonyfile$n.father)==0){
 cat("How many candidate FATHERS are there?\n\n\n")
-colonyfile$n.dad<-scan(n=1,what="integer")}
+colonyfile$n.father<-scan(n=1,what="integer")}
 
 #######################################################
 #Import candidate FATHERS file
 #######################################################
-while(length(colonyfile$dadsPATH)==0){
+while(length(colonyfile$fathersPATH)==0){
 cat("Provide the path to the candidate FATHERS file.\n\n\n")
 flush.console()
-colonyfile$dadsPATH<-file.choose()
+colonyfile$fathersPATH<-file.choose()
 
 cat("What is the delimiter for this file?\n\n\n")
 flush.console()
 switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.dads<-"", colonyfile$delim.for.dads<-"\t", colonyfile$delim.for.dads<-",",delim.for.dads<-"Other")
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.fathers<-"", colonyfile$delim.for.fathers<-"\t", colonyfile$delim.for.fathers<-",",delim.for.fathers<-"Other")
 
-while(length(colonyfile$delim.for.dads)=="Other"){
-if(colonyfile$delim.for.dads=="Other"){
+while(length(colonyfile$delim.for.fathers)=="Other"){
+if(colonyfile$delim.for.fathers=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.dads<-scan(n=1,what="character")}}
+colonyfile$delim.for.fathers<-scan(n=1,what="character")}}
 
 
-colonyfile$dads<-read.table(colonyfile$dadsPATH,header=FALSE,sep=colonyfile$delim.for.dads,colClasses=c("character"))
-if(colonyfile$n.dad!=dim(colonyfile$dads)[1]){
-colonyfile<-colonyfile[which(names(colonyfile)!="dadsPATH")];
+colonyfile$fathers<-read.table(colonyfile$fathersPATH,header=FALSE,sep=colonyfile$delim.for.fathers,colClasses=c("character"))
+if(colonyfile$n.father!=dim(colonyfile$fathers)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="fathersPATH")];
 flush.console();
-warning(paste("The number of defined DADS ","(", colonyfile$n.dad,") does not equal the number of DADS provided in the file selected (", dim(colonyfile$dads)[1],").\n\n",sep=""),immediate.=TRUE)}
+warning(paste("The number of defined FATHERS ","(", colonyfile$n.father,") does not equal the number of FATHERS provided in the file selected (", dim(colonyfile$fathers)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
 
 #######################################################
 #MOTHERS - probability of inclusion in candidate set
 #######################################################
-while(length(colonyfile$mumprob)==0){
+while(length(colonyfile$motherprob)==0){
 cat("What is the probability that the MOTHER of an offpring is included in the candidate set?\n\n\n E.g. 0.5\n\n\n")
-colonyfile$mumprob<-scan(n=1,what="integer")
-if(colonyfile$mumprob>1){
+colonyfile$motherprob<-scan(n=1,what="integer")
+if(colonyfile$motherprob>1){
 flush.console()
 cat("Probabilities must be less than or equal to 1.\n")
-colonyfile<-colonyfile[which(names(colonyfile)!="mumprob")]}
+colonyfile<-colonyfile[which(names(colonyfile)!="motherprob")]}
 }
 
 #######################################################
 #Number of candidate mothers
 #######################################################
-while(length(colonyfile$n.mum)==0){
+while(length(colonyfile$n.mother)==0){
 cat("How many candidate MOTHERS are there?\n\n\n")
-colonyfile$n.mum<-scan(n=1,what="integer")}
+colonyfile$n.mother<-scan(n=1,what="integer")}
 
 #######################################################
 #Import candidate MOTHERS
 #######################################################
-while(length(colonyfile$mumsPATH)==0){
+while(length(colonyfile$mothersPATH)==0){
 cat("Provide the path to the candidate MOTHERS file.\n\n\n")
 flush.console()
-colonyfile$mumsPATH<-file.choose()
+colonyfile$mothersPATH<-file.choose()
 
 flush.console()
 switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.mums<-"", colonyfile$delim.for.mums<-"\t", colonyfile$delim.for.mums<-",",delim.for.mums<-"Other")
+       cat("Nothing done\n\n\n"), colonyfile$delim.for.mothers<-"", colonyfile$delim.for.mothers<-"\t", colonyfile$delim.for.mothers<-",",delim.for.mothers<-"Other")
 
-while(length(colonyfile$delim.for.mums)=="Other"){
-if(colonyfile$delim.for.mums=="Other"){
+while(length(colonyfile$delim.for.mothers)=="Other"){
+if(colonyfile$delim.for.mothers=="Other"){
 cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.mums<-scan(n=1,what="character")}}
+colonyfile$delim.for.mothers<-scan(n=1,what="character")}}
 
-colonyfile$mums<-read.table(colonyfile$mumsPATH,header=FALSE,sep=colonyfile$delim.for.mums,colClasses=c("character")) 
-if(colonyfile$n.mum!=dim(colonyfile$mums)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mumsPATH")];
+colonyfile$mothers<-read.table(colonyfile$mothersPATH,header=FALSE,sep=colonyfile$delim.for.mothers,colClasses=c("character")) 
+if(colonyfile$n.mother!=dim(colonyfile$mothers)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mothersPATH")];
 flush.console();
-warning(paste("The number of defined MUMS ","(", colonyfile$n.mum,") does not equal the number of MUMS provided in the file selected (", dim(colonyfile$mums)[1],").\n\n",sep=""),immediate.=TRUE)}
+warning(paste("The number of defined MOTHERS ","(", colonyfile$n.mother,") does not equal the number of MOTHERS provided in the file selected (", dim(colonyfile$mothers)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
 
-write(paste(colonyfile$dadprob,colonyfile$mumprob,"!Probabilities that the dad and mum of an offspring included in candidates"),name,append=TRUE)
-write(paste(colonyfile$n.dad,colonyfile$n.mum,"!Numbers of candidate males and females"),name,append=TRUE)
+write(paste(colonyfile$fatherprob,colonyfile$motherprob,"!Probabilities that the father and mother of an offspring included in candidates"),name,append=TRUE)
+write(paste(colonyfile$n.father,colonyfile$n.mother,"!Numbers of candidate males and females"),name,append=TRUE)
 write("",name,append=TRUE)
 
-colonyfile$dads[,1+dim(colonyfile$dads)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$dads)[1]-1))
-write.table(colonyfile$dads,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$fathers[,1+dim(colonyfile$fathers)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$fathers)[1]-1))
+write.table(colonyfile$fathers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
-colonyfile$mums[,1+dim(colonyfile$mums)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$mums)[1]-1))
-write.table(colonyfile$mums,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$mothers[,1+dim(colonyfile$mothers)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$mothers)[1]-1))
+write.table(colonyfile$mothers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 
 #######################################################
 #Define known PATERNAL diads
 #######################################################
-cat("Enter the number of known PATERNAL-OFFSPRING diads.\n\n\n")
+cat("Enter the number of known offspring-PATERNAL diads.\n\n\n")
 colonyfile$n.known.paternal.diads<-scan(n=1,what="integer")
 
 if(colonyfile$n.known.paternal.diads>0){
@@ -427,7 +437,7 @@ write("",name,append=TRUE)
 #Define MATERNAL diads
 #######################################################
 
-cat("Enter the number of known MATERNAL-OFFSPRING diads.\n\n\n")
+cat("Enter the number of known offspring-MATERNAL diads.\n\n\n")
 colonyfile$n.known.maternal.diads<-scan(n=1,what="integer")
 
 if(colonyfile$n.known.maternal.diads>0){
@@ -535,7 +545,7 @@ write("",name,append=TRUE)
 #######################################################
 #Define MATERNAL sibships
 #######################################################
-cat("Enter the number of known MATERNAL sibship/maternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the mother is known or not (unknown mothers are coded as 0).\n\n")
+cat("Enter the number of known MATERNAL sibship/maternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same mother no matter whether the mother is known or not (unknown mothers are coded as 0).\n\n")
 colonyfile$n.maternal.sibs.or.maternities<-scan(n=1,what="integer")
 
 if(colonyfile$n.maternal.sibs.or.maternities>0){
@@ -801,9 +811,6 @@ flush.console();
 warning(paste("The number of defined excluded maternal sibships ","(", colonyfile$n.excluded.maternal.sibships,") does not equal the number provided in the file selected (", dim(colonyfile$excluded.maternal.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
 
-
-
-#ORJ: The formatting for this needs to be checked with Jinliang.
 colonyfile$excluded.maternal.sibships[,1+dim(colonyfile$excluded.maternal.sibships)[2]]<-c("!Size of known excluded maternal sibship, and IDs of excluded offspring in the sibship",rep("",dim(colonyfile$excluded.maternal.sibships)[1]-1))
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.maternal.sibships)[1]){
@@ -824,13 +831,44 @@ write.table(paste(colonyfile$n.excluded.maternal.sibships," !Number of offspring
 write("",name,append=TRUE)
 }
 
+#Other outputs
+#MarkerTypeErrorRate.txt
+#OffspringGenotype.txt
 
+#Produce summary information text file.
+write.table(paste("Output file path & name : ",wd,name,"\n",
+"Number of loci : ", colonyfile$n.loci,"\n",
+"Number of offspring in the sample : ", colonyfile$n.offspring,"\n",
+"Number of male candidates : ", colonyfile$n.father,"\n",
+"Number of female candidates : ", colonyfile$n.mother,"\n",
+"Number of known paternal sibships : ", colonyfile$n.paternal.sibs.or.paternities,"\n",
+"Number of known maternal sibships : ", colonyfile$n.maternal.sibs.or.maternities,"\n",
+"Number of offspring with excluded fathers : ", colonyfile$n.excluded.paternities,"\n",
+"Number of offspring with excluded mothers : ", colonyfile$n.excluded.maternities,"\n",
+"Male mating system : ", if(colonyfile$malepolygamy==1){"Polygamous"}else{"Monogamous"},"\n",
+"Female mating system : ", if(colonyfile$femalepolygamy==1){"Polygamous"}else{"Monogamous"},"\n",
+"Number of threads : ", "nA","\n",
+"Number of Excluded Paternal Sibships : ", colonyfile$n.excluded.paternal.sibships,"\n",
+"Number of Excluded Maternal Sibships : ", colonyfile$n.excluded.paternal.sibships,"\n",
+"Seed for random number generator : ", colonyfile$rseed,"\n",
+"Allele frequency : ", if(colonyfile$updateallelefreq==1){"Updating by accounting for the inferred relationship"}else{"No updating by accounting for the inferred relationship"},"\n",
+"Species : ", if(colonyfile$ploidy==1){"HaploDiploid"}else{"Diploid"},"\n",
+"Known population allele frequency : ", if(colonyfile$knownAFreq==1){"Yes"}else{"No"},"\n",
+"Number of run : ", colonyfile$n.runs,"\n",
+"Length of run : ", if(colonyfile$runlength==1){"Small"}else{if(colonyfile$runlength==2){"Medium"}else{"Long"}},"\n",
+"Monitor intermiediate results by : ", if(colonyfile$monitortype==1){paste("Every",colonyfile$interval,"seconds")}else{paste("Every",colonyfile$interval,"iterations")},"\n",
+"Project data input produced : ", date(),"\n",
+"NOTE to the Project: ", colonyfile$note,"\n",sep=""),"ProjectInformation.txt",row.names=FALSE,col.names=FALSE)
 
 
 
 cat("Finished!")
 cat(paste("Your file is called",name,"and is placed in",wd,"...\n\n\n"))
 
+#This could be useful at some point.
 #return(colonyfile)
+
+
+
 
 }    
