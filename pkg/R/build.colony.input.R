@@ -954,9 +954,19 @@ write.table(paste(colonyfile$n.excluded.maternal.sibships," !Number of offspring
 write("",name,append=TRUE)
 }
 
+#######################################################
 #Other outputs
+#######################################################
+
 #MarkerTypeErrorRate.txt
+#AlleleFrequency.txt 
 #OffspringGenotype.txt
+#MaleGenotype.txt
+#FemaleGenotype.txt
+#KnownPaternity.txt
+#KnownMaternity.txt
+#ExcludedPaternity.txt
+#ExcludedMaternity.txt
 
 #Produce summary information text file.
 write.table(paste("Output file path & name : ",wd,name,"\n",
@@ -990,8 +1000,4 @@ cat(paste("Your file is called",name,"and is placed in",wd,"...\n\n\n"))
 
 #This could be useful at some point.
 #return(colonyfile)
-
-
-
-
 }    
