@@ -140,19 +140,20 @@ write(paste(colonyfile$knownAFreq,"! B, 0/1=Unknown/Known population allele freq
 
 if(colonyfile$knownAFreq==1){
 while(length(colonyfile$AlleleFreqPATH)==0){
-cat("Provide select the ALLELE FREQUENCY file.\n\n\n");Sys.sleep(.2)
+cat("Select the ALLELE FREQUENCY file.\n\n\n");Sys.sleep(.2)
 flush.console()
 colonyfile$AlleleFreqPATH<-file.choose()
 
-cat("What is the delimiter for this file?\n\n\n")
-flush.console()
-switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.allele.freq<-"", colonyfile$delim.for.allele.freq<-"\t", colonyfile$delim.for.allele.freq<-",",delim.for.allele.freq<-"Other")
-
-while(length(colonyfile$delim.for.allele.freq)=="Other"){
-if(colonyfile$delim.for.allele.freq=="Other"){
-cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.allele.freq<-scan(n=1,what="character")}}
+#cat("What is the delimiter for this file?\n\n\n")
+#flush.console()
+#switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
+#       cat("Nothing done\n\n\n"), colonyfile$delim.for.allele.freq<-"", colonyfile$delim.for.allele.freq<-"\t", colonyfile$delim.for.allele.freq<-",",delim.for.allele.freq<-"Other")
+#
+#while(length(colonyfile$delim.for.allele.freq)=="Other"){
+#if(colonyfile$delim.for.allele.freq=="Other"){
+#cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#colonyfile$delim.for.allele.freq<-scan(n=1,what="character")}}
+colonyfile$delim.for.allele.freq<-""
 
 colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="") 
 
@@ -249,15 +250,16 @@ cat("Provide the path to the Marker Types and Error Rate file.\n\n\n");Sys.sleep
 flush.console()
 colonyfile$MarkerPATH<-file.choose()
 
-cat("What is the delimiter for this file?\n\n\n")
-flush.console()
-switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.markers<-"", colonyfile$delim.for.markers<-"\t", colonyfile$delim.for.markers<-",",delim.for.markers<-"Other")
-
-while(length(colonyfile$delim.for.markers)=="Other"){
-if(colonyfile$delim.for.markers=="Other"){
-cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.markers<-scan(n=1,what="character")}}
+#cat("What is the delimiter for this file?\n\n\n")
+#flush.console()
+#switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
+#       cat("Nothing done\n\n\n"), colonyfile$delim.for.markers<-"", colonyfile$delim.for.markers<-"\t", colonyfile$delim.for.markers<-",",delim.for.markers<-"Other")
+#
+#while(length(colonyfile$delim.for.markers)=="Other"){
+#if(colonyfile$delim.for.markers=="Other"){
+#cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#colonyfile$delim.for.markers<-scan(n=1,what="character")}}
+colonyfile$delim.for.markers<-""
 
 colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.markers) 
 
@@ -285,15 +287,17 @@ while(length(colonyfile$OSGenotypePATH)==0){
 colonyfile$OSGenotypePATH<-file.choose()
 
 
-cat("What is the delimiter for this file?\n\n\n")
-flush.console()
-switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.OSGenotype<-"", colonyfile$delim.for.OSGenotype<-"\t", colonyfile$delim.for.OSGenotype<-",",delim.for.OSGenotype<-"Other")
+#cat("What is the delimiter for this file?\n\n\n")
+#flush.console()
+#switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
+#       cat("Nothing done\n\n\n"), colonyfile$delim.for.OSGenotype<-"", colonyfile$delim.for.OSGenotype<-"\t", colonyfile$delim.for.OSGenotype<-",",delim.for.OSGenotype<-"Other")
+#
+#while(length(colonyfile$delim.for.OSGenotype)=="Other"){
+#if(colonyfile$delim.for.OSGenotype=="Other"){
+#cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#colonyfile$delim.for.OSGenotype<-scan(n=1,what="character")}}
+colonyfile$delim.for.OSGenotype<-""
 
-while(length(colonyfile$delim.for.OSGenotype)=="Other"){
-if(colonyfile$delim.for.OSGenotype=="Other"){
-cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.OSGenotype<-scan(n=1,what="character")}}
 
 colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.OSGenotype) 
 if(colonyfile$n.offspring!=dim(colonyfile$Offspring)[1]){
@@ -352,16 +356,16 @@ cat("Provide the path to the candidate FATHERS file.\n\n\n")
 flush.console()
 colonyfile$fathersPATH<-file.choose()
 
-cat("What is the delimiter for this file?\n\n\n")
-flush.console()
-switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.fathers<-"", colonyfile$delim.for.fathers<-"\t", colonyfile$delim.for.fathers<-",",delim.for.fathers<-"Other")
-
-while(length(colonyfile$delim.for.fathers)=="Other"){
-if(colonyfile$delim.for.fathers=="Other"){
-cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.fathers<-scan(n=1,what="character")}}
-
+#cat("What is the delimiter for this file?\n\n\n")
+#flush.console()
+#switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
+#       cat("Nothing done\n\n\n"), colonyfile$delim.for.fathers<-"", colonyfile$delim.for.fathers<-"\t", colonyfile$delim.for.fathers<-",",delim.for.fathers<-"Other")
+#
+#while(length(colonyfile$delim.for.fathers)=="Other"){
+#if(colonyfile$delim.for.fathers=="Other"){
+#cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#colonyfile$delim.for.fathers<-scan(n=1,what="character")}}
+colonyfile$delim.for.fathers<-""
 
 colonyfile$fathers<-read.table(colonyfile$fathersPATH,header=FALSE,sep=colonyfile$delim.for.fathers,colClasses=c("character"))
 if(colonyfile$n.father!=dim(colonyfile$fathers)[1]){
@@ -407,13 +411,15 @@ flush.console()
 colonyfile$mothersPATH<-file.choose()
 
 flush.console()
-switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$delim.for.mothers<-"", colonyfile$delim.for.mothers<-"\t", colonyfile$delim.for.mothers<-",",delim.for.mothers<-"Other")
-
-while(length(colonyfile$delim.for.mothers)=="Other"){
-if(colonyfile$delim.for.mothers=="Other"){
-cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-colonyfile$delim.for.mothers<-scan(n=1,what="character")}}
+#cat("What is the delimiter for this file?\n\n\n")
+#switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
+#       cat("Nothing done\n\n\n"), colonyfile$delim.for.mothers<-"", colonyfile$delim.for.mothers<-"\t", colonyfile$delim.for.mothers<-",",delim.for.mothers<-"Other")
+#
+#while(length(colonyfile$delim.for.mothers)=="Other"){
+#if(colonyfile$delim.for.mothers=="Other"){
+#cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#colonyfile$delim.for.mothers<-scan(n=1,what="character")}}
+colonyfile$delim.for.mothers<-""
 
 colonyfile$mothers<-read.table(colonyfile$mothersPATH,header=FALSE,sep=colonyfile$delim.for.mothers,colClasses=c("character")) 
 if(colonyfile$n.mother!=dim(colonyfile$mothers)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mothersPATH")];
@@ -460,15 +466,16 @@ while(length(colonyfile$paternal.diads.PATH)==0){
 	flush.console()
 	colonyfile$paternal.diads.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.paternal.diads.PATH)=="Other"){
-		if(colonyfile$delim.for.paternal.diads.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.paternal.diads.PATH<-scan(n=1,what="character")}}
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.paternal.diads.PATH)=="Other"){
+#		if(colonyfile$delim.for.paternal.diads.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.paternal.diads.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.paternal.diads.PATH<-""
 
 #Read in the data...
 colonyfile$known.paternal.diads<-read.table(colonyfile$paternal.diads.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.diads.PATH,colClasses=c("character"))
@@ -519,15 +526,16 @@ while(length(colonyfile$maternal.diads.PATH)==0){
 	flush.console()
 	colonyfile$maternal.diads.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.maternal.diads.PATH)=="Other"){
-		if(colonyfile$delim.for.maternal.diads.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.maternal.diads.PATH<-scan(n=1,what="character")}}
+	#cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.maternal.diads.PATH)=="Other"){
+#		if(colonyfile$delim.for.maternal.diads.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.maternal.diads.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.maternal.diads.PATH<-""
 
 #Read in the data...
 colonyfile$known.maternal.diads<-read.table(colonyfile$maternal.diads.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.diads.PATH,colClasses=c("character"))
@@ -557,20 +565,20 @@ write("",name,append=TRUE)
 #######################################################
 
 
-while(length(colonyfile$n.paternal.sibs.or.paternities)==0){
+while(length(colonyfile$n.paternal.sibships)==0){
 cat("Enter the number of known PATERNAL sibship/paternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the father is known or not (unknown fathers are coded with 0).\n\n")
-colonyfile$n.paternal.sibs.or.paternities<-as.numeric(scan(n=1,what="integer"))
+colonyfile$n.paternal.sibships<-as.numeric(scan(n=1,what="integer"))
 
-if(length(colonyfile$n.paternal.sibs.or.paternities)!=0){
+if(length(colonyfile$n.paternal.sibships)!=0){
 #Whole number warning 
-if(is.whole(colonyfile$n.paternal.sibs.or.paternities)==FALSE){
+if(is.whole(colonyfile$n.paternal.sibships)==FALSE){
 flush.console()
-colonyfile<-colonyfile[which(names(colonyfile)!="n.paternal.sibs.or.paternities")];
+colonyfile<-colonyfile[which(names(colonyfile)!="n.paternal.sibships")];
 warning("The number of known paternal sibships must be a whole number!\n",immediate.=TRUE)}}
 }
 
 
-if(colonyfile$n.paternal.sibs.or.paternities>0){
+if(colonyfile$n.paternal.sibships>0){
 
 #If there are some known sibships...
 
@@ -580,44 +588,53 @@ while(length(colonyfile$paternal.sibs.PATH)==0){
 	flush.console()
 	colonyfile$paternal.sibs.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.paternal.sibs.PATH)=="Other"){
-		if(colonyfile$delim.for.paternal.sibs.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.paternal.sibs.PATH<-scan(n=1,what="character")}}
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.paternal.sibs.PATH)=="Other"){
+#		if(colonyfile$delim.for.paternal.sibs.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.paternal.sibs.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.paternal.sibs.PATH<-""
 
 #Read in the data...
-colonyfile$known.paternities<-read.table(colonyfile$paternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
+colonyfile$paternal.sibships<-read.table(colonyfile$paternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
-if(colonyfile$n.paternal.sibs.or.paternities!=dim(colonyfile$known.paternities)[1]){
+if(colonyfile$n.paternal.sibships!=dim(colonyfile$paternal.sibships)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="paternal.sibs.PATH")];
 flush.console();
-warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternities provided in the file selected (", dim(colonyfile$known.paternities)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile$n.paternal.sibships,") does not equal the number of paternities provided in the file selected (", dim(colonyfile$paternal.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
 
 
-write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.paternal.sibships," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 
-colonyfile$known.paternities[,1+dim(colonyfile$known.paternities)[2]]<-c("!Size of known paternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$known.paternities)[1]-1))
+#Output KnownPaternity.txt
+if(colonyfile$n.paternal.sibships>0){
+temp1<-as.data.frame(colonyfile$paternal.sibships)
+names(temp1)<-c("FatherID",paste("OffspringID",1:(dim(temp1)[2]-1),sep=""))
+write.table(temp1,"KnownPaternity.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
+
+#remove first column
+colonyfile$paternal.sibships<-colonyfile$paternal.sibships[,2:dim(colonyfile$paternal.sibships)[2]]
+colonyfile$paternal.sibships[,1+dim(colonyfile$paternal.sibships)[2]]<-c("!Size of known paternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$paternal.sibships)[1]-1))
 
 csum<-NULL
-for (i in 1:dim(colonyfile$known.paternities)[1]){
-csum[i]<-length(colonyfile$known.paternities[i,][!is.na(colonyfile$known.paternities[i,])])}
+for (i in 1:dim(colonyfile$paternal.sibships)[1]){
+csum[i]<-length(colonyfile$paternal.sibships[i,][!is.na(colonyfile$paternal.sibships[i,])])}
 csum<-csum-1
 
-colonyfile$known.paternities<-cbind(csum,colonyfile$known.paternities)
+colonyfile$paternal.sibships<-cbind(csum,colonyfile$paternal.sibships)
 
-write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write.table(colonyfile$paternal.sibships,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
 #If there are no known sibships
-write.table(paste(colonyfile$n.paternal.sibs.or.paternities," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.paternal.sibships," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 }
 
@@ -625,20 +642,20 @@ write("",name,append=TRUE)
 #Define MATERNAL sibships
 #######################################################
 
-while(length(colonyfile$n.maternal.sibs.or.paternities)==0){
+while(length(colonyfile$n.maternal.sibships)==0){
 cat("Enter the number of known MATERNAL sibship/paternity.\nA known maternal sibship contains all of the offspring in the offspring sample who are known to share the same mother no matter whether the mother is known or not (unknown mothers are coded with 0).\n\n")
-colonyfile$n.maternal.sibs.or.paternities<-as.numeric(scan(n=1,what="integer"))
+colonyfile$n.maternal.sibships<-as.numeric(scan(n=1,what="integer"))
 
-if(length(colonyfile$n.maternal.sibs.or.paternities)!=0){
+if(length(colonyfile$n.maternal.sibships)!=0){
 #Whole number warning 
-if(is.whole(colonyfile$n.maternal.sibs.or.paternities)==FALSE){
+if(is.whole(colonyfile$n.maternal.sibships)==FALSE){
 flush.console()
-colonyfile<-colonyfile[which(names(colonyfile)!="n.maternal.sibs.or.paternities")];
+colonyfile<-colonyfile[which(names(colonyfile)!="n.maternal.sibships")];
 warning("The number of known maternal sibships must be a whole number!\n",immediate.=TRUE)}}
 }
 
 
-if(colonyfile$n.maternal.sibs.or.maternities>0){
+if(colonyfile$n.maternal.sibships>0){
 
 #If there are some known sibships...
 
@@ -648,43 +665,53 @@ while(length(colonyfile$maternal.sibs.PATH)==0){
 	flush.console()
 	colonyfile$maternal.sibs.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.maternal.sibs.PATH)=="Other"){
-		if(colonyfile$delim.for.maternal.sibs.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.maternal.sibs.PATH<-scan(n=1,what="character")}}
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.maternal.sibs.PATH)=="Other"){
+#		if(colonyfile$delim.for.maternal.sibs.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.maternal.sibs.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.maternal.sibs.PATH<-""
 
 #Read in the data...
-colonyfile$known.maternities<-read.table(colonyfile$maternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
+colonyfile$maternal.sibships<-read.table(colonyfile$maternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
 
 #Check the data
-if(colonyfile$n.maternal.sibs.or.maternities!=dim(colonyfile$known.maternities)[1]){
+if(colonyfile$n.maternal.sibships!=dim(colonyfile$maternal.sibships)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
 flush.console();
-warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile$n.maternal.sibs.or.maternities,") does not equal the number of maternities provided in the file selected (", dim(colonyfile$known.maternities)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile$n.maternal.sibships,") does not equal the number of maternities provided in the file selected (", dim(colonyfile$maternal.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
 }}
 
+write.table(paste(colonyfile$n.maternal.sibships," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 
-write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+#Output KnownMaternity.txt
+if(colonyfile$n.maternal.sibships>0){
+temp1<-as.data.frame(colonyfile$maternal.sibships)
+names(temp1)<-c("MotherID",paste("OffspringID",1:(dim(temp1)[2]-1),sep=""))
+write.table(temp1,"KnownMaternity.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
 
-colonyfile$known.maternities[,1+dim(colonyfile$known.maternities)[2]]<-c("!Size of known maternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$known.maternities)[1]-1))
+
+#remove first column
+colonyfile$maternal.sibships<-colonyfile$maternal.sibships[,2:dim(colonyfile$maternal.sibships)[2]]
+colonyfile$maternal.sibships[,1+dim(colonyfile$maternal.sibships)[2]]<-c("!Size of known maternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$maternal.sibships)[1]-1))
+
 csum<-NULL
-for (i in 1:dim(colonyfile$known.maternities)[1]){
-csum[i]<-length(colonyfile$known.maternities[i,][!is.na(colonyfile$known.maternities[i,])])}
+for (i in 1:dim(colonyfile$maternal.sibships)[1]){
+csum[i]<-length(colonyfile$maternal.sibships[i,][!is.na(colonyfile$maternal.sibships[i,])])}
 csum<-csum-1
 
-colonyfile$known.maternities<-cbind(csum,colonyfile$known.maternities)
+colonyfile$maternal.sibships<-cbind(csum,colonyfile$maternal.sibships)
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write.table(colonyfile$maternal.sibships,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
 #If there are no known sibships
-write.table(paste(colonyfile$n.maternal.sibs.or.maternities," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write.table(paste(colonyfile$n.maternal.sibships," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 }
 
@@ -708,20 +735,21 @@ if(colonyfile$n.excluded.paternities>0){
 
 
 #Get the path, and delimiter, to the file...
-while(length(colonyfile$excluded.paterniiesy.PATH)==0){
+while(length(colonyfile$excluded.paternities.PATH)==0){
 	cat("Provide the path to the excluded PATERNITY file.\n\n\n")
 	flush.console()
 	colonyfile$excluded.paternities.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternities.PATH<-"", colonyfile$delim.for.excluded.paternities.PATH<-"\t", colonyfile$delim.for.excluded.paternities.PATH<-",",delim.for.excluded.paternities.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.excluded.paternities.PATH)=="Other"){
-		if(colonyfile$delim.for.excluded.paternities.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.excluded.paternities.PATH<-scan(n=1,what="character")}}
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternities.PATH<-"", colonyfile$delim.for.excluded.paternities.PATH<-"\t", colonyfile$delim.for.excluded.paternities.PATH<-",",delim.for.excluded.paternities.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.excluded.paternities.PATH)=="Other"){
+#		if(colonyfile$delim.for.excluded.paternities.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.excluded.paternities.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.excluded.paternities.PATH<-""
 
 #Read in the data...
 colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -746,7 +774,7 @@ colonyfile$excluded.paternities<-cbind(as.character(colonyfile$excluded.paternit
 
 colonyfile$excluded.paternities[,1+dim(colonyfile$excluded.paternities)[2]]<-c("!Offspring ID, number of excluded males, the IDs of excluded males",rep("",dim(colonyfile$excluded.paternities)[1]-1))
 
-write.table(colonyfile$known.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write.table(colonyfile$excluded.paternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -756,7 +784,7 @@ write("",name,append=TRUE)
 }
 
 #######################################################
-#Define excluded MOTHERS
+#Define excluded MATERNITIES
 #######################################################
  
 while(length(colonyfile$n.excluded.maternities)==0){
@@ -780,15 +808,16 @@ while(length(colonyfile$excluded.maternities.PATH)==0){
 	flush.console()
 	colonyfile$excluded.maternities.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternities.PATH<-"", colonyfile$delim.for.excluded.maternities.PATH<-"\t", colonyfile$delim.for.excluded.maternities.PATH<-",",delim.for.excluded.maternities.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.excluded.maternities.PATH)=="Other"){
-		if(colonyfile$delim.for.excluded.maternities.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.excluded.maternities.PATH<-scan(n=1,what="character")}}
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternities.PATH<-"", colonyfile$delim.for.excluded.maternities.PATH<-"\t", colonyfile$delim.for.excluded.maternities.PATH<-",",delim.for.excluded.maternities.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.excluded.maternities.PATH)=="Other"){
+#		if(colonyfile$delim.for.excluded.maternities.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.excluded.maternities.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.excluded.maternities.PATH<-""
 
 #Read in the data...
 colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -812,7 +841,7 @@ colonyfile$excluded.maternities<-cbind(as.character(colonyfile$excluded.maternit
 
 colonyfile$excluded.maternities[,1+dim(colonyfile$excluded.maternities)[2]]<-c("!Offspring ID, number of excluded females, the IDs of excluded females",rep("",dim(colonyfile$excluded.maternities)[1]-1))
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write.table(colonyfile$excluded.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
@@ -845,15 +874,17 @@ while(length(colonyfile$excluded.paternal.sibships.PATH)==0){
 	flush.console()
 	colonyfile$excluded.paternal.sibships.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternal.sibships.PATH<-"", colonyfile$delim.for.excluded.paternal.sibships.PATH<-"\t", colonyfile$delim.for.excluded.paternal.sibships.PATH<-",",delim.for.excluded.paternal.sibships.PATH<-"Other")
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.paternal.sibships.PATH<-"", colonyfile$delim.for.excluded.paternal.sibships.PATH<-"\t", colonyfile$delim.for.excluded.paternal.sibships.PATH<-",",delim.for.excluded.paternal.sibships.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.excluded.paternal.sibships.PATH)=="Other"){
+#		if(colonyfile$delim.for.excluded.paternal.sibships.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.excluded.paternal.sibships.PATH<-scan(n=1,what="character")}}
 
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.excluded.paternal.sibships.PATH)=="Other"){
-		if(colonyfile$delim.for.excluded.paternal.sibships.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.excluded.paternal.sibships.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.excluded.paternal.sibships.PATH<-""
 
 #Read in the data...
 colonyfile$excluded.paternal.sibships<-read.table(colonyfile$excluded.paternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -914,15 +945,16 @@ while(length(colonyfile$excluded.maternal.sibships.PATH)==0){
 	flush.console()
 	colonyfile$excluded.maternal.sibships.PATH<-file.choose()
 
-	cat("What is the delimiter for this file?\n\n\n")
-	flush.console()
-	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternal.sibships.PATH<-"", colonyfile$delim.for.excluded.maternal.sibships.PATH<-"\t", colonyfile$delim.for.excluded.maternal.sibships.PATH<-",",delim.for.excluded.maternal.sibships.PATH<-"Other")
-
-		#Caveat for if the delimiter is OTHER
-		while(length(colonyfile$delim.for.excluded.maternal.sibships.PATH)=="Other"){
-		if(colonyfile$delim.for.excluded.maternal.sibships.PATH=="Other"){
-		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-		colonyfile$delim.for.excluded.maternal.sibships.PATH<-scan(n=1,what="character")}}
+#	cat("What is the delimiter for this file?\n\n\n")
+#	flush.console()
+#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.excluded.maternal.sibships.PATH<-"", colonyfile$delim.for.excluded.maternal.sibships.PATH<-"\t", colonyfile$delim.for.excluded.maternal.sibships.PATH<-",",delim.for.excluded.maternal.sibships.PATH<-"Other")
+#
+#		#Caveat for if the delimiter is OTHER
+#		while(length(colonyfile$delim.for.excluded.maternal.sibships.PATH)=="Other"){
+#		if(colonyfile$delim.for.excluded.maternal.sibships.PATH=="Other"){
+#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
+#		colonyfile$delim.for.excluded.maternal.sibships.PATH<-scan(n=1,what="character")}}
+colonyfile$delim.for.excluded.maternal.sibships.PATH<-""
 
 #Read in the data...
 colonyfile$excluded.maternal.sibships<-read.table(colonyfile$excluded.maternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -959,12 +991,57 @@ write("",name,append=TRUE)
 #######################################################
 
 #MarkerTypeErrorRate.txt
+temp1<-as.data.frame(colonyfile$Markers)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+names(temp1)<-paste("Locus-",1:dim(temp1)[2],sep="")
+write.table(temp1,"MarkerTypeErrorRate.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
+
 #AlleleFrequency.txt 
+if(colonyfile$knownAFreq==1){
+temp1<-as.data.frame(colonyfile$allele.frequency)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+names(temp1)<-paste(paste("Locus-",rep(1:(dim(temp1)[2]/2),each=2),sep=""),rep(1:2,(dim(temp1)[2]/2)),sep=".")
+write.table(temp1,"MarkerTypeErrorRate.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
+
 #OffspringGenotype.txt
+temp1<-as.data.frame(colonyfile$Offspring)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+n<-(dim(temp1)[2])-1
+names(temp1)<-c("Offspring",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep(1:2,(n/2)),sep="-"))
+write.table(temp1,"OffspringGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
+
 #MaleGenotype.txt
+temp1<-as.data.frame(colonyfile$fathers)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+n<-(dim(temp1)[2])-1
+names(temp1)<-c("Male",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep(1:2,(n/2)),sep="-"))
+write.table(temp1,"MaleGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
+
 #FemaleGenotype.txt
-#KnownPaternity.txt
-#KnownMaternity.txt
+temp1<-as.data.frame(colonyfile$mothers)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+n<-(dim(temp1)[2])-1
+names(temp1)<-c("Female",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep(1:2,(n/2)),sep="-"))
+write.table(temp1,"FemaleGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
+
+#KnownPaternalDiads.txt
+if(colonyfile$n.known.paternal.diads>0){
+temp1<-as.data.frame(colonyfile$known.paternal.diads)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+names(temp1)<-c("OffspringID","Father")
+write.table(temp1,"KnownPaternalDiads.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
+
+#KnownMaternalDiads.txt
+if(colonyfile$n.known.maternal.diads>0){
+temp1<-as.data.frame(colonyfile$known.maternal.diads)
+temp1<-temp1[,1:dim(temp1)[2]-1]
+names(temp1)<-c("Offspring","Mother")
+write.table(temp1,"KnownMaternalDiads.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
+
+
+#KnownPaternity.txt - see earlier
+#KnownMaternity.txt - see earlier
+
 #ExcludedPaternity.txt
 #ExcludedMaternity.txt
 
@@ -991,7 +1068,7 @@ write.table(paste("Output file path & name : ",wd,name,"\n",
 "Length of run : ", if(colonyfile$runlength==1){"Small"}else{if(colonyfile$runlength==2){"Medium"}else{"Long"}},"\n",
 "Monitor intermiediate results by : ", if(colonyfile$monitortype==1){paste("Every",colonyfile$interval,"seconds")}else{paste("Every",colonyfile$interval,"iterations")},"\n",
 "Project data input produced : ", date(),"\n",
-"NOTE to the Project: ", colonyfile$note,"\n",sep=""),"ProjectInformation.txt",row.names=FALSE,col.names=FALSE)
+"NOTE to the Project: ", colonyfile$note,"\n",sep=""),"ProjectInformation.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
 
 
 
@@ -999,5 +1076,5 @@ cat("Finished!")
 cat(paste("Your file is called",name,"and is placed in",wd,"...\n\n\n"))
 
 #This could be useful at some point.
-#return(colonyfile)
+return(colonyfile)
 }    
