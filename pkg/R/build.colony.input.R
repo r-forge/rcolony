@@ -485,7 +485,30 @@ if(colonyfile$n.known.paternal.diads!=dim(colonyfile$known.paternal.diads)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
 flush.console();
 warning(paste("The number of defined paternal diads ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternal diads provided in the file selected (", dim(colonyfile$known.paternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
-}}
+}
+
+#Check the data
+#if(colonyfile$n.known.paternal.diads!=dim(colonyfile$known.paternal.diads)[1]){
+#colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+#flush.console();
+#warning(paste("The number of defined paternal diads ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternal diads provided in the file selected (", dim(colonyfile$known.paternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
+#}
+
+#if this is true, then all offspring in the diad file are present in the offspring genotype file
+if(sum(colonyfile$known.paternal.diads$V1%in%colonyfile$Offspring[,1])==length(colonyfile$known.paternal.diads$V1)}{}else{
+colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+flush.console();
+warning(paste("Offspring in diad file are not present in the offspring genotype data:",paste(colonyfile$known.paternal.diads$V1[which(colonyfile$known.paternal.diads$V1%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")))
+}
+
+if(sum(colonyfile$known.paternal.diads$V2%in%colonyfile$fathers[,1])==length(colonyfile$known.paternal.diads$V2)}{}else{
+colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+flush.console();
+warning(paste("Fathers in diad file are not present in the father genotype data:",paste(colonyfile$known.paternal.diads$V2[which(colonyfile$known.paternal.diads$V2%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")))
+}
+
+
+}
 
 
 write.table(paste(colonyfile$n.known.paternal.diads,"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -545,7 +568,23 @@ if(colonyfile$n.known.maternal.diads!=dim(colonyfile$known.maternal.diads)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
 flush.console();
 warning(paste("The number of defined maternal diads ","(", colonyfile$n.known.maternal.diads,") does not equal the number of maternal diads provided in the file selected (", dim(colonyfile$known.maternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
-}}
+}
+
+#if this is true, then all offspring in the diad file are present in the offspring genotype file
+if(sum(colonyfile$known.maternal.diads$V1%in%colonyfile$Offspring[,1])==length(colonyfile$known.maternal.diads$V1)}{}else{
+colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
+flush.console();
+warning(paste("Offspring in diad file are not present in the offspring genotype data:",paste(colonyfile$known.maternal.diads$V1[which(colonyfile$known.maternal.diads$V1%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")))
+}
+
+if(sum(colonyfile$known.maternal.diads$V2%in%colonyfile$Mothers[,1])==length(colonyfile$known.maternal.diads$V2)}{}else{
+colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
+flush.console();
+warning(paste("Mothers in diad file are not present in the mother genotype data:",paste(colonyfile$known.maternal.diads$V2[which(colonyfile$known.maternal.diads$V2%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")))
+}
+
+}
+
 
 
 write.table(paste(colonyfile$n.known.maternal.diads," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
