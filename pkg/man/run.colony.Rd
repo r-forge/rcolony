@@ -5,11 +5,8 @@
 \description{
   ~~ A concise (1-5 lines) description of what the function does. ~~
 }
-\usage{
-function(colonyexecpath="prompt",datfilepath="prompt",wait=TRUE,monitor=TRUE)
+\usage{function(colonyexecpath="prompt",datfilepath="prompt",wait=TRUE,monitor=TRUE)}
 
-}
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{colonyexecpath}{The path to the Colony2 executable. If none is given, and the function defaults to \"prompt\", then you will be prompted to click on the file.}
   \item{datfilepath}{ he path to the DAT file that you wish to run. If none is given, and the function defaults to \"prompt\", then you will be prompted to click on the file. }
@@ -34,7 +31,4 @@ You can then use \code{\link{monitor.colony}} to examine this file, and plot the
 \examples{
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ IO }

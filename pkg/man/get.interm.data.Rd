@@ -1,73 +1,54 @@
 \name{get.interm.data}
 \alias{get.interm.data}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ A funciton to collect intermediate data produced by Colony2 while it is running. }
+
+\title{ A function to collect intermediate data produced by Colony2 while it is running. }
 \description{
-While it is running, Colony2 produces output to indicate it's progress. }
+While it is running, Colony2 produces output to indicate it's progress. This function allows R to import the outputs produced.}
+
 \usage{
 get.interm.data(v1="CrLogL",datadir=getwd())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{colony.object}{ ~~Describe \code{colony.object} here~~ }
-  \item{maintitle}{ ~~Describe \code{maintitle} here~~ }
-  \item{prob}{ ~~Describe \code{prob} here~~ }
-  \item{pairwise}{ ~~Describe \code{pairwise} here~~ }
+  \item{v1}{The name of the variable required. }
+  \item{datadir}{ ~~Describe \code{colony.object} here~~ }
+
 }
 \details{
-  ~~ If necessary, more details than the description above ~~
+The intermediate results available are:
+
+\textit{Run} : The replicate run number. Variable
+\textit{Tmr} : The number of temperature reductions so far within the run. Variable
+\textit{Itr} : The number of iterates (reconfigurations considered) so far within the run. Variable
+\textit{NSucc} : The number of successful (accepted) reconfigurations so far within the temperature. Variable
+\textit{NSuccLmt} : Maximum (Limit) number of successful reconfigurations allowed within the temperature. Constant
+\textit{NFail1} : The number of reconfigurations since the last update of the best likelihood within the temperature. Variable
+\textit{NFail1Lmt} : Maximum (Limit) value of  NFail1 within the temperature. Constant
+\textit{NFail2} : The total number of reconfigurations since the last update of the best likelihood within the run. Variable
+\textit{NFail2Lmt} : Maximum (Limit) value of  NFail2 within a run. Constant. The run terminates when NFail2Lmt=NFail2 and the successful rate (see below) < 0.01
+\textit{SucRate\%} : =NSucc / Itr. Variable
+\textit{SucLmt\%} : =NSucc / NSuccLmt. Variable
+\textit{FailLmt\%} : =NFail1 / NFail1Lmt. Variable
+\textit{IterLmt\%} : = (Number of iterates) / (Maximum number of iterates) within a temperature. Variable
+\textit{CrLogL} : The log likelihood of the current configuration. Variable
+\textit{#F1} : Current number of paternal sib families. Variable
+\textit{#F2} : Current number of maternal sib families. Variable
+\textit{#F3} : Current number of sib family clusters. Variable
+\textit{#FS} : Current number of full sib families. Variable
+\textit{HSPair} : Current number of half-sib dyads. Variable
+\textit{FSPair} : Current number of full-sib dyads. Variable
+\textit{#AssgnC1} : Current number of candidate males that are assigned parentage. Variable
+\textit{#AssgnC2} : Current number of candidate females that are assigned parentage. Variable
+\textit{#AssgnP1} : Current number of offspring that have assigned paternity. Variable
+\textit{#AssgnP2} : Current number of offspring that have assigned maternity. Variable
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
-}
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ 
+  
+  }
+\references{ Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979. }
+\author{Owen R. Jones}
+\note{ }
+\seealso{\code{\link{monitor.colony}} }
+\examples{}
 
- ~Make other sections like Warning with \section{Warning }{....} ~
-}
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-
-get.interm.data<-function(v1="CrLogL",datadir=getwd()){
-
-getval<-function(v1,xx){
-
-ind<-grep(paste(v1,"=",sep=""),xx)
-s1<-"[A-Za-z =0-9,]*"
-s2<-"[ ]*([-.+E0-9]+),[A-Z#a-z =0-9,]*"
-s3<-paste(s1,paste(v1,"=",sep=""),s2,sep="")
-x.out<-NULL
-
-for (i in 1:length(ind)){
-	x.out[i]<-as.numeric(sub(s3,"\\1",xx[ind][i]))
-	}
-
-return(x.out)}
-
-outfile<-readLines(paste(datadir,"temp.txt",sep=""))
-
-Itr<-getval("Itr",outfile)
-CrLogL<-getval(v1,outfile)
-chk<-c(length(Itr),length(CrLogL))
-
-df1<-data.frame(Itr=Itr[1:min(chk)],CrLogL=CrLogL[1:min(chk)])
-return(df1)
-}
-
-
-
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ datagen }

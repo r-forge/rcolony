@@ -3,36 +3,29 @@
 \alias{rcolony}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+A package for producing input files, running, and plotting outputs from Colony2The RColony package provides tools for the implementation of the Colony pedigree analysis software. In addition it provides tools for visualising, and summarising the results of the Colony analyses.
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
+The RColony package provides tools for the implementation of the Colony pedigree analysis software. In addition it provides tools for visualising, and summarising the results of the Colony analyses.}
 \details{
 \tabular{ll}{
 Package: \tab rcolony\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
 Date: \tab 2009-04-16\cr
-License: \tab What license is it under?\cr
+License: \tab GNU General Public License (GPL)
 LazyLoad: \tab yes\cr
 }
-~~ An overview of how to use the package, including the most important functions ~~
+
+
 }
 \author{
 Owen R. Jones <owen.jones@ioz.ac.uk>
 }
 \references{
-~~ Literature or other references for background information ~~
+\url{http://www.zoo.cam.ac.uk/ioz/software.htm#COLONY}
+Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979.
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
-\examples{
-~~ simple examples of the most important functions ~~
-}
+\seealso{}
+\examples{}
