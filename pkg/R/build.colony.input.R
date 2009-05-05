@@ -744,7 +744,7 @@ warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile
 
 #Futher checks
 #if this is true, then all offspring in the diad file are present in the offspring genotype file
-if(sum(colonyfile$maternal.sibships$V1%in%colonyfile$mothers[,1])==length(colonyfile$maternal.sibships$V1))}{}else{
+if(sum(colonyfile$maternal.sibships$V1%in%colonyfile$mothers[,1])==length(colonyfile$maternal.sibships$V1) ){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
 flush.console();
 warning(paste("Mothers in maternal sibships file are not present in the mothers genotype data:",paste(colonyfile$maternal.sibships$V1[which(colonyfile$maternal.sibships$V1%in%colonyfile$mothers[,1]==FALSE)], collapse=", ")))
@@ -853,7 +853,7 @@ warning(paste("Offspring in excluded paternities file are not present in the off
 
 os<-na.omit(as.vector(as.matrix(colonyfile$excluded.paternities[,2:dim(colonyfile$excluded.paternities)[2]])))
 
-if(sum(os%in%colonyfile$fathers[,1]))==length(os)}{}else{
+if(sum(os%in%colonyfile$fathers[,1])==length(os)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternities.PATH")];
 flush.console();
 warning(paste("Fathers in excluded paternities file are not present in the fathers genotype data:",paste(os[which(os%in%colonyfile$fathers[,1]==FALSE)], collapse=", ")))}
@@ -944,7 +944,7 @@ warning(paste("Offspring in excluded maternities file are not present in the off
 
 os<-na.omit(as.vector(as.matrix(colonyfile$excluded.maternities[,2:dim(colonyfile$excluded.maternities)[2]])))
 
-if(sum(os%in%colonyfile$mothers[,1]))==length(os)}{}else{
+if(sum(os%in%colonyfile$mothers[,1])==length(os)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternities.PATH")];
 flush.console();
 warning(paste("Fathers in excluded maternities file are not present in the mothers genotype data:",paste(os[which(os%in%colonyfile$mothers[,1]==FALSE)], collapse=", ")))}
@@ -1023,7 +1023,7 @@ warning(paste("The number of defined excluded paternal sibships ","(", colonyfil
 #Further checks - do excluded sibs appear in offspring file
 os<-na.omit(as.vector(as.matrix(colonyfile$excluded.paternal.sibships[,2:dim(colonyfile$excluded.paternal.sibships)[2]])))
 
-if(sum(os%in%colonyfile$mothers[,1]))==length(os)}{}else{
+if(sum(os%in%colonyfile$mothers[,1])==length(os)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternal.sibships.PATH")];
 flush.console();
 warning(paste("Offspring in excluded paternal sibships file are not present in the offspring genotype data:",paste(os[which(os%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")))}
@@ -1104,7 +1104,7 @@ warning(paste("The number of defined excluded maternal sibships ","(", colonyfil
 #Further checks - do excluded sibs appear in offspring file
 os<-na.omit(as.vector(as.matrix(colonyfile$excluded.maternal.sibships[,2:dim(colonyfile$excluded.maternal.sibships)[2]])))
 
-if(sum(os%in%colonyfile$mothers[,1]))==length(os)}{}else{
+if(sum(os%in%colonyfile$mothers[,1])==length(os)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternal.sibships.PATH")];
 flush.console();
 warning(paste("Offspring in excluded maternal sibships file are not present in the offspring genotype data:",paste(os[which(os%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")))}
