@@ -28,6 +28,4 @@ parents<-get.parentage(testdata)
 head(parents)
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{manip}

@@ -39,80 +39,72 @@ Another parallization algorithm is that each thread generates a new configuratio
 
 If your computer has a single CPU/Core, specify a single thread for the best performance.
 
-
 If 2 or more threads are specified, you need your user credentials to launch Colony for parallel computation. The first time you start the run, you will be asked for the your user account, password and domain. These 3 pieces of information are the same as those you give when you logon the computer. 
 
-\textit{Note to the project.} (not yet implemented in this R version) You can put anything in the text box, such as when you set up the project, notes to the dataset, etc.
+\textit{Note to the project.} You can put anything in the text box, such as when you set up the project, notes to the dataset, etc.
 
-\textit{Sibship size prior.} You can choose to use or not use a prior distribution for the paternal and maternal sibship sizes of the offspring. Select No if you have no idea about the average sibship size, or you simply do not want to use a prior. Select Yes if you have a rough estimate of the average paternal and maternal sibship sizes and want to use them in the inference. If you select Yes, you are required to provide the average paternal ($np$) and maternal ($nm$) sibship sizes. Using paternal sibship prior as an example, the prior probability is calculated using Ewen’s sampling formula as follows. Suppose paternal sibship size distribution is $m={m1, m2,..., mn}$, where $mi (i=1, ..., n)$ is the number of paternal sibships each consisting of exactly $i$ offspring. The total number of offspring is EQUATION, and the average number of non-empty paternal sibships (= the number of contributing fathers) is $k =$ EQUATION, where $\alpha$ is a concentration parameter that determines the degree to which individuals are allocated to the same father. We can substitute k by $n/np$ and solve numerically for $\alpha$. Given $\alpha$, the prior probability of $m={m1, m2, ..., mn}$ is .
+\textit{Sibship size prior.} You can choose to use or not use a prior distribution for the paternal and maternal sibship sizes of the offspring. Select NO if you have no idea about the average sibship size, or you simply do not want to use a prior. Select Yes if you have a rough estimate of the average paternal and maternal sibship sizes and want to use them in the inference. If you select YES, you are required to provide the average paternal ($np$) and maternal ($nm$) sibship sizes. Using paternal sibship prior as an example, the prior probability is calculated using Ewen's sampling formula as follows. Suppose paternal sibship size distribution is $m={m1, m2,..., mn}$, where $mi (i=1, ..., n)$ is the number of paternal sibships each consisting of exactly $i$ offspring. The total number of offspring is EQUATION, and the average number of non-empty paternal sibships (= the number of contributing fathers) is $k =$ EQUATION, where $\alpha$ is a concentration parameter that determines the degree to which individuals are allocated to the same father. We can substitute $k$ by $n/np$ and solve numerically for $\alpha$. Given $\alpha$, the prior probability of $m={m1, m2, ..., mn}$ is EQUATION.
 
 Note that whenever the male or female mating system parameters have changed, the sibship prior is reset automatically to the default value. Therefore, if you decide to use the sibship prior, you should input the prior parameters \textit{after} setting the mating system parameters.
 
 
 
 
-2)Markers tab
+2. Markers tab
 	Number of loci
 	Load a file
 	Allele frequency (known/unknown)
 	
 	Checks the loaded file for number of loci, and that the frequencies are numbers rather than letters.
 
-3) Offspring Genotype tab
+3. Offspring Genotype tab
 	Load file, define number of offspring
 
 	Checks the number of indivs (rows) and the number of loci (cols/2)
 
-3) Male genotype data
+3. Male genotype data
 	Load file
 	Prob of dad in male candidates
 	
 	Checks the number of indivs (rows) and the number of loci (cols/2)
 
-4) Female genotype data
+4. Female genotype data
 	Load file
 	Prob of mum in female candidates
 	
 		Checks the number of indivs (rows) and the number of loci (cols/2)
 
 	
-5) Known Paternal sibs
-	Load file with 2 columns - 1) FatherID, 2) OffspringID
+5. Known Paternal sibs
+	Load file with 2 columns - (1) FatherID, (2) OffspringID
 
-6) Known Maternal sibs
-	Load file with 2 columns - 1) MotherID, 2) OffspringID
+6. Known Maternal sibs
+	Load file with 2 columns - (1) MotherID, (2) OffspringID
 
-6) Excluded paternity
+6. Excluded paternity
 Load file containing data in 2 columns OffspringID and MaleID
 Or a file with n rows. The first element of the row should be offspringID, followed by IDs of candidate males that are excluded from parentage.
 
-8) Excluded maternity
+8. Excluded maternity
 Load file containin	g data in 2 columns OffspringID and FemaleID
 
-9) Excluded Paternal Sibs
+9. Excluded Paternal Sibs
 
 In some cases we know that an offspring cannot ahare the same father with one or more other offspring in the sample.
 FOrmat for this is A file with n rows.  The first element of the row should be offspringID, followed by IDs of other sibs that are excluded from sibship.
 
 
-10) Excluded Maternal Sibs
+10. Excluded Maternal Sibs
   
   
   
 }
 
-\value{
-A text file is produced. This file can be used by Colony2 as an input file.
-}
+\value{A text file is produced. This file can be used by Colony2 as an input file.}
 
 \references{ Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979. }
 \author{Owen R. Jones}
 \note{}
 \seealso{\code{\link{run.colony}}}
-\examples{
-
-}
-
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ manip }
+\examples{}
+\keyword{manip}

@@ -16,16 +16,14 @@ Date: \tab 2009-04-16\cr
 License: \tab GNU General Public License (GPL)
 LazyLoad: \tab yes\cr
 }
-
-
 }
-\author{
-Owen R. Jones <owen.jones@ioz.ac.uk>
-}
+
+\author{Owen R. Jones <owen.jones@ioz.ac.uk>}
+
 \references{
 \url{http://www.zoo.cam.ac.uk/ioz/software.htm#COLONY}
-Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979.
-}
-\keyword{ package }
+Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979.}
+
+\keyword{package}
 \seealso{}
 \examples{}
