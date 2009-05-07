@@ -16,42 +16,42 @@ It keeps running until the Colony analysis has finished, or until the user inter
 \item{interv.t}{The interval (in seconds) at which R should retrieve intermediate data.}
   \item{last.few}{(not yet implemented) How many datapoints should be displayed. Set to -1 to show all data. If the number is a positive integer, then the last x datapoints are shown.}
 \item{n}{If there are two variables witht he same name, which one should be used? See details.}
-\item{showres}{Should R show the results obtained in a table in the R console window? Boolean.}
+\item{showres}{Should R show the results obtained in a table to be displayed in the R console window? Boolean.}
 
 
 }
 \details{
 The intermediate results available are:
 
-\textit{Run} : The replicate run number. Variable
-\textit{Tmr} : The number of temperature reductions so far within the run. Variable
-\textit{Itr} : The number of iterates (reconfigurations considered) so far within the run. Variable
-\textit{NSucc} : The number of successful (accepted) reconfigurations so far within the temperature. Variable
-\textit{NSuccLmt} : Maximum (Limit) number of successful reconfigurations allowed within the temperature. Constant
-\textit{NFail1} : The number of reconfigurations since the last update of the best likelihood within the temperature. Variable
-\textit{NFail1Lmt} : Maximum (Limit) value of  NFail1 within the temperature. Constant
-\textit{NFail2} : The total number of reconfigurations since the last update of the best likelihood within the run. Variable
-\textit{NFail2Lmt} : Maximum (Limit) value of  NFail2 within a run. Constant. The run terminates when NFail2Lmt=NFail2 and the successful rate (see below) < 0.01
-\textit{SucRate\%} : =NSucc / Itr. Variable
-\textit{SucLmt\%} : =NSucc / NSuccLmt. Variable
-\textit{FailLmt\%} : =NFail1 / NFail1Lmt. Variable
-\textit{IterLmt\%} : = (Number of iterates) / (Maximum number of iterates) within a temperature. Variable
-\textit{CrLogL} : The log likelihood of the current configuration. Variable
-\textit{BtLogL} : The best log likelihood reached with the current configuration. Variable
+\emph{Run} : The replicate run number. Variable
+\emph{Tmr} : The number of temperature reductions so far within the run. Variable
+\emph{Itr} : The number of iterates (reconfigurations considered) so far within the run. Variable
+\emph{NSucc} : The number of successful (accepted) reconfigurations so far within the temperature. Variable
+\emph{NSuccLmt} : Maximum (Limit) number of successful reconfigurations allowed within the temperature. Constant
+\emph{NFail1} : The number of reconfigurations since the last update of the best likelihood within the temperature. Variable
+\emph{NFail1Lmt} : Maximum (Limit) value of  NFail1 within the temperature. Constant
+\emph{NFail2} : The total number of reconfigurations since the last update of the best likelihood within the run. Variable
+\emph{NFail2Lmt} : Maximum (Limit) value of  NFail2 within a run. Constant. The run terminates when NFail2Lmt=NFail2 and the successful rate (see below) < 0.01
+\emph{SucRate\%} : =NSucc / Itr. Variable
+\emph{SucLmt\%} : =NSucc / NSuccLmt. Variable
+\emph{FailLmt\%} : =NFail1 / NFail1Lmt. Variable
+\emph{IterLmt\%} : = (Number of iterates) / (Maximum number of iterates) within a temperature. Variable
+\emph{CrLogL} : The log likelihood of the current configuration. Variable
+\emph{BtLogL} : The best log likelihood reached with the current configuration. Variable
 
-\textit{#F1} : Current number of paternal sib families. Variable
-\textit{#F2} : Current number of maternal sib families. Variable
-\textit{#F3} : Current number of sib family clusters. Variable
-\textit{#FS} : Current number of full sib families. Variable
-\textit{HSPair} : Current number of half-sib dyads. Variable
-\textit{FSPair} : Current number of full-sib dyads. Variable
-\textit{#AssgnC1} : Current number of candidate males that are assigned parentage. Variable
-\textit{#AssgnC2} : Current number of candidate females that are assigned parentage. Variable
-\textit{#AssgnP1} : Current number of offspring that have assigned paternity. Variable
-\textit{#AssgnP2} : Current number of offspring that have assigned maternity. Variable
+\emph{#F1} : Current number of paternal sib families. Variable
+\emph{#F2} : Current number of maternal sib families. Variable
+\emph{#F3} : Current number of sib family clusters. Variable
+\emph{#FS} : Current number of full sib families. Variable
+\emph{HSPair} : Current number of half-sib dyads. Variable
+\emph{FSPair} : Current number of full-sib dyads. Variable
+\emph{#AssgnC1} : Current number of candidate males that are assigned parentage. Variable
+\emph{#AssgnC2} : Current number of candidate females that are assigned parentage. Variable
+\emph{#AssgnP1} : Current number of offspring that have assigned paternity. Variable
+\emph{#AssgnP2} : Current number of offspring that have assigned maternity. Variable
 
 F1, F2, F3, FS, HSPair, FSPair, AssgnC1, AssgnC2, AssgnP1 and AssgnP2 appear twice in the intermediate outputs of Colony2. Their first appearance is for the current status. While the second appearance is for the best status so far (i.e. the maximum value).
-Users wishing to plot any of these values should use the \textit{n} argument to select the appropriate value (1 for the current value, 2 for best value).
+Users wishing to plot any of these values should use the \emph{n} argument to select the appropriate value (1 for the current value, 2 for best value).
 
 }
 \value{}

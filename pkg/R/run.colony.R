@@ -40,11 +40,11 @@ if(platform$OS.type=="unix"){
 #Copy Colony2 program to the working directory
 	system(paste("cp",colonyexecpath,datadir,sep=" "))
 	
-#Rename the DAT file as Colony2.DAT
-	system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))
+#Rename the DAT file as Colony2.DAT (unless it is already called "Colony2.DAT")
+if(filename!="Colony2.DAT"){system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))}
 	
 #Make a copy of the DAT file in it's original name
-	system(paste("cp",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))
+if(filename!="Colony2.DAT"){system(paste("cp",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))}
 	
 #Run Colony
 #If monitor = TRUE, then a temp.txt file is produced (temp.txt). This can be monitored using monitor.colony.R so progress can be observed.
@@ -56,7 +56,7 @@ if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{sys
 
 #Remove the Colony2.exe and 
 	system(paste("rm",colonyexec))
-	system("rm Colony2.DAT")
+if(filename!="Colony2.DAT"){system("rm Colony2.DAT")}
 
 
 
@@ -66,9 +66,9 @@ if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{sys
 
 	#Windows commands
 	shell(paste("copy",colonyexecpath,datadir,sep=" "))#Copy the colony exe file to the project directory	
-	shell(paste("rename",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))#Rename the colony dat file as Colony2.DAT	 
+	if(filename!="Colony2.DAT"){shell(paste("rename",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))}#Rename the colony dat file as Colony2.DAT	 
 	shell.exec("Colony2.exe") #run colony2
-	shell(paste("rename",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))#Rename the colony dat file to original file name.	 
+	if(filename!="Colony2.DAT"){shell(paste("rename",paste(datadir,"Colony2.DAT",sep=""),paste(datadir,filename,sep=""),sep=" "))}#Rename the colony dat file to original file name.	 
 	shell("del Colony2.exe") #tidy up, remove colony2.exe	  
 	
 	}else{stop(paste("This function is not correctly configured to run on",platform$OS.type,"systems."))
