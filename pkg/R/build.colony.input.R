@@ -27,7 +27,7 @@ colonyfile$outfile<-scan(n=1,what="character")
 write(paste(colonyfile$outfile,"! C, Main output file name, Length<21"),name,append=TRUE)}
 
 #######################################################
-#  ! C, Dataset name, Length<51
+#  ! C, Note to the project
 #######################################################
 
 while(length(colonyfile$note)==0){

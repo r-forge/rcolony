@@ -3,7 +3,7 @@
 
 \title{ A function to plot the sibships (full and half-sibs) in an x-y style plot. }
 
-\description{This function plots the estimated sibships from Colony data. Both the x and y axis represent individuals in the population and points indicate a sibship assignment between individuals x and y.
+\description{This function plots the estimated sibships from Colony data. Both the x and y axis represent individuals in the population and points indicate a sibship assignment between individuals x and y.}
 
 \usage{plotsibs(colony.object, maintitle = "sibships", prob = 0.8, pairwise = FALSE)}
 
