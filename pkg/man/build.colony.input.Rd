@@ -7,10 +7,7 @@
 This function prompts the user to provide information about their system in order to correctly build and format a Colony2 input file.
 }
 
-\usage{
-build.colony.input(wd=getwd(),name="Colony2.DAT")
-
-}
+\usage{build.colony.input(wd=getwd(),name="Colony2.DAT")}
 
 \arguments{
   \item{wd}{The directory where the generated file will be placed. The default is the current working directory.}
@@ -95,7 +92,7 @@ Note that marker loci have an implicit order which should be followed consistent
 
 \emph{Select the marker type and error rate file.}	You will be prompted to select the file for the markers. In the file, 4 values are provided for each marker (in columns). The first value (on row 1) specifies the marker name or ID (consisting of a maximum of  20 letters/numbers, others such as space, comma, full stop, forward and backward slashes are not allowed in the name/ID). The second (on row 2) indicates the marker type, whether it is codominant (0) or dominant (1). The third and fourth values (on rows 3 and 4 respectively) give the allelic dropout rate and the rate of other kinds of genotyping errors (including mutations) of the marker. For more information about the models of genotyping errors, see \cite{Wang (2004)}.
 
-Note that this file sets the order of marker loci that must be followed in all the following input. The first column is for locus 1, the second for locus 2, É
+Note that this file sets the order of marker loci that must be followed in all the following input. The first column is for locus 1, the second for locus 2, etc.
 
 Note also that computation becomes slow when markers suffer from genotyping errors. This is especially obvious when both males and females are specified as polygamous.
 
@@ -106,10 +103,7 @@ An example file is shown below. Note the column headers should not be included i
        0 \tab       0 \tab      0 \tab      0 \tab       0 \cr
   0.0000 \tab  0.0000 \tab 0.0000 \tab 0.0000 \tab  0.0000 \cr
   0.0001 \tab  0.0001 \tab  0.0001 \tab 0.0001 \tab  0.0001 \cr
-
 }
-
-
 
 \emph{Offspring genotypes.}
 
@@ -152,11 +146,9 @@ rcolony will check the number of individuals and loci in the file
 
 \emph{Select the maternal diads file.} If the number of known maternal diads is larger than zero, then you will be prompted to select a file for the known maternal diads. This file should have 2 columns, the first gives mother ID, while the second gives the corresponding offspring ID.
 
-
 \emph{Number of known paternal sibships.} Provide the number of known paternal sibship or paternity included in the samples. The minimum value is 0. A known paternal sibship contains all of the offspring in the OFS sample who are known to share the same father no matter whether the father is known or not.
 
 \emph{Select the paternal sibships file.} If the number of known paternal sibship/paternity is larger than zero, then you will be prompted to select a file for the known paternal sibship/paternity. In the file, each known paternal sibship/paternity takes a row, with the first column containing the father ID/name if the male is known and included in the candidate males or a value of 0 to indicate that the father is unknown or not in the candidate males. From the 2nd column on, the ID/name of each member of the paternal sibship is listed.
-
 
 \emph{Number of known maternal sibships.} Provide the number of known maternal sibship or maternity included in the samples. The minimum value is 0. A known maternal sibship contains all of the offspring in the OFS sample who are known to share the same mother no matter whether the mother is known or not.
 
