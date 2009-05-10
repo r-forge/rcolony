@@ -46,7 +46,7 @@ Note that whenever the male or female mating system parameters have changed, the
 
  An example file of the allele frequency data is shown below.
 
-\tabular{rrrrrrrrrrrrrrrr}{
+\tabular{rrrrrrrrrrrrrrr}{
  1 \tab 2 \tab 3 \tab 4 \tab 5 \tab 6 \tab 7 \tab 8 \tab 9 \tab 10 \tab 11 \tab 12 \tab  \tab  \tab  \tab \cr 
 0.1000 \tab 0.0600 \tab 0.0350 \tab 0.0700 \tab 0.0700 \tab 0.1400 \tab 0.1500 \tab 0.0550 \tab 0.0550 \tab 0.0250 \tab 0.1350 \tab 0.1050 \tab  \tab  \tab  \tab \cr 
 1 \tab 2 \tab 3 \tab 4 \tab 5 \tab 6 \tab 7 \tab 8 \tab 9 \tab 10 \tab 11 \tab 12 \tab 13 \tab  \tab  \tab \cr 
