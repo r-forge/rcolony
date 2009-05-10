@@ -115,7 +115,8 @@ You will be prompted to select the offspring genotype file. The file contains th
   O1 \tab 1 \tab 1 \tab  13 \tab 6 \tab 4 \tab 3 \tab 3 \tab 2 \tab 1 \tab 2 \cr
   O2 \tab 1 \tab 1 \tab 13 \tab 7 \tab 4 \tab 2 \tab 3 \tab 2 \tab  3 \tab 4 \cr
   O3 \tab 1 \tab 1 \tab 6 \tab 5 \tab 4 \tab 3 \tab 2 \tab 2 \tab 1 \tab 5  \cr
-  O4 \tab 1 \tab 1 \tab 6 \tab  10 \tab 4 \tab 3 \tab 3 \tab 3 \tab 1 \tab 5 \cr  O5 \tab 1 \tab 1 \tab 6 \tab 5 \tab 4 \tab 2 \tab 3 \tab 5 \tab 1 \tab 5 \cr }
+  O4 \tab 1 \tab 1 \tab 6 \tab  10 \tab 4 \tab 3 \tab 3 \tab 3 \tab 1 \tab 5 \cr 
+  O5 \tab 1 \tab 1 \tab 6 \tab 5 \tab 4 \tab 2 \tab 3 \tab 5 \tab 1 \tab 5 \cr }
  
 
 
