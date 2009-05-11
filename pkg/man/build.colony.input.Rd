@@ -46,7 +46,7 @@ Note that whenever the male or female mating system parameters have changed, the
 
  An example file of the allele frequency data is shown below.
 
-\tabular{rrrrrrrrrrrrrrr}{
+\tabular{rrrrrrrrrrrrrrrr}{
  1 \tab 2 \tab 3 \tab 4 \tab 5 \tab 6 \tab 7 \tab 8 \tab 9 \tab 10 \tab 11 \tab 12 \tab  \tab  \tab  \tab \cr 
 0.1000 \tab 0.0600 \tab 0.0350 \tab 0.0700 \tab 0.0700 \tab 0.1400 \tab 0.1500 \tab 0.0550 \tab 0.0550 \tab 0.0250 \tab 0.1350 \tab 0.1050 \tab  \tab  \tab  \tab \cr 
 1 \tab 2 \tab 3 \tab 4 \tab 5 \tab 6 \tab 7 \tab 8 \tab 9 \tab 10 \tab 11 \tab 12 \tab 13 \tab  \tab  \tab \cr 
@@ -66,7 +66,7 @@ Note that whenever the male or female mating system parameters have changed, the
 1 \tab 2 \tab 3 \tab 4 \tab 5 \tab 6 \tab 7 \tab 8 \tab 9 \tab 10 \tab 11 \tab 12 \tab 13 \tab 14 \tab 15\cr 
 0.0800 \tab 0.0650 \tab 0.0600 \tab 0.0300 \tab 0.1250 \tab 0.0800 \tab 0.0500 \tab 0.0600 \tab 0.0900 \tab 0.0650 \tab 0.1250 \tab 0.0700 \tab 0.0500 \tab 0.0200 \tab 0.0300\cr 
 1 \tab 2 \tab 3 \tab 4 \tab 5 \tab 6 \tab 7 \tab 8 \tab 9 \tab 10 \tab 11 \tab 12 \tab 13 \tab 14 \tab 15 \tab 16\cr 
-0.0900 \tab 0.1500 \tab 0.0200 \tab 0.0500 \tab 0.0550 \tab 0.0750 \tab 0.0850 \tab 0.0650 \tab 0.0600 \tab 0.1000 \tab 0.0400 \tab 0.0550 \tab 0.0300 \tab 0.0400 \tab 0.0200 \tab 0.0650\cr 
+0.0900 \tab 0.1500 \tab 0.0200 \tab 0.0500 \tab 0.0550 \tab 0.0750 \tab 0.0850 \tab 0.0650 \tab 0.0600 \tab 0.1000 \tab 0.0400 \tab 0.0550 \tab 0.0300 \tab 0.0400 \tab 0.0200 \tab 0.0650 
  
 }
 
@@ -102,7 +102,7 @@ An example file is shown below. Note the column headers should not be included i
  mk1 \tab     mk2 \tab     mk3  \tab   mk4 \tab     mk5 \cr
        0 \tab       0 \tab      0 \tab      0 \tab       0 \cr
   0.0000 \tab  0.0000 \tab 0.0000 \tab 0.0000 \tab  0.0000 \cr
-  0.0001 \tab  0.0001 \tab  0.0001 \tab 0.0001 \tab  0.0001 \cr
+  0.0001 \tab  0.0001 \tab  0.0001 \tab 0.0001 \tab  0.0001 
 }
 
 \emph{Offspring genotypes.}
@@ -116,7 +116,7 @@ You will be prompted to select the offspring genotype file. The file contains th
   O2 \tab 1 \tab 1 \tab 13 \tab 7 \tab 4 \tab 2 \tab 3 \tab 2 \tab  3 \tab 4 \cr
   O3 \tab 1 \tab 1 \tab 6 \tab 5 \tab 4 \tab 3 \tab 2 \tab 2 \tab 1 \tab 5  \cr
   O4 \tab 1 \tab 1 \tab 6 \tab  10 \tab 4 \tab 3 \tab 3 \tab 3 \tab 1 \tab 5 \cr 
-  O5 \tab 1 \tab 1 \tab 6 \tab 5 \tab 4 \tab 2 \tab 3 \tab 5 \tab 1 \tab 5 \cr }
+  O5 \tab 1 \tab 1 \tab 6 \tab 5 \tab 4 \tab 2 \tab 3 \tab 5 \tab 1 \tab 5  }
  
 
 

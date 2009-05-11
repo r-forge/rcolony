@@ -2,6 +2,7 @@
 function(colony.object,maintitle="sibships",prob=0.8,pairwise=FALSE){
 	 
 	 #Get full and half sibship data.
+
 if(pairwise==FALSE){	
 sibs<-colony.object$sibs}else{
 sibs<-colony.object$pairwise.sibs
