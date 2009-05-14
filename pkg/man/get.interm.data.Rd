@@ -6,11 +6,11 @@
 While it is running, Colony2 produces output to indicate it's progress. This function allows R to import the outputs produced.}
 
 \usage{
-get.interm.data(v1="CrLogL",datadir=getwd())
+get.interm.data(variable="CrLogL",datadir=getwd())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{v1}{The name of the variable required. }
+  \item{variable}{The name of the variable required. }
   \item{datadir}{ ~~Describe \code{colony.object} here~~ }
 
 }

@@ -60,6 +60,11 @@ Users wishing to plot any of these values should use the \emph{n} argument to se
 
 \seealso{ \code{\link{get.interm.data}} }
 
-\examples{monitor.colony(variable="CrLogL",interv.t=2)}
+\examples{
+
+##Not run
+#monitor.colony(variable="CrLogL",interv.t=2)
+##End not run
+}
 
 \keyword{ data }
