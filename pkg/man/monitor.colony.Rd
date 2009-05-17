@@ -15,7 +15,7 @@ It keeps running until the Colony analysis has finished, or until the user inter
   \item{variable}{The name of the variable that you wish to monitor. See details.}
 \item{interv.t}{The interval (in seconds) at which R should retrieve intermediate data.}
   \item{last.few}{(not yet implemented) How many datapoints should be displayed. Set to -1 to show all data. If the number is a positive integer, then the last x datapoints are shown.}
-\item{n}{If there are two variables witht he same name, which one should be used? See details.}
+\item{n}{If there are two variables with the same name, which one should be used? See details.}
 \item{showres}{Should R show the results obtained in a table to be displayed in the R console window? Boolean.}
 
 
