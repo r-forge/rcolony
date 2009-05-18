@@ -3,18 +3,19 @@
 
 \title{ A function to collect intermediate data produced by Colony2 while it is running. }
 \description{
-While it is running, Colony2 produces output to indicate the computation progress. This function allows R to import the outputs produced.}
-It is intended to be called from \code{\link{monitor.colony}} rather than being used directly by the user.
+While it is running, Colony2 produces output to indicate the computation progress. This function allows R to import the outputs produced.
+It is intended to be called from the monitor.colony function rather than being used directly by the user.}
+
 \usage{
 get.interm.data(variable="CrLogL",datadir=getwd(),n=1)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{variable}{The name of the variable that you wish to monitor. See details.}
  \item{datadir}{The path to the directory that contains the Colony output files.}
 \item{n}{If there are two variables with the same name, which one should be used? See details.}
-
 }
+
 \details{
 The intermediate results available are:
 
@@ -33,7 +34,6 @@ The intermediate results available are:
 \emph{IterLmt\%} : = (Number of iterates) / (Maximum number of iterates) within a temperature. Variable
 \emph{CrLogL} : The log likelihood of the current configuration. Variable
 \emph{BtLogL} : The best log likelihood reached with the current configuration. Variable
-
 \emph{#F1} : Current number of paternal sib families. Variable
 \emph{#F2} : Current number of maternal sib families. Variable
 \emph{#F3} : Current number of sib family clusters. Variable
@@ -59,4 +59,4 @@ Users wishing to plot any of these values should use the \emph{n} argument to se
 \seealso{\code{\link{monitor.colony}} }
 \examples{}
 
-\keyword{ datagen }
+\keyword{datagen}
