@@ -2,9 +2,11 @@
 \alias{get.interm.data}
 
 \title{ A function to collect intermediate data produced by Colony2 while it is running. }
+
 \description{
 While it is running, Colony2 produces output to indicate the computation progress. This function allows R to import the outputs produced.
-It is intended to be called from the monitor.colony function rather than being used directly by the user.}
+It is intended to be called from the monitor.colony function rather than being used directly by the user.
+}
 
 \usage{
 get.interm.data(variable="CrLogL",datadir=getwd(),n=1)
@@ -50,13 +52,13 @@ Users wishing to plot any of these values should use the \emph{n} argument to se
 
 
 }
-\value{
-  
-  }
+
+\value{}
+
 \references{ Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979. }
+
 \author{Owen R. Jones}
 \note{ }
 \seealso{\code{\link{monitor.colony}} }
 \examples{}
-
 \keyword{datagen}
