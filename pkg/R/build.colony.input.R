@@ -172,6 +172,13 @@ if(colonyfile$n.loci!=dim(colonyfile$allele.frequency)[1]/2){colonyfile<-colonyf
 ;warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not equal the number of markers provided in the file selected (", dim(colonyfile$allele.frequency)[1]/2,").\n\n",sep=""),immediate.=TRUE)}
 }
 
+x<-count.fields(colonyfile$AlleleFreqPATH)[seq(2,length(count.fields(colonyfile$AlleleFreqPATH)),2)]
+x<-paste(paste(x,collapse=" "),"!Number of alleles per locus",collapse=" ")
+
+write.table(x,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
+
+write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
+
 colonyfile$allele.frequency[,1+dim(colonyfile$allele.frequency)[2]]<-c("!Allele frequency",rep("",dim(colonyfile$allele.frequency)[1]-1))
 write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
 
