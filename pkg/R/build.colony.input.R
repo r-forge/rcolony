@@ -86,6 +86,15 @@ switch(menu(c("Not updating allele frequency", "Updating allele frequency")) + 1
        cat("Nothing done\n\n\n"), colonyfile$updateallelefreq<-0, colonyfile$updateallelefreq<-1)
 write(paste(colonyfile$updateallelefreq,"! B, 0/1=Not updating/updating allele frequency"),name,append=TRUE)
 
+
+#######################################################
+#  ! 2/1=Dioecious/Monoecious
+#######################################################
+cat("What kind of species is it?\nSee help for definitions.\n\n")
+switch(menu(c("Dioecious species", "Monoecious species")) + 1,
+       cat("Nothing done\n\n\n"), colonyfile$diomonoecy<-2, colonyfile$diomonoecy<-1)
+write(paste(colonyfile$diomonoecy,"! 2/1=Dioecious/Monoecious"),name,append=TRUE)
+
 #######################################################
 #  ! B, 0/1=Diploid species/HaploDiploid species
 #######################################################
@@ -155,7 +164,7 @@ colonyfile$AlleleFreqPATH<-file.choose()
 #colonyfile$delim.for.allele.freq<-scan(n=1,what="character")}}
 colonyfile$delim.for.allele.freq<-""
 
-colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="") 
+colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$AlleleFreqPATH))
 
 flush.console()
 
@@ -580,11 +589,13 @@ flush.console();
 warning(paste("Offspring in diad file are not present in the offspring genotype data:",paste(colonyfile$known.maternal.diads$V1[which(colonyfile$known.maternal.diads$V1%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
 }
 
-if(sum(colonyfile$known.maternal.diads$V2%in%colonyfile$Mothers[,1])==length(colonyfile$known.maternal.diads$V2)){}else{
+if(sum(colonyfile$known.maternal.diads$V2%in%colonyfile$mothers[,1])==length(colonyfile$known.maternal.diads$V2)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
 flush.console();
 warning(paste("Mothers in diad file are not present in the mother genotype data:",paste(colonyfile$known.maternal.diads$V2[which(colonyfile$known.maternal.diads$V2%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
 }
+
+
 
 }
 
@@ -1205,6 +1216,7 @@ write.table(paste("Output file path & name : ",wd,name,"\n",
 "Number of offspring with excluded mothers : ", colonyfile$n.excluded.maternities,"\n",
 "Male mating system : ", if(colonyfile$malepolygamy==1){"Polygamous"}else{"Monogamous"},"\n",
 "Female mating system : ", if(colonyfile$femalepolygamy==1){"Polygamous"}else{"Monogamous"},"\n",
+"Dioecious/Monoecious : ", if(colonyfile$diomonoecy==1){"Monoecious"}else{"Dioecious"},"\n",
 "Number of threads : ", "nA","\n",
 "Number of Excluded Paternal Sibships : ", colonyfile$n.excluded.paternal.sibships,"\n",
 "Number of Excluded Maternal Sibships : ", colonyfile$n.excluded.paternal.sibships,"\n",
