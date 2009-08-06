@@ -51,7 +51,8 @@ if(filename!="Colony2.DAT"){system(paste("cp",paste(datadir,"Colony2.DAT",sep=""
 #wait should be set to FALSE if monitor =TRUE
 #It is recommended that monitor = TRUE only be used if you will periodically monitor the system, otherwise the text file will grow very large and may burden the system.
 #There is currently no way of monitoring the Windows system.
-if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
+#if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
+if(monitor==TRUE){system("sh Colony2.sh | tee temp.txt",wait=wait)}else{system("sh Colony2.sh",wait=wait)}
 
 
 #Remove the Colony2.exe and 

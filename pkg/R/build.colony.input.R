@@ -47,9 +47,7 @@ if(length(colonyfile$n.offspring)!=0){
 if(is.whole(colonyfile$n.offspring)==FALSE){
 flush.console()
 colonyfile<-colonyfile[which(names(colonyfile)!="n.offspring")]
-;warning("The number of offspring must be a whole number!\n",immediate.=TRUE)}}
-
-}
+;warning("The number of offspring must be a whole number!\n",immediate.=TRUE)}}}
 
 
 #######################################################
@@ -65,10 +63,7 @@ if(length(colonyfile$n.loci)!=0){
 if(is.whole(colonyfile$n.loci)==FALSE){
 flush.console()
 colonyfile<-colonyfile[which(names(colonyfile)!="n.loci")]
-;warning("The number of loci must be a whole number!\n",immediate.=TRUE)}}
-
-
-}
+;warning("The number of loci must be a whole number!\n",immediate.=TRUE)}}}
 
 #######################################################
 #  ! I, Seed for random number generator
@@ -145,42 +140,29 @@ cat("Unknown/Known population allele frequency?\n\n\n")
 switch(menu(c("Unknown", "Known")) + 1,
        cat("Nothing done\n\n\n"), colonyfile$knownAFreq<-0, colonyfile$knownAFreq<-1)
 
-write(paste(colonyfile$knownAFreq,"! B, 0/1=Unknown/Known population allele frequency"),name,append=TRUE)
+write(paste(colonyfile$knownAFreq,"! B, 0/1=Unknown/Known population allele frequency\n"),name,append=TRUE)
 
 if(colonyfile$knownAFreq==1){
-while(length(colonyfile$AlleleFreqPATH)==0){
-cat("Select the ALLELE FREQUENCY file.\n\n\n");Sys.sleep(.2)
+while(length(colonyfile$AlleleFreqPATH)==0){ 
+cat("Select the ALLELE FREQUENCY file.\n\n\n")
+Sys.sleep(.2)
 flush.console()
 colonyfile$AlleleFreqPATH<-file.choose()
-
-#cat("What is the delimiter for this file?\n\n\n")
-#flush.console()
-#switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,
-#       cat("Nothing done\n\n\n"), colonyfile$delim.for.allele.freq<-"", colonyfile$delim.for.allele.freq<-"\t", colonyfile$delim.for.allele.freq<-",",delim.for.allele.freq<-"Other")
-#
-#while(length(colonyfile$delim.for.allele.freq)=="Other"){
-#if(colonyfile$delim.for.allele.freq=="Other"){
-#cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-#colonyfile$delim.for.allele.freq<-scan(n=1,what="character")}}
 colonyfile$delim.for.allele.freq<-""
-
-colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$AlleleFreqPATH))
-
+colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$AlleleFreqPATH)))
 flush.console()
-
-if(colonyfile$n.loci!=dim(colonyfile$allele.frequency)[1]/2){colonyfile<-colonyfile[which(names(colonyfile)!="AlleleFreqPATH")]
-;warning(paste("The number of defined loci ","(", colonyfile$n.loci,") does not equal the number of markers provided in the file selected (", dim(colonyfile$allele.frequency)[1]/2,").\n\n",sep=""),immediate.=TRUE)}
 }
+
+
 
 x<-count.fields(colonyfile$AlleleFreqPATH)[seq(2,length(count.fields(colonyfile$AlleleFreqPATH)),2)]
 x<-paste(paste(x,collapse=" "),"!Number of alleles per locus",collapse=" ")
 
-write.table(x,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
+write.table(x,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")
+write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")
+write("\n",name,append=TRUE)
 
-write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
-
-colonyfile$allele.frequency[,1+dim(colonyfile$allele.frequency)[2]]<-c("!Allele frequency",rep("",dim(colonyfile$allele.frequency)[1]-1))
-write.table(colonyfile$allele.frequency,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE,na="")}
+}
 
 
 
@@ -287,6 +269,7 @@ if(colonyfile$n.loci!=dim(colonyfile$Markers)[2]){colonyfile<-colonyfile[which(n
 
 colonyfile$Markers[,1+dim(colonyfile$Markers)[2]]<-c("!Marker IDs","!Marker types, 0/1=Codominant/Dominant","!Marker-specific allelic dropout rate","!Other marker-specific typing-error rate")
 write.table(colonyfile$Markers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("\n",name,append=TRUE)
 
 
 #######################################################
@@ -455,361 +438,220 @@ colonyfile$mothers[,1+dim(colonyfile$mothers)[2]]<-c("!Candidate F ID and genoty
 write.table(colonyfile$mothers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
-
 #######################################################
-#Define known PATERNAL diads
+#Define known PATERNAL dyads and sibships
 #######################################################
 
-while(length(colonyfile$n.known.paternal.diads)==0){
-cat("Enter the number of known offspring-PATERNAL diads.\n\n\n")
-colonyfile$n.known.paternal.diads<-as.numeric(scan(n=1,what="integer"))
+while(length(colonyfile$n.known.paternities.and.sibships)==0){
+cat("Enter the number of known PATERNAL sibships or paternities.\n\n\n")
+colonyfile$n.known.paternities.and.sibships<-as.numeric(scan(n=1,what="integer"))
 
-if(length(colonyfile$n.known.paternal.diads)!=0){
+if(length(colonyfile$n.known.paternities.and.sibships)!=0){
 #Whole number warning 
-if(is.whole(colonyfile$n.known.paternal.diads)==FALSE){
+if(is.whole(colonyfile$n.known.paternities.and.sibships)==FALSE){
 flush.console()
-colonyfile<-colonyfile[which(names(colonyfile)!="n.known.paternal.diads")]
-;warning("The number of known paternal diads must be a whole number!\n",immediate.=TRUE)}}
+colonyfile<-colonyfile[which(names(colonyfile)!="n.known.paternal.dyads")]
+;warning("The number of known paternities and sibships must be a whole number!\n",immediate.=TRUE)}}
 }
 
-if(colonyfile$n.known.paternal.diads>0){
+if(colonyfile$n.known.paternities.and.sibships>0){
 
-#If there are some known paternal diads...
+#If there are some known paternal dyads...
 
 #Get the path, and delimiter, to the file...
-while(length(colonyfile$paternal.diads.PATH)==0){
-	cat("Provide the path to the PATERNAL diads file.\n\n\n")
+while(length(colonyfile$paternities.and.sibships.PATH)==0){
+	cat("Provide the path to the PATERNAL sibships file.\n\n\n")
 	flush.console()
-	colonyfile$paternal.diads.PATH<-file.choose()
+	colonyfile$paternities.and.sibships.PATH<-file.choose()
 
-#	cat("What is the delimiter for this file?\n\n\n")
-#	flush.console()
-#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
-#
-#		#Caveat for if the delimiter is OTHER
-#		while(length(colonyfile$delim.for.paternal.diads.PATH)=="Other"){
-#		if(colonyfile$delim.for.paternal.diads.PATH=="Other"){
-#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-#		colonyfile$delim.for.paternal.diads.PATH<-scan(n=1,what="character")}}
-colonyfile$delim.for.paternal.diads.PATH<-""
+colonyfile$delim.for.paternities.and.sibships.PATH<-""
 
 #Read in the data...
-colonyfile$known.paternal.diads<-read.table(colonyfile$paternal.diads.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.diads.PATH,colClasses=c("character"))
+colonyfile$paternities.and.sibships<-read.table(colonyfile$paternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.paternities.and.sibships.PATH,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$paternities.and.sibships.PATH)))
 
 flush.console()
 
+#split the file up
+
+colonyfile$paternal.dyads<-subset(colonyfile$paternities.and.sibships,X1!=0)
+dyad<-NULL
+for(i in 1:dim(colonyfile$paternal.dyads)[1]){
+
+dyad1<-na.omit(expand.grid(colonyfile$paternal.dyads[i,1],unlist(colonyfile$paternal.dyads[i,2:dim(colonyfile$paternal.dyads)[2]])))
+dyad<-rbind(dyad,dyad1)
+}
+colonyfile$paternal.dyads<-dyad
+rm(dyad)
+
+#Sibships
+colonyfile$paternal.sibships<-subset(colonyfile$paternities.and.sibships,X1==0)
+colonyfile$paternal.sibships[,2:dim(colonyfile$paternal.sibships)[2]]
+
+for(i in 1:dim(colonyfile$paternal.sibships)[1]){
+	colonyfile$paternal.sibships[i,1]<-sum(as.vector(is.na(colonyfile$paternal.sibships[i,])==FALSE))-1
+	}
+
+#Is this still OK?
 #Check the data
-if(colonyfile$n.known.paternal.diads!=dim(colonyfile$known.paternal.diads)[1]){
 
-colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+#1) DO THE NUMBER OF SIBSHIPS/PATERNITIES MATCH UP WITH THE DATA PROVIDED?
+if(colonyfile$n.known.paternities.and.sibships!=dim(colonyfile$paternities.and.sibships)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="paternities.and.sibships.PATH")];
 flush.console();
-warning(paste("The number of defined paternal diads ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternal diads provided in the file selected (", dim(colonyfile$known.paternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined paternities and sibships ","(", colonyfile$n.known.paternities.and.sibships,") does not equal the number of paternal dyads provided in the file selected (", dim(colonyfile$paternities.and.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
 }
 
-#Check the data
-#if(colonyfile$n.known.paternal.diads!=dim(colonyfile$known.paternal.diads)[1]){
-#colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
-#flush.console();
-#warning(paste("The number of defined paternal diads ","(", colonyfile$n.paternal.sibs.or.paternities,") does not equal the number of paternal diads provided in the file selected (", dim(colonyfile$known.paternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
-#}
 
-#if this is true, then all offspring in the diad file are present in the offspring genotype file
-if(sum(colonyfile$known.paternal.diads$V1%in%colonyfile$Offspring[,1])==length(colonyfile$known.paternal.diads$V1)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+
+#3) ARE THE FATHERS IN THE FILE ACTUALLY IN THE DATASET?
+
+fathersinfile<-colonyfile$paternities.and.sibships[,1][colonyfile$paternities.and.sibships[,1]!="0"] #fathers in file
+offspringinfile<-as.vector(na.omit(as.vector(unlist(colonyfile$paternities.and.sibships[,2:ncol(colonyfile$paternities.and.sibships)]))))
+#must check these against the paternal and offpring genotype files
+
+if(sum(fathersinfile%in%colonyfile$fathers[,1])!=length(fathersinfile)){
+colonyfile<-colonyfile[which(names(colonyfile)!="paternities.and.sibships.PATH")];
 flush.console();
-warning(paste("Offspring in diad file are not present in the offspring genotype data:",paste(colonyfile$known.paternal.diads$V1[which(colonyfile$known.paternal.diads$V1%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
+warning(paste("Fathers in the file you provided are not present in the paternal genotype data:",paste(fathersinfile[fathersinfile%in%colonyfile$fathers[,1]==FALSE],collapse=", ")),immediate.=TRUE)
 }
 
-if(sum(colonyfile$known.paternal.diads$V2%in%colonyfile$fathers[,1])==length(colonyfile$known.paternal.diads$V2)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="paternal.diads.PATH")];
+
+if(sum(offspringinfile%in%colonyfile$Offspring[,1])!=length(offspringinfile)){
+colonyfile<-colonyfile[which(names(colonyfile)!="paternities.and.sibships.PATH")];
 flush.console();
-warning(paste("Fathers in diad file are not present in the father genotype data:",paste(colonyfile$known.paternal.diads$V2[which(colonyfile$known.paternal.diads$V2%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
+warning(paste("Offspring in the file you provided are not present in the offspring genotype data:",paste(offspringinfile[offspringinfile%in%colonyfile$Offspring[,1]==FALSE],collapse=", ")),immediate.=TRUE)
 }
 
-
+}
 }
 
-
-write.table(paste(colonyfile$n.known.paternal.diads,"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-colonyfile$known.paternal.diads[,1+dim(colonyfile$known.paternal.diads)[2]]<-c("!IDs of known offspring-father dyad",rep("",dim(colonyfile$known.paternal.diads)[1]-1))
-
-write.table(colonyfile$known.paternal.diads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-
-}else{
-#If there are no known paternal diads
-write.table(paste(colonyfile$n.known.paternal.diads,"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-}
 
 #######################################################
-#Define MATERNAL diads
+#Define known MATERNAL dyads and sibships
 #######################################################
 
-while(length(colonyfile$n.known.maternal.diads)==0){
-cat("Enter the number of known offspring-MATERNAL diads.\n\n\n")
-colonyfile$n.known.maternal.diads<-as.numeric(scan(n=1,what="integer"))
+while(length(colonyfile$n.known.maternities.and.sibships)==0){
+cat("Enter the number of known MATERNAL sibships or maternities.\n\n\n")
+colonyfile$n.known.maternities.and.sibships<-as.numeric(scan(n=1,what="integer"))
 
-if(length(colonyfile$n.known.maternal.diads)!=0){
+if(length(colonyfile$n.known.maternities.and.sibships)!=0){
 #Whole number warning 
-if(is.whole(colonyfile$n.known.maternal.diads)==FALSE){
+if(is.whole(colonyfile$n.known.maternities.and.sibships)==FALSE){
 flush.console()
-colonyfile<-colonyfile[which(names(colonyfile)!="n.known.maternal.diads")]
-;warning("The number of known maternal diads must be a whole number!\n",immediate.=TRUE)}}
+colonyfile<-colonyfile[which(names(colonyfile)!="n.known.maternal.dyads")]
+;warning("The number of known maternities and sibships must be a whole number!\n",immediate.=TRUE)}}
 }
 
-if(colonyfile$n.known.maternal.diads>0){
+if(colonyfile$n.known.maternities.and.sibships>0){
 
-#If there are some known maternal diads...
+#If there are some known maternal dyads...
 
 #Get the path, and delimiter, to the file...
-while(length(colonyfile$maternal.diads.PATH)==0){
-	cat("Provide the path to the MATERNAL diads file.\n\n\n")
+while(length(colonyfile$maternities.and.sibships.PATH)==0){
+	cat("Provide the path to the MATERNAL sibships file.\n\n\n")
 	flush.console()
-	colonyfile$maternal.diads.PATH<-file.choose()
+	colonyfile$maternities.and.sibships.PATH<-file.choose()
 
-	#cat("What is the delimiter for this file?\n\n\n")
-#	flush.console()
-#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
-#
-#		#Caveat for if the delimiter is OTHER
-#		while(length(colonyfile$delim.for.maternal.diads.PATH)=="Other"){
-#		if(colonyfile$delim.for.maternal.diads.PATH=="Other"){
-#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-#		colonyfile$delim.for.maternal.diads.PATH<-scan(n=1,what="character")}}
-colonyfile$delim.for.maternal.diads.PATH<-""
+colonyfile$delim.for.maternities.and.sibships.PATH<-""
 
 #Read in the data...
-colonyfile$known.maternal.diads<-read.table(colonyfile$maternal.diads.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.diads.PATH,colClasses=c("character"))
+colonyfile$maternities.and.sibships<-read.table(colonyfile$maternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.maternities.and.sibships.PATH,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$maternities.and.sibships.PATH)))
 
-#Check the data
-if(colonyfile$n.known.maternal.diads!=dim(colonyfile$known.maternal.diads)[1]){
-colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
-flush.console();
-warning(paste("The number of defined maternal diads ","(", colonyfile$n.known.maternal.diads,") does not equal the number of maternal diads provided in the file selected (", dim(colonyfile$known.maternal.diads)[1],").\n\n",sep=""),immediate.=TRUE)
-}
-
-#if this is true, then all offspring in the diad file are present in the offspring genotype file
-if(sum(colonyfile$known.maternal.diads$V1%in%colonyfile$Offspring[,1])==length(colonyfile$known.maternal.diads$V1)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
-flush.console();
-warning(paste("Offspring in diad file are not present in the offspring genotype data:",paste(colonyfile$known.maternal.diads$V1[which(colonyfile$known.maternal.diads$V1%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
-}
-
-if(sum(colonyfile$known.maternal.diads$V2%in%colonyfile$mothers[,1])==length(colonyfile$known.maternal.diads$V2)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="maternal.diads.PATH")];
-flush.console();
-warning(paste("Mothers in diad file are not present in the mother genotype data:",paste(colonyfile$known.maternal.diads$V2[which(colonyfile$known.maternal.diads$V2%in%colonyfile$Offspring[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
-}
-
-
-
-}
-
-
-write.table(paste(colonyfile$n.known.maternal.diads," !Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-colonyfile$known.maternal.diads[,1+dim(colonyfile$known.maternal.diads)[2]]<-c("!IDs of known offspring-mother dyad",rep("",dim(colonyfile$known.maternal.diads)[1]-1))
-
-write.table(colonyfile$known.maternal.diads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-
-}else{
-#If there are no known maternal diads
-write.table(paste(colonyfile$n.known.maternal.diads," !Number of known offspring-mother dyad"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-}
- 
-#######################################################
-#Define PATERNAL sibships
-#######################################################
-
-
-while(length(colonyfile$n.paternal.sibships)==0){
-cat("Enter the number of known PATERNAL sibship/paternity.\nA known paternal sibship contains all of the offspring in the offspring sample who are known to share the same father no matter whether the father is known or not (unknown fathers are coded with 0).\n\n")
-colonyfile$n.paternal.sibships<-as.numeric(scan(n=1,what="integer"))
-
-if(length(colonyfile$n.paternal.sibships)!=0){
-#Whole number warning 
-if(is.whole(colonyfile$n.paternal.sibships)==FALSE){
 flush.console()
-colonyfile<-colonyfile[which(names(colonyfile)!="n.paternal.sibships")];
-warning("The number of known paternal sibships must be a whole number!\n",immediate.=TRUE)}}
+
+#split the file up
+
+colonyfile$maternal.dyads<-subset(colonyfile$maternities.and.sibships,X1!=0)
+dyad<-NULL
+for(i in 1:dim(colonyfile$maternal.dyads)[1]){
+
+dyad1<-na.omit(expand.grid(colonyfile$maternal.dyads[i,1],unlist(colonyfile$maternal.dyads[i,2:dim(colonyfile$maternal.dyads)[2]])))
+dyad<-rbind(dyad,dyad1)
 }
+colonyfile$maternal.dyads<-dyad
+rm(dyad)
 
+#Sibships
+colonyfile$maternal.sibships<-subset(colonyfile$maternities.and.sibships,X1==0)
+colonyfile$maternal.sibships[,2:dim(colonyfile$maternal.sibships)[2]]
 
-if(colonyfile$n.paternal.sibships>0){
+for(i in 1:dim(colonyfile$maternal.sibships)[1]){
+	colonyfile$maternal.sibships[i,1]<-sum(as.vector(is.na(colonyfile$maternal.sibships[i,])==FALSE))-1
+	}
 
-#If there are some known sibships...
-
-#Get the path, and delimiter, to the file...
-while(length(colonyfile$paternal.sibs.PATH)==0){
-	cat("Provide the path to the candidate PATERNAL SIBSHIPS file.\n\n\n")
-	flush.console()
-	colonyfile$paternal.sibs.PATH<-file.choose()
-
-#	cat("What is the delimiter for this file?\n\n\n")
-#	flush.console()
-#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.paternal.sibs.PATH<-"", colonyfile$delim.for.paternal.sibs.PATH<-"\t", colonyfile$delim.for.paternal.sibs.PATH<-",",delim.for.paternal.sibs.PATH<-"Other")
-#
-#		#Caveat for if the delimiter is OTHER
-#		while(length(colonyfile$delim.for.paternal.sibs.PATH)=="Other"){
-#		if(colonyfile$delim.for.paternal.sibs.PATH=="Other"){
-#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-#		colonyfile$delim.for.paternal.sibs.PATH<-scan(n=1,what="character")}}
-colonyfile$delim.for.paternal.sibs.PATH<-""
-
-#Read in the data...
-colonyfile$paternal.sibships<-read.table(colonyfile$paternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.paternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
-
+#Is this still OK?
 #Check the data
-if(colonyfile$n.paternal.sibships!=dim(colonyfile$paternal.sibships)[1]){
-colonyfile<-colonyfile[which(names(colonyfile)!="paternal.sibs.PATH")];
+
+#1) DO THE NUMBER OF SIBSHIPS/PATERNITIES MATCH UP WITH THE DATA PROVIDED?
+if(colonyfile$n.known.maternities.and.sibships!=dim(colonyfile$maternities.and.sibships)[1]){
+colonyfile<-colonyfile[which(names(colonyfile)!="maternities.and.sibships.PATH")];
 flush.console();
-warning(paste("The number of defined paternal sibs/paternities ","(", colonyfile$n.paternal.sibships,") does not equal the number of paternities provided in the file selected (", dim(colonyfile$paternal.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
+warning(paste("The number of defined maternities and sibships ","(", colonyfile$n.known.maternities.and.sibships,") does not equal the number of maternal dyads provided in the file selected (", dim(colonyfile$maternities.and.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
 }
 
-#Futher checks
-#if this is true, then all offspring in the diad file are present in the offspring genotype file
-if(sum(colonyfile$paternal.sibships$V1%in%colonyfile$fathers[,1])==length(colonyfile$paternal.sibships$V1)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="paternal.sibs.PATH")];
+
+
+#3) ARE THE FATHERS IN THE FILE ACTUALLY IN THE DATASET?
+
+mothersinfile<-colonyfile$maternities.and.sibships[,1][colonyfile$maternities.and.sibships[,1]!="0"] #mothers in file
+offspringinfile<-as.vector(na.omit(as.vector(unlist(colonyfile$maternities.and.sibships[,2:ncol(colonyfile$maternities.and.sibships)]))))
+#must check these against the maternal and offpring genotype files
+
+if(sum(mothersinfile%in%colonyfile$mothers[,1])!=length(mothersinfile)){
+colonyfile<-colonyfile[which(names(colonyfile)!="maternities.and.sibships.PATH")];
 flush.console();
-warning(paste("Fathers in paternal sibships file are not present in the fathers genotype data:",paste(colonyfile$paternal.sibships$V1[which(colonyfile$paternal.sibships$V1%in%colonyfile$fathers[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
+warning(paste("Mothers in the file you provided are not present in the maternal genotype data:",paste(mothersinfile[mothersinfile%in%colonyfile$mothers[,1]==FALSE],collapse=", ")),immediate.=TRUE)
 }
 
-os<-na.omit(as.vector(as.matrix(colonyfile$paternal.sibships[,2:dim(colonyfile$paternal.sibships)[2]])))
 
-if(sum(os%in%colonyfile$fathers[,1])==length(os)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="paternal.sibs.PATH")];
+if(sum(offspringinfile%in%colonyfile$Offspring[,1])!=length(offspringinfile)){
+colonyfile<-colonyfile[which(names(colonyfile)!="maternities.and.sibships.PATH")];
 flush.console();
-warning(paste("Offspring in paternal sibships file are not present in the fathers genotype data:",paste(os[which(os%in%colonyfile$fathers[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
+warning(paste("Offspring in the file you provided are not present in the offspring genotype data:",paste(offspringinfile[offspringinfile%in%colonyfile$Offspring[,1]==FALSE],collapse=", ")),immediate.=TRUE)
+}
+}
 }
 
-}	
+
+#Paternal Dyads
+if(length(colonyfile$paternal.dyads)==0){
+write.table("0   !Number of known paternities",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)}else{
+write.table(paste(dim(colonyfile$paternal.dyads)[1],"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$paternal.dyads<-colonyfile$paternal.dyads[2:1]
+colonyfile$paternal.dyads[,1+dim(colonyfile$paternal.dyads)[2]]<-c("!IDs of known offspring-father dyad",rep("",dim(colonyfile$paternal.dyads)[1]-1))
+write.table(colonyfile$paternal.dyads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)}
+
+#Maternal Dyads
+if(length(colonyfile$maternal.dyads)==0){
+write.table("0   !Number of known maternities",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)}else{
+write.table(paste(dim(colonyfile$maternal.dyads)[1],"!Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+colonyfile$maternal.dyads<-colonyfile$maternal.dyads[2:1]
+colonyfile$maternal.dyads[,1+dim(colonyfile$maternal.dyads)[2]]<-c("!IDs of known offspring-mother dyad",rep("",dim(colonyfile$maternal.dyads)[1]-1))
+write.table(colonyfile$maternal.dyads,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)}
 
 
-write.table(paste(colonyfile$n.paternal.sibships," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
-#Output KnownPaternity.txt
-if(colonyfile$n.paternal.sibships>0){
-temp1<-as.data.frame(colonyfile$paternal.sibships)
-names(temp1)<-c("FatherID",paste("OffspringID",1:(dim(temp1)[2]-1),sep=""))
-write.table(temp1,"KnownPaternity.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
-
-#remove first column
-colonyfile$paternal.sibships<-colonyfile$paternal.sibships[,2:dim(colonyfile$paternal.sibships)[2]]
-colonyfile$paternal.sibships[,1+dim(colonyfile$paternal.sibships)[2]]<-c("!Size of known paternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$paternal.sibships)[1]-1))
-
-csum<-NULL
-for (i in 1:dim(colonyfile$paternal.sibships)[1]){
-csum[i]<-length(colonyfile$paternal.sibships[i,][!is.na(colonyfile$paternal.sibships[i,])])}
-csum<-csum-1
-
-colonyfile$paternal.sibships<-cbind(csum,colonyfile$paternal.sibships)
-
+#Paternal sibships
+if(length(colonyfile$paternal.sibships)==0){
+write.table("0   !Number of known paternal sibships with unknown fathers",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)}else{
+write.table(paste(dim(colonyfile$paternal.sibships)[1],"!Number of known paternal sibships with unknown fathers "),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(colonyfile$paternal.sibships,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-
-}else{
-#If there are no known sibships
-write.table(paste(colonyfile$n.paternal.sibships," !Number of known paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-}
-
-#######################################################
-#Define MATERNAL sibships
-#######################################################
-
-while(length(colonyfile$n.maternal.sibships)==0){
-cat("Enter the number of known MATERNAL sibship/paternity.\nA known maternal sibship contains all of the offspring in the offspring sample who are known to share the same mother no matter whether the mother is known or not (unknown mothers are coded with 0).\n\n")
-colonyfile$n.maternal.sibships<-as.numeric(scan(n=1,what="integer"))
-
-if(length(colonyfile$n.maternal.sibships)!=0){
-#Whole number warning 
-if(is.whole(colonyfile$n.maternal.sibships)==FALSE){
-flush.console()
-colonyfile<-colonyfile[which(names(colonyfile)!="n.maternal.sibships")];
-warning("The number of known maternal sibships must be a whole number!\n",immediate.=TRUE)}}
-}
+write("",name,append=TRUE)}
 
 
-if(colonyfile$n.maternal.sibships>0){
-
-#If there are some known sibships...
-
-#Get the path, and delimiter, to the file...
-while(length(colonyfile$maternal.sibs.PATH)==0){
-	cat("Provide the path to the MATERNAL SIBSHIPS file.\n\n\n")
-	flush.console()
-	colonyfile$maternal.sibs.PATH<-file.choose()
-
-#	cat("What is the delimiter for this file?\n\n\n")
-#	flush.console()
-#	switch(menu(c("Whitespace", "Tab","Comma", "Other")) + 1,cat("Nothing done\n\n\n"), colonyfile$delim.for.maternal.sibs.PATH<-"", colonyfile$delim.for.maternal.sibs.PATH<-"\t", colonyfile$delim.for.maternal.sibs.PATH<-",",delim.for.maternal.sibs.PATH<-"Other")
-#
-#		#Caveat for if the delimiter is OTHER
-#		while(length(colonyfile$delim.for.maternal.sibs.PATH)=="Other"){
-#		if(colonyfile$delim.for.maternal.sibs.PATH=="Other"){
-#		cat("You chose OTHER. Please enter the delimiter for this file.\n\n\n")
-#		colonyfile$delim.for.maternal.sibs.PATH<-scan(n=1,what="character")}}
-colonyfile$delim.for.maternal.sibs.PATH<-""
-
-#Read in the data...
-colonyfile$maternal.sibships<-read.table(colonyfile$maternal.sibs.PATH,header=FALSE,sep=colonyfile$delim.for.maternal.sibs.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
-
-#Check the data
-if(colonyfile$n.maternal.sibships!=dim(colonyfile$maternal.sibships)[1]){
-colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
-flush.console();
-warning(paste("The number of defined maternal sibs/maternities ","(", colonyfile$n.maternal.sibships,") does not equal the number of maternities provided in the file selected (", dim(colonyfile$maternal.sibships)[1],").\n\n",sep=""),immediate.=TRUE)
-}
-
-#Futher checks
-#if this is true, then all offspring in the diad file are present in the offspring genotype file
-if(sum(colonyfile$maternal.sibships$V1%in%colonyfile$mothers[,1])==length(colonyfile$maternal.sibships$V1) ){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
-flush.console();
-warning(paste("Mothers in maternal sibships file are not present in the mothers genotype data:",paste(colonyfile$maternal.sibships$V1[which(colonyfile$maternal.sibships$V1%in%colonyfile$mothers[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
-}
-
-os<-na.omit(as.vector(as.matrix(colonyfile$maternal.sibships[,2:dim(colonyfile$maternal.sibships)[2]])))
-
-if(sum(os%in%colonyfile$fathers[,1])==length(os)){}else{
-colonyfile<-colonyfile[which(names(colonyfile)!="maternal.sibs.PATH")];
-flush.console();
-warning(paste("Offspring in maternal sibships file are not present in the mothers genotype data:",paste(os[which(os%in%colonyfile$mothers[,1]==FALSE)], collapse=", ")),immediate.=TRUE)
-}
-
-
-}
-
-write.table(paste(colonyfile$n.maternal.sibships," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-
-#Output KnownMaternity.txt
-if(colonyfile$n.maternal.sibships>0){
-temp1<-as.data.frame(colonyfile$maternal.sibships)
-names(temp1)<-c("MotherID",paste("OffspringID",1:(dim(temp1)[2]-1),sep=""))
-write.table(temp1,"KnownMaternity.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
-
-
-#remove first column
-colonyfile$maternal.sibships<-colonyfile$maternal.sibships[,2:dim(colonyfile$maternal.sibships)[2]]
-colonyfile$maternal.sibships[,1+dim(colonyfile$maternal.sibships)[2]]<-c("!Size of known maternal sibship, and IDs of offspring in the sibship",rep("",dim(colonyfile$maternal.sibships)[1]-1))
-
-csum<-NULL
-for (i in 1:dim(colonyfile$maternal.sibships)[1]){
-csum[i]<-length(colonyfile$maternal.sibships[i,][!is.na(colonyfile$maternal.sibships[i,])])}
-csum<-csum-1
-
-colonyfile$maternal.sibships<-cbind(csum,colonyfile$maternal.sibships)
-
+#Maternal sibships
+if(length(colonyfile$maternal.sibships)==0){
+write.table("0   !Number of known maternal sibships with unknown mothers",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+write("",name,append=TRUE)}else{
+write.table(paste(dim(colonyfile$maternal.sibships)[1],"!Number of known maternal sibships with unknown mothers "),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(colonyfile$maternal.sibships,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
+write("",name,append=TRUE)}
 
-}else{
-#If there are no known sibships
-write.table(paste(colonyfile$n.maternal.sibships," !Number of known maternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
-write("",name,append=TRUE)
-}
+
 
 #######################################################
 #Define excluded PATERNITIES
@@ -865,7 +707,7 @@ warning(paste("The number of defined excluded paternities ","(", colonyfile$n.ex
 
 
 #Futher checks
-#if this is true, then all offspring in the diad file are present in the offspring genotype file
+#if this is true, then all offspring in the dyad file are present in the offspring genotype file
 if(sum(colonyfile$excluded.paternities$V1%in%colonyfile$Offspring[,1])==length(colonyfile$excluded.paternities$V1)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternities.PATH")];
 flush.console();
@@ -956,7 +798,7 @@ names(temp1)<-c("OffspringID",paste("ExcludedMotherID",1:(dim(temp1)[2]-1),sep="
 write.table(temp1,"ExcludedMaternity.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
 
 #Futher checks
-#if this is true, then all offspring in the diad file are present in the offspring genotype file
+#if this is true, then all offspring in the dyad file are present in the offspring genotype file
 if(sum(colonyfile$excluded.maternities$V1%in%colonyfile$Offspring[,1])==length(colonyfile$excluded.maternities$V1)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternities.PATH")];
 flush.console();
@@ -1190,19 +1032,17 @@ n<-(dim(temp1)[2])-1
 names(temp1)<-c("Female",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep(1:2,(n/2)),sep="-"))
 write.table(temp1,"FemaleGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
 
-#KnownPaternalDiads.txt
-if(colonyfile$n.known.paternal.diads>0){
-temp1<-as.data.frame(colonyfile$known.paternal.diads)
-temp1<-temp1[,1:dim(temp1)[2]-1]
+#KnownPaternalDyads.txt
+if(length(colonyfile$paternal.dyads)>0){
+temp1<-colonyfile$paternal.dyads[c(2,1)]
 names(temp1)<-c("OffspringID","Father")
-write.table(temp1,"KnownPaternalDiads.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
+write.table(temp1,"KnownPaternalDyads.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
 
-#KnownMaternalDiads.txt
-if(colonyfile$n.known.maternal.diads>0){
-temp1<-as.data.frame(colonyfile$known.maternal.diads)
-temp1<-temp1[,1:dim(temp1)[2]-1]
-names(temp1)<-c("Offspring","Mother")
-write.table(temp1,"KnownMaternalDiads.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
+#KnownMaternalDyads.txt
+if(length(colonyfile$maternal.dyads)>0){
+temp1<-colonyfile$maternal.dyads[c(2,1)]
+names(temp1)<-c("OffspringID","Mother")
+write.table(temp1,"KnownMaternalDyads.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
 
 
 #KnownPaternity.txt - see earlier
