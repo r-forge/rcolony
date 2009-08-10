@@ -17,7 +17,7 @@ MidResult<-NULL
   
   if(elapsed.t>interv.t){
   
-  fileok<-file.exists(paste(datadir,"temp.txt",sep=""))
+  fileok<-file.exists(paste(datadir,"temp.txt",sep="/"))
 
 if(fileok==TRUE){ 
 if(!is.na(get.interm.data(datadir=datadir,variable=variable,n=n)[1,1])){
@@ -28,8 +28,17 @@ if(!is.na(get.interm.data(datadir=datadir,variable=variable,n=n)[1,1])){
 x<-MidResult[,1]
 y<-MidResult[,2]
   
+
+if(last.few==0){
 plot(x,y,xlab="",ylab="",type="n")
 points(x,y,type="b")
+}else{
+fr<-length(x)-last.few
+if(fr<1){fr<-1}else{}
+plot(x[fr:length(x)],y[fr:length(x)],xlab="",ylab="",type="n")
+points(x[fr:length(x)],y[fr:length(x)],type="b")}
+
+
 
 #add points to show max and min reached till that point
 
@@ -38,12 +47,12 @@ title(xlab="NumIterate",ylab=variable)
 #add routine to delete contents if file is too big.
 #50lines?
 
-tmp<-readLines(paste(datadir,"temp.txt",sep=""))
+tmp<-readLines(paste(datadir,"temp.txt",sep="/"))
 n<-50
 from<-if(length(tmp)-n>0){length(tmp)-n>0}else{1}
 to<-length(tmp)
 
-write.table(tmp[from:to],file="temp.txt",row.names=FALSE,col.names=FALSE,quote=FALSE)
+write.table(tmp[from:to],file=paste(datadir,"temp.txt",sep="/"),row.names=FALSE,col.names=FALSE,quote=FALSE)
 
 if(showres==TRUE){print(MidResult)}
 

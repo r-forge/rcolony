@@ -1,8 +1,8 @@
-run.colony<-function(colonyexecpath="prompt",datfilepath="prompt",wait=TRUE,monitor=TRUE){
+run.colony<-function(colonyexecpath="prompt",datfilepath="prompt",wait=FALSE,monitor=TRUE){
 	 #don't forget the trailing slash!
 
 if(colonyexecpath=="prompt"){
-cat("Please click to select your Colony2 executable (probably called Colony2.exe or Colony2.app).\n\n")
+cat("Please click to select your Colony2 executable (probably called Colony2.exe or Colony2).\n\n")
 flush.console()
 colonyexecpath<-file.choose()}
 
@@ -30,7 +30,7 @@ setwd(datadir)
 
 if(monitor==TRUE&wait==TRUE){stop("If you want to monitor the output, you must set wait as FALSE. Otherwise you cannot run other functions in the same R console.")}
 
-cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings.\n")
+cat("Be aware: this may take several minutes, hours, or even weeks to run, depending on the settings used.\n")
 	 
 platform<-.Platform
 if(platform$OS.type=="unix"){
@@ -38,8 +38,9 @@ if(platform$OS.type=="unix"){
 #Unix/MacOSX commands
 	
 #Copy Colony2 program to the working directory
-	system(paste("cp",colonyexecpath,datadir,sep=" "))
-	
+	 if(file.exists("Colony2")==FALSE){
+system(paste("cp",colonyexecpath,datadir,sep=" "))
+	}
 #Rename the DAT file as Colony2.DAT (unless it is already called "Colony2.DAT")
 if(filename!="Colony2.DAT"){system(paste("mv",paste(datadir,filename,sep=""),paste(datadir,"Colony2.DAT",sep=""),sep=" "))}
 	
@@ -52,11 +53,18 @@ if(filename!="Colony2.DAT"){system(paste("cp",paste(datadir,"Colony2.DAT",sep=""
 #It is recommended that monitor = TRUE only be used if you will periodically monitor the system, otherwise the text file will grow very large and may burden the system.
 #There is currently no way of monitoring the Windows system.
 #if(monitor==TRUE){system("./Colony2.exe 2>&1 | tee temp.txt",wait=wait)}else{system("./Colony2.exe",wait=wait)}
+
+cat("#! /bin/sh\necho Running Colony2\nexport G95_MEM_SEGMENTS=0\n./Colony2" , file = paste(datadir,"Colony2.sh",sep=""),append = FALSE)
+
 if(monitor==TRUE){system("sh Colony2.sh | tee temp.txt",wait=wait)}else{system("sh Colony2.sh",wait=wait)}
+#if(monitor==TRUE){system("./Colony2 | tee temp.txt",wait=wait)}else{system("./Colony2",wait=wait)}
 
 
 #Remove the Colony2.exe and 
 	system(paste("rm",colonyexec))
+		#
+		if(file.exists("Colony2.sh")){system(paste("rm Colony2.sh"))}else{}
+
 if(filename!="Colony2.DAT"){system("rm Colony2.DAT")}
 
 

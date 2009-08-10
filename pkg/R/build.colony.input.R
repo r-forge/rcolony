@@ -208,7 +208,7 @@ write(paste(colonyfile$monitortype,"! B, 0/1=Monitor method by Iterate#/Time in 
 while(length(colonyfile$interval)==0){
 cat("Monitor interval (in iterate number or seconds) depending on how you have chosen to monitor progress.\n\n\n")
 colonyfile$interval<-as.numeric(scan(n=1,what="integer"))
-write(paste(colonyfile$interval,"! I, Monitor interval in Iterate#/Seconds"),name,append=TRUE)}
+write(paste(format(colonyfile$interval,scientific=F),"! I, Monitor interval in Iterate#/Seconds"),name,append=TRUE)}
 
 #######################################################
 #  ! B, 0/1=Other platform/Windows execution
@@ -618,7 +618,7 @@ warning(paste("Offspring in the file you provided are not present in the offspri
 
 
 #Paternal Dyads
-if(length(colonyfile$paternal.dyads)==0){
+if(dim(colonyfile$paternal.dyads)[1]==0){
 write.table("0   !Number of known paternities",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$paternal.dyads)[1],"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -628,7 +628,7 @@ write.table(colonyfile$paternal.dyads,name,append=TRUE,quote=FALSE,na=" ",row.na
 write("",name,append=TRUE)}
 
 #Maternal Dyads
-if(length(colonyfile$maternal.dyads)==0){
+if(dim(colonyfile$maternal.dyads)[1]==0){
 write.table("0   !Number of known maternities",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$maternal.dyads)[1],"!Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -639,7 +639,7 @@ write("",name,append=TRUE)}
 
 
 #Paternal sibships
-if(length(colonyfile$paternal.sibships)==0){
+if(dim(colonyfile$paternal.sibships)[1]==0){
 write.table("0   !Number of known paternal sibships with unknown fathers",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$paternal.sibships)[1],"!Number of known paternal sibships with unknown fathers "),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -648,7 +648,7 @@ write("",name,append=TRUE)}
 
 
 #Maternal sibships
-if(length(colonyfile$maternal.sibships)==0){
+if(dim(colonyfile$maternal.sibships)[1]==0){
 write.table("0   !Number of known maternal sibships with unknown mothers",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$maternal.sibships)[1],"!Number of known maternal sibships with unknown mothers "),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -710,7 +710,7 @@ warning(paste("The number of defined excluded paternities ","(", colonyfile$n.ex
 }
 
 
-#Futher checks
+#Further checks
 #if this is true, then all offspring in the dyad file are present in the offspring genotype file
 if(sum(colonyfile$excluded.paternities$V1%in%colonyfile$Offspring[,1])==length(colonyfile$excluded.paternities$V1)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.paternities.PATH")];
@@ -731,7 +731,7 @@ warning(paste("Fathers in excluded paternities file are not present in the fathe
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.paternities)[1]){
 csum[i]<-length(colonyfile$excluded.paternities[i,][!is.na(colonyfile$excluded.paternities[i,])])}
-colonyfile$excluded.paternities[,1]<-csum
+#colonyfile$excluded.paternities[,1]<-csum
 csum<-csum-1
 
 write.table(paste(colonyfile$n.excluded.paternities,"!Number of offspring with known excluded paternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -799,6 +799,7 @@ warning(paste("The number of defined excluded maternities ","(", colonyfile$n.ex
 if(colonyfile$n.excluded.maternities>0){#Write ExcludedMaternity.txt file
 temp1<-as.data.frame(colonyfile$excluded.maternities)
 names(temp1)<-c("OffspringID",paste("ExcludedMotherID",1:(dim(temp1)[2]-1),sep=""))
+
 write.table(temp1,"ExcludedMaternity.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)}
 
 #Futher checks
@@ -814,7 +815,7 @@ os<-na.omit(as.vector(as.matrix(colonyfile$excluded.maternities[,2:dim(colonyfil
 if(sum(os%in%colonyfile$mothers[,1])==length(os)){}else{
 colonyfile<-colonyfile[which(names(colonyfile)!="excluded.maternities.PATH")];
 flush.console();
-warning(paste("Fathers in excluded maternities file are not present in the mothers genotype data:",paste(os[which(os%in%colonyfile$mothers[,1]==FALSE)], collapse=", ")),immediate.=TRUE)}
+warning(paste("Mothers in excluded maternities file are not present in the mothers genotype data:",paste(os[which(os%in%colonyfile$mothers[,1]==FALSE)], collapse=", ")),immediate.=TRUE)}
 
 
 
@@ -823,7 +824,7 @@ warning(paste("Fathers in excluded maternities file are not present in the mothe
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.maternities)[1]){
 csum[i]<-length(colonyfile$excluded.maternities[i,][!is.na(colonyfile$excluded.maternities[i,])])}
-colonyfile$excluded.maternities[,1]<-csum
+#colonyfile$excluded.maternities[,1]<-csum
 csum<-csum-1
 
 write.table(paste(colonyfile$n.excluded.maternities,"!Number of offspring with known excluded maternity"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -900,7 +901,6 @@ warning(paste("Offspring in excluded paternal sibships file are not present in t
 
 
 
-#ORJ: The formatting for this needs to be checked with Jinliang.
 colonyfile$excluded.paternal.sibships[,1+dim(colonyfile$excluded.paternal.sibships)[2]]<-c("!Size of known excluded paternal sibship, and IDs of excluded offspring in the sibship",rep("",dim(colonyfile$excluded.paternal.sibships)[1]-1))
 csum<-NULL
 for (i in 1:dim(colonyfile$excluded.paternal.sibships)[1]){

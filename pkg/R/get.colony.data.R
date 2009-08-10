@@ -15,7 +15,7 @@ x<-readLines(paste(datadir,filename,sep=""))
 
 #Extract the number of offspring from the dat file. This information is used for error checking later on.
 
-n<-x[grep("! I, Number of offspring in the sample",x)]
+n<-x[3]
 n <- sub("! I, Number of offspring in the sample", "",n)
 n <- sub("^[\t\n\f\r ]*", "",n) #remove leading whitespace
 n<-as.numeric(gsub("([A-Za-z0-9]*)([!0-9A-Za-z ]*)", "\\1", n, perl=TRUE))
@@ -25,8 +25,14 @@ n<-as.numeric(gsub("([A-Za-z0-9]*)([!0-9A-Za-z ]*)", "\\1", n, perl=TRUE))
 ###################################################
 
 offspring<-x[grep("!Offspring ID and genotypes",x):(grep("!Prob that the dad and mum of an offspring included in candidates",x)-2)] #M for male, F for female
+offspring<-offspring[offspring!=""]
+
 fathers<-x[grep("!Candidate M ID and genotypes",x):(grep("!Candidate F ID and genotypes",x)-2)] #M for male, F for female
+fathers<-fathers[fathers!=""]
+
 mothers<-x[grep("!Candidate F ID and genotypes",x):(grep("!Number of offspring with known father",x)-3)] #M for male, F for female
+mothers<-mothers[mothers!=""]
+
 
 #remove leading whitespace
 offspring <- sub("^[\t\n\f\r ]*", "",offspring) #remove leading whitespace

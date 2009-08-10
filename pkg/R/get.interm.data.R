@@ -16,7 +16,7 @@ for (i in 1:length(ind)){
 
 return(x.out)}
 
-outfile<-readLines(paste(datadir,"temp.txt",sep=""))
+outfile<-readLines(paste(datadir,"temp.txt",sep="/"))
 
 Itr<-getval("Itr",outfile)
 length(Itr)
