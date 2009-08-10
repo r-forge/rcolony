@@ -473,23 +473,26 @@ flush.console()
 
 #split the file up
 
-colonyfile$paternal.dyads<-subset(colonyfile$paternities.and.sibships,colonyfile$X1!=0)
+colonyfile$paternal.dyads<-subset(colonyfile$paternities.and.sibships,colonyfile$paternities.and.sibships$X1!=0)
 dyad<-NULL
-for(i in 1:dim(colonyfile$paternal.dyads)[1]){
 
+if(dim(colonyfile$paternal.dyads)[1]==0){}else{
+for(i in 1:dim(colonyfile$paternal.dyads)[1]){
 dyad1<-na.omit(expand.grid(colonyfile$paternal.dyads[i,1],unlist(colonyfile$paternal.dyads[i,2:dim(colonyfile$paternal.dyads)[2]])))
 dyad<-rbind(dyad,dyad1)
 }
-colonyfile$paternal.dyads<-dyad
+colonyfile$paternal.dyads<-dyad}
 rm(dyad)
 
 #Sibships
 colonyfile$paternal.sibships<-subset(colonyfile$paternities.and.sibships,colonyfile$X1==0)
 colonyfile$paternal.sibships[,2:dim(colonyfile$paternal.sibships)[2]]
 
+if(dim(colonyfile$paternal.sibships)[1]==0){}else{
+
 for(i in 1:dim(colonyfile$paternal.sibships)[1]){
 	colonyfile$paternal.sibships[i,1]<-sum(as.vector(is.na(colonyfile$paternal.sibships[i,])==FALSE))-1
-	}
+	}}
 
 #Is this still OK?
 #Check the data
@@ -561,23 +564,24 @@ flush.console()
 
 #split the file up
 
-colonyfile$maternal.dyads<-subset(colonyfile$maternities.and.sibships,colonyfile$X1!=0)
+colonyfile$maternal.dyads<-subset(colonyfile$maternities.and.sibships,colonyfile$maternities.and.sibships$X1!=0)
 dyad<-NULL
+if(dim(colonyfile$maternal.dyads)[1]==0){}else{
 for(i in 1:dim(colonyfile$maternal.dyads)[1]){
-
 dyad1<-na.omit(expand.grid(colonyfile$maternal.dyads[i,1],unlist(colonyfile$maternal.dyads[i,2:dim(colonyfile$maternal.dyads)[2]])))
 dyad<-rbind(dyad,dyad1)
 }
-colonyfile$maternal.dyads<-dyad
+colonyfile$maternal.dyads<-dyad}
 rm(dyad)
 
 #Sibships
-colonyfile$maternal.sibships<-subset(colonyfile$maternities.and.sibships,colonyfile$X1==0)
+colonyfile$maternal.sibships<-subset(colonyfile$maternities.and.sibships,colonyfile$maternities.and.sibships$X1==0)
 colonyfile$maternal.sibships[,2:dim(colonyfile$maternal.sibships)[2]]
 
+if(dim(colonyfile$maternal.sibships)[1]==0){}else{
 for(i in 1:dim(colonyfile$maternal.sibships)[1]){
 	colonyfile$maternal.sibships[i,1]<-sum(as.vector(is.na(colonyfile$maternal.sibships[i,])==FALSE))-1
-	}
+	}}
 
 #Is this still OK?
 #Check the data
@@ -591,7 +595,7 @@ warning(paste("The number of defined maternities and sibships ","(", colonyfile$
 
 
 
-#3) ARE THE FATHERS IN THE FILE ACTUALLY IN THE DATASET?
+#3) ARE THE MOTHERS IN THE FILE ACTUALLY IN THE DATASET?
 
 mothersinfile<-colonyfile$maternities.and.sibships[,1][colonyfile$maternities.and.sibships[,1]!="0"] #mothers in file
 offspringinfile<-as.vector(na.omit(as.vector(unlist(colonyfile$maternities.and.sibships[,2:ncol(colonyfile$maternities.and.sibships)]))))
