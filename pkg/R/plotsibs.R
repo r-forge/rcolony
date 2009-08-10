@@ -36,13 +36,13 @@ alloffspring$offspring.numID<-as.numeric(alloffspring$offspring.numID)
 	 title(main=maintitle)
 	 
 	 #Plot the data.
-	 hs<-subset(sibs,type=="Half"&Probability>prob)
+	 hs<-subset(sibs,sibs$type=="Half"&sibs$Probability>prob)
 	 for (i in 1:dim(hs)[1]){
 		 #If Halfsib, then put the greater number first
 		 if(hs[i,5]>hs[i,6]){points(hs[i,5],hs[i,6],pch=16,col="#33CCFF98")}else{points(hs[i,6],hs[i,5],pch=16,col="#33CCFF98")}
 		 }
 	 
-	 fs<-subset(sibs,type=="Full"&Probability>prob)
+	 fs<-subset(sibs,sibs$type=="Full"&sibs$Probability>prob)
 	 for (i in 1:dim(fs)[1]){
 		 #If Halfsib, then put the greater number first
 		 if(fs[i,5]<fs[i,6]){points(fs[i,5],fs[i,6],pch=16,col="#FF669998")}else{points(fs[i,6],fs[i,5],pch=16,col="#FF669998")}
