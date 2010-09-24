@@ -103,11 +103,11 @@ write(paste(colonyfile$ploidy,"! B, 0/1=Diploid species/HaploDiploid species"),n
 #######################################################
 cat("Are males monogamous or polygamous?\nSee help for definitions.\n\n")
 switch(menu(c("Males monogamous", "Males polygamous")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$malepolygamy<-0, colonyfile$malepolygamy<-1)
+       cat("Nothing done\n\n\n"), colonyfile$malepolygamy<-1, colonyfile$malepolygamy<-0)
 
 cat("Are females monogamous or polygamous?\nSee help for definitions.\n\n")
 switch(menu(c("Females monogamous", "Females polygamous")) + 1,
-       cat("Nothing done\n\n\n"), colonyfile$femalepolygamy<-0, colonyfile$femalepolygamy<-1)
+       cat("Nothing done\n\n\n"), colonyfile$femalepolygamy<-1, colonyfile$femalepolygamy<-0)
 write(paste(colonyfile$malepolygamy,colonyfile$femalepolygamy,"! B, 0/1=Polygamy/Monogamy for males & females"),name,append=TRUE)
 
 #######################################################
