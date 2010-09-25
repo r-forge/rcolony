@@ -19,7 +19,7 @@ Both the x and y axis represent individuals in the population and points indicat
 \examples{
 data(testdata)
 
-plotsibs(testdata,maintitle="Sibships (paiwise)",pairwise=TRUE)
+plotsibs(testdata,maintitle="Sibships (pairwise)",pairwise=TRUE)
 plotsibs(testdata,maintitle="Sibships (full)",pairwise=FALSE)
 }
 \keyword{aplot}
