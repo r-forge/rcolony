@@ -350,6 +350,7 @@ colonyfile<-colonyfile[which(names(colonyfile)!="n.fathers")]
 #######################################################
 #Import candidate FATHERS file
 #######################################################
+if(colonyfile$n.father!=0){
 while(length(colonyfile$fathersPATH)==0){
 cat("Provide the path to the candidate FATHERS file.\n\n\n")
 flush.console()
@@ -371,6 +372,11 @@ if(colonyfile$n.father!=dim(colonyfile$fathers)[1]){
 colonyfile<-colonyfile[which(names(colonyfile)!="fathersPATH")];
 flush.console();
 warning(paste("The number of defined FATHERS ","(", colonyfile$n.father,") does not equal the number of FATHERS provided in the file selected (", dim(colonyfile$fathers)[1],").\n\n",sep=""),immediate.=TRUE)}
+}
+}else{
+colonyfile$fathersPATH<-NA
+colonyfile$delim.for.fathers<-""
+colonyfile$fathers<-matrix(nrow=1,ncol=1)
 }
 
 #######################################################
@@ -404,6 +410,7 @@ colonyfile<-colonyfile[which(names(colonyfile)!="n.mothers")]
 #######################################################
 #Import candidate MOTHERS
 #######################################################
+if(colonyfile$n.mother!=0){
 while(length(colonyfile$mothersPATH)==0){
 cat("Provide the path to the candidate MOTHERS file.\n\n\n")
 flush.console()
@@ -425,17 +432,26 @@ if(colonyfile$n.mother!=dim(colonyfile$mothers)[1]){colonyfile<-colonyfile[which
 flush.console();
 warning(paste("The number of defined MOTHERS ","(", colonyfile$n.mother,") does not equal the number of MOTHERS provided in the file selected (", dim(colonyfile$mothers)[1],").\n\n",sep=""),immediate.=TRUE)}
 }
+}else{
+colonyfile$mothersPATH<-NA
+colonyfile$delim.for.mothers<-""
+colonyfile$mothers<-matrix(nrow=1,ncol=1)
+}
 
 write(paste(colonyfile$fatherprob,colonyfile$motherprob,"!Probabilities that the father and mother of an offspring included in candidates"),name,append=TRUE)
 write(paste(colonyfile$n.father,colonyfile$n.mother,"!Numbers of candidate males and females"),name,append=TRUE)
 write("",name,append=TRUE)
 
+if(colonyfile$n.father!=0){
 colonyfile$fathers[,1+dim(colonyfile$fathers)[2]]<-c("!Candidate M ID and genotypes",rep("",dim(colonyfile$fathers)[1]-1))
 write.table(colonyfile$fathers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+}
 write("",name,append=TRUE)
 
+if(colonyfile$n.mother!=0){
 colonyfile$mothers[,1+dim(colonyfile$mothers)[2]]<-c("!Candidate F ID and genotypes",rep("",dim(colonyfile$mothers)[1]-1))
 write.table(colonyfile$mothers,name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
+}
 write("",name,append=TRUE)
 
 #######################################################
@@ -494,7 +510,6 @@ for(i in 1:dim(colonyfile$paternal.sibships)[1]){
 	colonyfile$paternal.sibships[i,1]<-sum(as.vector(is.na(colonyfile$paternal.sibships[i,])==FALSE))-1
 	}}
 
-#Is this still OK?
 #Check the data
 
 #1) DO THE NUMBER OF SIBSHIPS/PATERNITIES MATCH UP WITH THE DATA PROVIDED?
@@ -1023,18 +1038,22 @@ names(temp1)<-c("Offspring",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep
 write.table(temp1,"OffspringGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
 
 #MaleGenotype.txt
+if(colonyfile$n.father!=0){
 temp1<-as.data.frame(colonyfile$fathers)
 temp1<-temp1[,1:dim(temp1)[2]-1]
 n<-(dim(temp1)[2])-1
 names(temp1)<-c("Male",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep(1:2,(n/2)),sep="-"))
 write.table(temp1,"MaleGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
+}
 
+if(colonyfile$n.mother!=0){
 #FemaleGenotype.txt
 temp1<-as.data.frame(colonyfile$mothers)
 temp1<-temp1[,1:dim(temp1)[2]-1]
 n<-(dim(temp1)[2])-1
 names(temp1)<-c("Female",paste(paste("Marker",rep(1:(n/2),each=2),sep=""),rep(1:2,(n/2)),sep="-"))
 write.table(temp1,"FemaleGenotype.txt",row.names=FALSE,quote=FALSE,col.names=TRUE)
+}
 
 #KnownPaternalDyads.txt
 if(length(colonyfile$paternal.dyads)>0){
