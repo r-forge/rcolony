@@ -3,7 +3,7 @@
 \title{A function to run Colony2 from within the R environment.}
 \description{
 This function used \code{system} to call Colony2 from within R.}
-\usage{run.colony(colonyexecpath="prompt",datfilepath="prompt",wait=TRUE,monitor=TRUE)}
+\usage{run.colony(colonyexecpath="prompt",datfilepath="prompt",wait=FALSE,monitor=TRUE)}
 
 \arguments{
   \item{colonyexecpath}{The path to the Colony2 executable. If none is given, and the function defaults to \"prompt\", then you will be prompted to click on the file.}
