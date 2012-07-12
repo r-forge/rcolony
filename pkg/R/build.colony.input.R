@@ -633,7 +633,7 @@ warning(paste("Offspring in the file you provided are not present in the offspri
 
 
 #Paternal Dyads
-if(dim(colonyfile$paternal.dyads)[1]==0){
+if(is.null(colonyfile$paternal.dyads)){
 write.table("0   !Number of known paternities",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$paternal.dyads)[1],"!Number of known paternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -643,7 +643,7 @@ write.table(colonyfile$paternal.dyads,name,append=TRUE,quote=FALSE,na=" ",row.na
 write("",name,append=TRUE)}
 
 #Maternal Dyads
-if(dim(colonyfile$maternal.dyads)[1]==0){
+if(is.null(colonyfile$maternal.dyads)){
 write.table("0   !Number of known maternities",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$maternal.dyads)[1],"!Number of known maternities"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -654,7 +654,7 @@ write("",name,append=TRUE)}
 
 
 #Paternal sibships
-if(dim(colonyfile$paternal.sibships)[1]==0){
+if(is.null(colonyfile$paternal.sibships)){
 write.table("0   !Number of known paternal sibships with unknown fathers",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$paternal.sibships)[1],"!Number of known paternal sibships with unknown fathers "),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
@@ -663,7 +663,7 @@ write("",name,append=TRUE)}
 
 
 #Maternal sibships
-if(dim(colonyfile$maternal.sibships)[1]==0){
+if(is.null(colonyfile$maternal.sibships)){
 write.table("0   !Number of known maternal sibships with unknown mothers",name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)}else{
 write.table(paste(dim(colonyfile$maternal.sibships)[1],"!Number of known maternal sibships with unknown mothers "),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
