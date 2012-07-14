@@ -927,7 +927,7 @@ colonyfile$excluded.paternal.sibships<-cbind(csum,colonyfile$excluded.paternal.s
 
 write.table(paste(colonyfile$n.excluded.paternal.sibships,"!Number of offspring with known excluded paternal sibships"),name,append=TRUE,quote=FALSE,row.names=FALSE,col.names=FALSE)
 
-write.table(colonyfile$known.maternities,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
+write.table(colonyfile$excluded.paternal.sibships,name,append=TRUE,quote=FALSE,na=" ",row.names=FALSE,col.names=FALSE)
 write("",name,append=TRUE)
 
 }else{
