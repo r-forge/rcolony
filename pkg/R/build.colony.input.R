@@ -1,4 +1,4 @@
-build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
+build.colony.input<-function(wd=getwd(),name="Colony2.DAT",delim=""){
   
   # wd = getwd()
   # name = "Colony2.DAT"  
@@ -159,8 +159,8 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       Sys.sleep(.2)
       flush.console()
       colonyfile$AlleleFreqPATH<-file.choose()
-      colonyfile$delim.for.allele.freq<-""
-      colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$AlleleFreqPATH)))
+  
+      colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=delim,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$AlleleFreqPATH)))
       flush.console()
     }
     
@@ -261,9 +261,8 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
     flush.console()
     colonyfile$MarkerPATH<-file.choose()
     
-    colonyfile$delim.for.markers<-""
     
-    colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.markers) 
+    colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=FALSE,colClasses=c("character"),sep=delim) 
     
     flush.console()
     
@@ -290,11 +289,8 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
   while(length(colonyfile$OSGenotypePATH)==0){
     colonyfile$OSGenotypePATH<-file.choose()
     
-    
-    colonyfile$delim.for.OSGenotype<-""
-    
-    
-    colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.OSGenotype) 
+      
+    colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=FALSE,colClasses=c("character"),sep=delim) 
     if(colonyfile$n.offspring!=dim(colonyfile$Offspring)[1]){
       colonyfile<-colonyfile[which(names(colonyfile)!="OSGenotypePATH")];
       flush.console();
@@ -357,9 +353,8 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       flush.console()
       colonyfile$fathersPATH<-file.choose()
       
-      colonyfile$delim.for.fathers<-""
       
-      colonyfile$fathers<-read.table(colonyfile$fathersPATH,header=FALSE,sep=colonyfile$delim.for.fathers,colClasses=c("character"))
+      colonyfile$fathers<-read.table(colonyfile$fathersPATH,header=FALSE,sep=delim,colClasses=c("character"))
       if(colonyfile$n.father!=dim(colonyfile$fathers)[1]){
         colonyfile<-colonyfile[which(names(colonyfile)!="fathersPATH")];
         flush.console();
@@ -367,7 +362,6 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
     }
   }else{
     colonyfile$fathersPATH<-NA
-    colonyfile$delim.for.fathers<-""
     colonyfile$fathers<-matrix(nrow=1,ncol=1)
   }
   
@@ -409,16 +403,14 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       colonyfile$mothersPATH<-file.choose()
       
       flush.console()
-      colonyfile$delim.for.mothers<-""
       
-      colonyfile$mothers<-read.table(colonyfile$mothersPATH,header=FALSE,sep=colonyfile$delim.for.mothers,colClasses=c("character")) 
+      colonyfile$mothers<-read.table(colonyfile$mothersPATH,header=FALSE,sep=delim,colClasses=c("character")) 
       if(colonyfile$n.mother!=dim(colonyfile$mothers)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mothersPATH")];
                                                           flush.console();
                                                           warning(paste("The number of defined MOTHERS ","(", colonyfile$n.mother,") does not equal the number of MOTHERS provided in the file selected (", dim(colonyfile$mothers)[1],").\n\n",sep=""),immediate.=TRUE)}
     }
   }else{
     colonyfile$mothersPATH<-NA
-    colonyfile$delim.for.mothers<-""
     colonyfile$mothers<-matrix(nrow=1,ncol=1)
   }
   
@@ -466,10 +458,8 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       flush.console()
       colonyfile$paternities.and.sibships.PATH<-file.choose()
       
-      colonyfile$delim.for.paternities.and.sibships.PATH<-""
-      
-      #Read in the data...
-      colonyfile$paternities.and.sibships<-read.table(colonyfile$paternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.paternities.and.sibships.PATH,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$paternities.and.sibships.PATH)))
+       #Read in the data...
+      colonyfile$paternities.and.sibships<-read.table(colonyfile$paternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=delim,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$paternities.and.sibships.PATH)))
       
       flush.console()
       
@@ -556,10 +546,10 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       flush.console()
       colonyfile$maternities.and.sibships.PATH<-file.choose()
       
-      colonyfile$delim.for.maternities.and.sibships.PATH<-""
       
       #Read in the data...
-      colonyfile$maternities.and.sibships<-read.table(colonyfile$maternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.maternities.and.sibships.PATH,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$maternities.and.sibships.PATH)))
+      colonyfile$maternities.and.sibships<-read.table(colonyfile$maternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),
+                                                      sep=delim,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$maternities.and.sibships.PATH)))
       
       flush.console()
       
@@ -684,10 +674,10 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       flush.console()
       colonyfile$excluded.paternities.PATH<-file.choose()
       
-      colonyfile$delim.for.excluded.paternities.PATH<-""
       
       #Read in the data...
-      colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
+      colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternities.PATH,header=FALSE,
+                                                  sep=delim,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
       
       
       if(colonyfile$n.excluded.paternities>0){#Write ExcludedPaternity.txt file
@@ -767,11 +757,10 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       cat("Provide the path to the excluded MATERNITY file.\n\n\n")
       flush.console()
       colonyfile$excluded.maternities.PATH<-file.choose()
-      
-      colonyfile$delim.for.excluded.maternities.PATH<-""
-      
+            
       #Read in the data...
-      colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
+      colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternities.PATH,header=FALSE,
+                                                  sep=delim,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
       
       #Check the data
       if(colonyfile$n.excluded.maternities!=dim(colonyfile$excluded.maternities)[1]){
@@ -849,11 +838,10 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       cat("Provide the path to the excluded PATERNAL sibships file.\n\n\n")
       flush.console()
       colonyfile$excluded.paternal.sibships.PATH<-file.choose()
-      
-      colonyfile$delim.for.excluded.paternal.sibships.PATH<-""
-      
+            
       #Read in the data...
-      colonyfile$excluded.paternal.sibships<-read.table(colonyfile$excluded.paternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
+      colonyfile$excluded.paternal.sibships<-read.table(colonyfile$excluded.paternal.sibships.PATH,header=FALSE,
+                                                        sep=delim,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
       
       #Check the data
       if(colonyfile$n.excluded.paternal.sibships!=dim(colonyfile$excluded.paternal.sibships)[1]){
@@ -915,11 +903,10 @@ build.colony.input<-function(wd=getwd(),name="Colony2.DAT"){
       cat("Provide the path to the excluded MATERNAL sibships file.\n\n\n")
       flush.console()
       colonyfile$excluded.maternal.sibships.PATH<-file.choose()
-      
-      colonyfile$delim.for.excluded.maternal.sibships.PATH<-""
-      
+           
       #Read in the data...
-      colonyfile$excluded.maternal.sibships<-read.table(colonyfile$excluded.maternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
+      colonyfile$excluded.maternal.sibships<-read.table(colonyfile$excluded.maternal.sibships.PATH,header=FALSE,
+                                                        sep=delim,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
       
       #Check the data
       if(colonyfile$n.excluded.maternal.sibships!=dim(colonyfile$excluded.maternal.sibships)[1]){
