@@ -159,7 +159,7 @@ cat("Select the ALLELE FREQUENCY file.\n\n\n")
 Sys.sleep(.2)
 flush.console()
 colonyfile$AlleleFreqPATH<-file.choose()
-colonyfile$delim.for.allele.freq<-""
+colonyfile$delim.for.allele.freq<-","
 colonyfile$allele.frequency<-read.table(colonyfile$AlleleFreqPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.allele.freq,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$AlleleFreqPATH)))
 flush.console()
 }
@@ -261,7 +261,7 @@ while(length(colonyfile$MarkerPATH)==0){
   flush.console()
   colonyfile$MarkerPATH<-file.choose()
 
-  colonyfile$delim.for.markers<-""
+  colonyfile$delim.for.markers<-","
 
   colonyfile$Markers<-read.table(colonyfile$MarkerPATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.markers) 
 
@@ -291,7 +291,7 @@ while(length(colonyfile$OSGenotypePATH)==0){
   colonyfile$OSGenotypePATH<-file.choose()
 
   
-  colonyfile$delim.for.OSGenotype<-""
+  colonyfile$delim.for.OSGenotype<-","
 
 
   colonyfile$Offspring<-read.table(colonyfile$OSGenotypePATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.OSGenotype) 
@@ -357,7 +357,7 @@ cat("Provide the path to the candidate FATHERS file.\n\n\n")
 flush.console()
 colonyfile$fathersPATH<-file.choose()
 
-colonyfile$delim.for.fathers<-""
+colonyfile$delim.for.fathers<-","
 
 colonyfile$fathers<-read.table(colonyfile$fathersPATH,header=FALSE,sep=colonyfile$delim.for.fathers,colClasses=c("character"))
 if(colonyfile$n.father!=dim(colonyfile$fathers)[1]){
@@ -367,7 +367,7 @@ warning(paste("The number of defined FATHERS ","(", colonyfile$n.father,") does 
 }
 }else{
 colonyfile$fathersPATH<-NA
-colonyfile$delim.for.fathers<-""
+colonyfile$delim.for.fathers<-","
 colonyfile$fathers<-matrix(nrow=1,ncol=1)
 }
 
@@ -409,7 +409,7 @@ flush.console()
 colonyfile$mothersPATH<-file.choose()
 
 flush.console()
-colonyfile$delim.for.mothers<-""
+colonyfile$delim.for.mothers<-","
 
 colonyfile$mothers<-read.table(colonyfile$mothersPATH,header=FALSE,sep=colonyfile$delim.for.mothers,colClasses=c("character")) 
 if(colonyfile$n.mother!=dim(colonyfile$mothers)[1]){colonyfile<-colonyfile[which(names(colonyfile)!="mothersPATH")];
@@ -418,7 +418,7 @@ warning(paste("The number of defined MOTHERS ","(", colonyfile$n.mother,") does 
 }
 }else{
 colonyfile$mothersPATH<-NA
-colonyfile$delim.for.mothers<-""
+colonyfile$delim.for.mothers<-","
 colonyfile$mothers<-matrix(nrow=1,ncol=1)
 }
 
@@ -466,7 +466,7 @@ while(length(colonyfile$paternities.and.sibships.PATH)==0){
 	flush.console()
 	colonyfile$paternities.and.sibships.PATH<-file.choose()
 
-colonyfile$delim.for.paternities.and.sibships.PATH<-""
+colonyfile$delim.for.paternities.and.sibships.PATH<-","
 
 #Read in the data...
 colonyfile$paternities.and.sibships<-read.table(colonyfile$paternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.paternities.and.sibships.PATH,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$paternities.and.sibships.PATH)))
@@ -556,7 +556,7 @@ while(length(colonyfile$maternities.and.sibships.PATH)==0){
 	flush.console()
 	colonyfile$maternities.and.sibships.PATH<-file.choose()
 
-colonyfile$delim.for.maternities.and.sibships.PATH<-""
+colonyfile$delim.for.maternities.and.sibships.PATH<-","
 
 #Read in the data...
 colonyfile$maternities.and.sibships<-read.table(colonyfile$maternities.and.sibships.PATH,header=FALSE,colClasses=c("character"),sep=colonyfile$delim.for.maternities.and.sibships.PATH,fill=TRUE,flush=TRUE,na.string="",col.names=1:max(count.fields(colonyfile$maternities.and.sibships.PATH)))
@@ -684,7 +684,7 @@ while(length(colonyfile$excluded.paternities.PATH)==0){
 	flush.console()
 	colonyfile$excluded.paternities.PATH<-file.choose()
 
-colonyfile$delim.for.excluded.paternities.PATH<-""
+colonyfile$delim.for.excluded.paternities.PATH<-","
 
 #Read in the data...
 colonyfile$excluded.paternities<-read.table(colonyfile$excluded.paternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -768,7 +768,7 @@ while(length(colonyfile$excluded.maternities.PATH)==0){
 	flush.console()
 	colonyfile$excluded.maternities.PATH<-file.choose()
 
-colonyfile$delim.for.excluded.maternities.PATH<-""
+colonyfile$delim.for.excluded.maternities.PATH<-","
 
 #Read in the data...
 colonyfile$excluded.maternities<-read.table(colonyfile$excluded.maternities.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternities.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -850,7 +850,7 @@ while(length(colonyfile$excluded.paternal.sibships.PATH)==0){
 	flush.console()
 	colonyfile$excluded.paternal.sibships.PATH<-file.choose()
 
-colonyfile$delim.for.excluded.paternal.sibships.PATH<-""
+colonyfile$delim.for.excluded.paternal.sibships.PATH<-","
 
 #Read in the data...
 colonyfile$excluded.paternal.sibships<-read.table(colonyfile$excluded.paternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.paternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
@@ -916,7 +916,7 @@ if(colonyfile$n.excluded.maternal.sibships>0){
     flush.console()
     colonyfile$excluded.maternal.sibships.PATH<-file.choose()
         
-    colonyfile$delim.for.excluded.maternal.sibships.PATH<-""
+    colonyfile$delim.for.excluded.maternal.sibships.PATH<-","
     
     #Read in the data...
     colonyfile$excluded.maternal.sibships<-read.table(colonyfile$excluded.maternal.sibships.PATH,header=FALSE,sep=colonyfile$delim.for.excluded.maternal.sibships.PATH,colClasses=c("character"),fill=TRUE,flush=TRUE,na.strings="")
