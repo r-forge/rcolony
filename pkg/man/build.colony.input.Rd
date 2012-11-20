@@ -7,15 +7,16 @@
 This function prompts the user to provide information about their system in order to correctly build and format a Colony2 input file.
 }
 
-\usage{build.colony.input(wd=getwd(),name="Colony2.DAT")}
+\usage{build.colony.input(wd=getwd(), name="Colony2.DAT", delim="")}
 
 \arguments{
   \item{wd}{The directory where the generated file will be placed. The default is the current working directory.}
   \item{name}{The desired filename for the Colony input file (the default is Colony2.DAT).}
- }
+  \item{delim}{What is the delimiter for the input files (default is that they are whitespace delimited).}
+   }
 
 \details{
-This wizard will guide you through the process of creating an input file to be executed by Colony2.
+This wizard will guide the user through the process of creating an input file to be executed by Colony2.
 
 \emph{Dataset name.} Provide a name for the dataset.
 
