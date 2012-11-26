@@ -18,6 +18,8 @@ If you wish to monitor the progress of the Colony2 analysis you must set monitor
 You can then use \code{\link{monitor.colony}} to examine this file, and plot the outputs as Colony2 runs. There is a danger that, with very long runtimes, that the temporary file (temp.txt) will grow very large.
 \code{\link{monitor.colony}} fixes this by periodically deleting all but the last few lines of the file. Therefore, if you intend to monitor a long running process it is recommended that you periodically, or continuously run \code{\link{monitor.colony}}.
 
+Note that you will probably need to change the permissions of the Colony executable. On an Apple Macintosh, you can do this by navigating to the directory containing the executable and typing \code{chmod u+x Colony2}.
+
 }
 \value{
   

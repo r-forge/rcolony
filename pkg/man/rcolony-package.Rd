@@ -13,8 +13,8 @@ Tools for implementation and visualisation of Colony and its outputs.
 \tabular{ll}{
 Package: \tab rcolony\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2009-04-16\cr
+Version: \tab 1.2\cr
+Date: \tab 2012-11-16\cr
 License: \tab GNU GPL\cr
 }
 
@@ -22,10 +22,10 @@ License: \tab GNU GPL\cr
 \author{
 Owen R. Jones
 
-Maintainer: Owen R. Jones <owen.jones@ioz.ac.uk>
+Maintainer: Owen R. Jones <jones@demogr.mpg.de>
 }
 \references{
-Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979.\\
+Wang, J. (2004) Sibship reconstruction from genetic data with typing errors.  Genetics 166: 1963-1979.
 
 }
 
