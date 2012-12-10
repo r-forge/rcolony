@@ -22,9 +22,9 @@ get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DA
     ###################################################
     #Lists of offspring, fathers and mothers
     ###################################################
-    offspring <- x[grep("!Offspring ID and genotypes",x):(grep("!Prob that the dad and mum of an offspring included in candidates", x) - 2)] #M for male, F for female
-    offspring <- offspring[offspring != ""]
-    
+    # Starts at line 24 - 24+(n-1)
+    offspring <-x[24:(24+(n-1))]
+
     fathers <- x[grep("!Candidate M ID and genotypes",x):(grep("!Candidate F ID and genotypes",x) - 2)] #M for male, F for female
     fathers <- fathers[fathers != ""]
     
