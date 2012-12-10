@@ -1,10 +1,5 @@
 get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE)){
 
-setwd("/Users/orj/Documents/Dropbox/Finished\ Projects/ColonyWork/Colony2MacVersion/Example4/")
-datadir= paste(getwd(),"/",sep="")
-filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE)
-
-
     #Test to see if colony has finished running.
     t1 <- list.files(path = datadir, pattern = "Maternity")[1]
     
