@@ -23,15 +23,15 @@ get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DA
     #Lists of offspring, fathers and mothers
     ###################################################
     # Starts at line 24 - 24+(n-1)
-    offspring <-x[24:(24+(n-1))]
+    offspring <- x[24:(24 + (n - 1))]
+    
+    nFathers <- as.numeric(strsplit(x[25 + n], split = " +")[[1]][1])
+    nMothers <- as.numeric(strsplit(x[25 + n], split = " +")[[1]][2])
 
-    fathers <- x[grep("!Candidate M ID and genotypes",x):(grep("!Candidate F ID and genotypes",x) - 2)] #M for male, F for female
-    fathers <- fathers[fathers != ""]
-    
-    mothers <- x[grep("!Candidate F ID and genotypes",x):(grep("!Number of offspring with known father",x) - 3)] #M for male, F for female
-    mothers <- mothers[mothers != ""]
-    
-    #remove leading whitespace
+    fathers <- x[(24 + (n + 2)):(24 + (n + 1) + nFathers)]
+    mothers <- x[(24 + (n + 2) + nFathers):(24 + (n + 1) + nFathers + nMothers)]
+
+    #Remove leading whitespace
     offspring <- sub("^[\t\n\f\r ]*", "", offspring) #remove leading whitespace
     fathers <- sub("^[\t\n\f\r ]*", "", fathers) #remove leading whitespace
     mothers <- sub("^[\t\n\f\r ]*", "", mothers) #remove leading whitespace
