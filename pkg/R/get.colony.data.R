@@ -1,4 +1,4 @@
-get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DAT")){
+get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE)){
     
     #Test to see if colony has finished running.
     t1 <- list.files(path = datadir, pattern = "Maternity")[1]
@@ -9,11 +9,13 @@ get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DA
 
     #Test consistency of the database file. Throw warnings/errors as necessary
     colony.object <- NULL
-    x <- readLines(paste(datadir, filename, sep = ""))
+    x <- readLines(paste(datadir, filename, sep = "/"))
     
+    #Strip out empty rows, if there are any.
+    if(length(which(x == "")) > 0){x = x[-which(x == "")]}
+
     #Extract the number of offspring from the dat file. This information is used for error checking later on.
     n <- x[3]
-    n <- sub("! I, Number of offspring in the sample", "", n)
     n <- sub("^[\t\n\f\r ]*", "", n) #remove leading whitespace
     n <- as.numeric(gsub("([A-Za-z0-9]*)([!0-9A-Za-z ]*)", "\\1", n, perl = TRUE))
     
