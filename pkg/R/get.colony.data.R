@@ -1,4 +1,4 @@
-get.colony.data <- function(datadir, filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE), colonyVersion = "2.0.3"){
+get.colony.data <- function(datadir, filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE), colonyVersion = "2.0"){
 
     colony.object = NULL
     x = readLines(paste(datadir, filename, sep = ""))
