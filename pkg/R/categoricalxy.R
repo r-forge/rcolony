@@ -21,7 +21,7 @@ function(my.data,freqlabs=FALSE,colscheme="heat",poly.border=FALSE,axes.cex=1){
 		 yp<-c(y[i]-1,y[i]-1,y[i],y[i])
 		 polygon(x=xp,y=yp,col=hc[z[i]+1],border=poly.border)
 		 
-		 if(freqlabs==TRUE){text(x[i]-0.5,y[i]-0.5,as.character(z[i]))}else{}
+		 if(freqlabs==TRUE){text(x[i]-0.5,y[i]-0.5,as.character(z[i]))}
 		 }
 		 polygon(c(0,max(x),max(x),0),y=c(0,0,max(y),max(y)))
 		 }
