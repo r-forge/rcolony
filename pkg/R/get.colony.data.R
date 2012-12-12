@@ -1,13 +1,5 @@
-get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE)){
+get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DAT", ignore.case=TRUE), colonyVersion = "2.0.3"){
 
-    #Test to see if colony has finished running.
-    t1 <- list.files(path = datadir, pattern = "Maternity")[1]
-    
-    #if(is.na(t1[1])){
-    #	stop("The required COLONY output files aren\'t there.\nCheck that colony has finished running.")
-    #	}
-
-    #Test consistency of the database file. Throw warnings/errors as necessary
     colony.object <- NULL
     x <- readLines(paste(datadir, filename, sep = ""))
     
@@ -24,6 +16,12 @@ get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DA
     nLoci <- sub("^[\t\n\f\r ]*", "", nLoci) #remove leading whitespace
     nLoci <- as.numeric(gsub("([A-Za-z0-9]*)([!0-9A-Za-z,/= ]*)", "\\1", nLoci, perl = TRUE))
 
+    #Version check
+    if(colonyVersion == "2.0.3"){baseline = 23}
+    if(colonyVersion == "2.0"){baseline = 22}
+    if(!colonyVersion %in% c("2.0","2.0.3")){stop("This function only works with Colony version 2.0 or 2.0.3")}
+
+
     #Check whether allele frequency is known    
     AFKnown <- x[11]
     AFKnown <- sub("^[\t\n\f\r ]*", "", AFKnown) #remove leading whitespace
@@ -31,9 +29,9 @@ get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DA
     if(AFKnown){
     	#If allele frequency is known then there is an extra row defining the number of alleles per locus (e.g. "12 13 14 15 16  !Number of alleles per locus")
     	#Then there are a number of rows equal to the number of loci
-    OFSStart = 2 * nLoci + 22
+    OFSStart = 2 * nLoci + (baseline + 2)
     }else{    
-    	OFSStart = 23
+    	OFSStart = baseline
     }
 
     ###################################################
@@ -83,39 +81,44 @@ get.colony.data<-function(datadir, filename = list.files(datadir, pattern = ".DA
     #assigned parentage (nonpairwise)
     ###################################################
     mfile <- list.files(path = datadir, pattern = "\\.Maternity")[1]
-    if(length(mfile) > 1){
-    	warning("There are too many \"\ *.Maternity\" files in your project directory. \nYou should check them.")
+    if(!is.na(mfile)){
+        if(length(mfile) > 1){
+            warning("There are too many \"\ *.Maternity\" files in your project directory. \nYou should check them.")
+        }
+        maternity <- read.table(paste(datadir, mfile, sep=""), header = TRUE, fill = TRUE, na.strings = "")
+        colony.object$maternity <- maternity
     }
-    
-    maternity <- read.table(paste(datadir, mfile, sep=""), header = TRUE, fill = TRUE, na.strings = "")
-    
+
     pfile <- list.files(path = datadir, pattern = "\\.Paternity")[1]
-    if(length(pfile) > 1){
-    	warning("There are too many \"\ *.Paternity\" files in your project directory. \nYou should check them.")
+    if(!is.na(pfile)){
+        if(length(pfile) > 1){
+            warning("There are too many \"\ *.Paternity\" files in your project directory. \nYou should check them.")
+        }
+        paternity <- read.table(paste(datadir, pfile, sep=""), header = TRUE, fill = TRUE, na.strings = "")
+        colony.object$paternity <- paternity
     }
-    paternity <- read.table(paste(datadir, pfile, sep=""), header = TRUE, fill = TRUE, na.strings = "")
-    
-    colony.object$maternity <- maternity
-    colony.object$paternity <- paternity
     
     ###################################################
     #assigned parentage (pairwise)
     ###################################################
     mfile <- list.files(path = datadir, pattern = "\\.PairwiseMaternity")[1]
-    if(length(mfile) > 1){
-    	warning("There are too many \"\ *.PairwiseMaternity\" files in your project directory. \nYou should check them. \nUsing the first one.")
+   
+    if(!is.na(mfile)){
+        if(length(mfile) > 1){
+            warning("There are too many \"\ *.PairwiseMaternity\" files in your project directory. \nYou should check them. \nUsing the first one.")
+        }
+        pairwise.maternity <- read.table(paste(datadir, mfile, sep = ""), header = TRUE, sep = ",")
+        colony.object$pairwise.maternity <- pairwise.maternity
     }
-    pairwise.maternity <- read.table(paste(datadir, mfile, sep = ""), header = TRUE, sep = ",")
-    
+
     pfile <- list.files(path = datadir, pattern = "\\.PairwisePaternity")[1]
-    if(length(mfile) > 1){
-    	warning("There are too many \"\ *.PairwisePaternity\" files in your project directory. \nYou should check them. \nUsing the first one.")
+    if(!is.na(pfile)){
+        if(length(mfile) > 1){
+            warning("There are too many \"\ *.PairwisePaternity\" files in your project directory. \nYou should check them. \nUsing the first one.")
+        }
+        pairwise.paternity <- read.table(paste(datadir, pfile, sep=""), header = TRUE, sep = ",")
+        colony.object$pairwise.paternity <- pairwise.paternity
     }
-    pairwise.paternity <- read.table(paste(datadir, pfile, sep=""), header = TRUE, sep = ",")
-    
-    colony.object$pairwise.maternity <- pairwise.maternity
-    colony.object$pairwise.paternity <- pairwise.paternity
-    
     
     ###################################################
     #Sibships (nonpairwise)
