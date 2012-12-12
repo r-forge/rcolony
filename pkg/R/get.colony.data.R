@@ -58,7 +58,7 @@ get.colony.data <- function(datadir, filename = list.files(datadir, pattern = ".
     fathers = as.vector(sapply(fathers, function(x){gsub("([A-Za-z0-9]*)([!0-9A-Za-z,/= ]*)", "\\1", x, perl = TRUE)})) #extract names
     mothers = as.vector(sapply(mothers, function(x){gsub("([A-Za-z0-9]*)([!0-9A-Za-z,/= ]*)", "\\1", x, perl = TRUE)})) #extract names
     
-    if(n != length(offspring)){stop("Wrong number of offspring. Check your files.")}else{}
+    if(n != length(offspring)){stop("Wrong number of offspring. Check your files.")}
     
     #Assign numeric codes to fathers and mothers
     mothers = data.frame(motherID=mothers, mother.numID = as.numeric(as.factor(mothers)))
