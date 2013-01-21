@@ -162,7 +162,7 @@ build.colony.input <- function(wd=getwd(), name = "Colony2.DAT", delim = ""){
       Sys.sleep(.2)
       flush.console()
       colonyfile$AlleleFreqPATH = file.choose()
-      colonyfile$allele.frequency = read.table(colonyfile$AlleleFreqPATH, header = FALSE, colClasses = c("character"), sep = delim, fill = TRUE, flush = TRUE, na.string = "", col.names = 1:max(count.fields(colonyfile$AlleleFreqPATH)))
+      colonyfile$allele.frequency = read.table(colonyfile$AlleleFreqPATH, header = FALSE, colClasses = c("character"), sep = delim, fill = TRUE, flush = TRUE, na.strings = "", col.names = 1:max(count.fields(colonyfile$AlleleFreqPATH)))
       flush.console()
     }
     
@@ -463,7 +463,7 @@ build.colony.input <- function(wd=getwd(), name = "Colony2.DAT", delim = ""){
       cat("Provide the path to the PATERNAL sibships file.\n\n\n")
       flush.console()
       colonyfile$paternities.and.sibships.PATH = file.choose()
-      colonyfile$paternities.and.sibships = read.table(colonyfile$paternities.and.sibships.PATH, header = FALSE, colClasses = c("character"), sep = delim, fill = TRUE, flush = TRUE, na.string = "", col.names = 1:max(count.fields(colonyfile$paternities.and.sibships.PATH)))
+      colonyfile$paternities.and.sibships = read.table(colonyfile$paternities.and.sibships.PATH, header = FALSE, colClasses = c("character"), sep = delim, fill = TRUE, flush = TRUE, na.strings = "", col.names = 1:max(count.fields(colonyfile$paternities.and.sibships.PATH)))
       flush.console()
       
       #split the file up
@@ -548,7 +548,7 @@ build.colony.input <- function(wd=getwd(), name = "Colony2.DAT", delim = ""){
       colonyfile$maternities.and.sibships.PATH = file.choose()
       
       #Read in the data...
-      colonyfile$maternities.and.sibships = read.table(colonyfile$maternities.and.sibships.PATH, header = FALSE, colClasses = c("character"), sep = delim, fill = TRUE, flush = TRUE, na.string = "", col.names = 1:max(count.fields(colonyfile$maternities.and.sibships.PATH)))
+      colonyfile$maternities.and.sibships = read.table(colonyfile$maternities.and.sibships.PATH, header = FALSE, colClasses = c("character"), sep = delim, fill = TRUE, flush = TRUE, na.strings = "", col.names = 1:max(count.fields(colonyfile$maternities.and.sibships.PATH)))
       flush.console()
       
       #split the file up

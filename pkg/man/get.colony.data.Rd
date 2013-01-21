@@ -5,12 +5,13 @@
 
 \description{When provided with the directory name, and the name of the *.DAT colony input file, this function creates a list object containing pertinent information from the Colony output files.}
 
-\usage{get.colony.data(datadir, filename)}
+\usage{get.colony.data(datadir, filename, colonyVersion)}
 
 \arguments{
   \item{datadir}{The path to the directory that contains the Colony output files and the *.DAT Colony input file.}
   \item{filename}{Optional. The name of the Colony input file. If this argument is omitted, the command will search for a *.DAT file in the data directory (datadir) and use that as the input file.}
-  \item{colonyVersion}{The version of Colony that was used (default is 2.0, other option is 2.0.3).}}
+  \item{colonyVersion}{The version of Colony that was used (default is 2.0, other option is 2.0.3).}
+  }
 \details{}
 \value{A list, containing data extracted from the Colony output files}
 
