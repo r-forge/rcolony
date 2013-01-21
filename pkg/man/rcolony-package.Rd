@@ -21,13 +21,12 @@ License: \tab GNU GPL\cr
 }
 \author{
 Owen R. Jones
-
 Maintainer: Owen R. Jones <jones@demogr.mpg.de>
 }
 \references{
-Jones, O. and Wang, J. (2009) COLONY: a program for parentage and sibship inference from multilocus genotype data. Molecular Ecology Resources 10: 551–555.
-Wang, J. (2004) Sibship reconstruction from genetic data with typing errors. Genetics 166: 1963-1979.
+Jones, O. and Wang, J. (2009) COLONY: a program for parentage and sibship inference from multilocus genotype data. Molecular Ecology Resources 10: 551 - 555.
 
+Wang, J. (2004) Sibship reconstruction from genetic data with typing errors. Genetics 166: 1963 - 1979.
 }
 
 \keyword{package}
